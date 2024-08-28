@@ -17,3 +17,9 @@ dependencyResolutionManagement {
 rootProject.name = "Esmorga"
 include(":androidApp")
 include(":shared")
+include(":domain")
+include(":data")
+include(":viewmodel")
+include(":datasource-remote")
+include(":datasource-local")
+include(":android-design-system")

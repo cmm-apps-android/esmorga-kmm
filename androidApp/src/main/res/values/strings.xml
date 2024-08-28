@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="homescreen_title">Hello!</string>
+    <string name="event_list_title">Event list</string>
+    <string name="event_list_loading">Loading events…</string>
+    <string name="event_list_empty_text">No events available now. Please come back later.</string>
+    <string name="event_list_error_title">Something went wrong!</string>
+    <string name="event_list_error_subtitle">Please retry later</string>
+    <string name="event_list_error_button">Retry</string>
+    <string name="event_list_date_formatter">dd\' of \'MMMM\' at \'HH:mm</string>
+    <string name="event_image_content_description">Event %s image</string>
+    <string name="no_internet_snackbar">No internet connection.</string>
+    <string name="event_details_description">Event details</string>
+    <string name="event_details_location">Location</string>
+    <string name="navigate">Navigate</string>
+    <string name="welcome_login_register">Login / Register</string>
+    <string name="welcome_guest">Enter as guest</string>
+    <string name="login_screen_email">Email</string>
+    <string name="login_screen_password">Password</string>
+    <string name="login_button">Login</string>
+    <string name="login_screen_create_account_button">Register</string>
+    <string name="login_screen_title">Hello again!</string>
+    <string name="default_error_title">Something failed, please try again</string>
+    <string name="default_error_button">Retry</string>
+    <string name="login_email_invalid">Invalid email</string>
+    <string name="login_password_invalid">Invalid password</string>
+    <string name="registration_screen_title">Register</string>
+    <string name="registration_submit_button">Register</string>
+    <string name="registration_name_placeholder">Input your name</string>
+    <string name="registration_last_name_placeholder">Input your last name</string>
+    <string name="registration_email_placeholder">Input your email, e.g. example@domain.com</string>
+    <string name="registration_password_placeholder">Input your password</string>
+    <string name="registration_confirm_password_placeholder">Confirm your password</string>
+    <string name="registration_empty_field">Required field</string>
+    <string name="registration_name_last_name_invalid">Only letters, spaces and \' - are accepted</string>
+    <string name="registration_email_invalid">Invalid format, only letters, numbers, and _ - are accepted</string>
+    <string name="registration_email_already_used">Email already in use</string>
+    <string name="registration_password_invalid">Min 8 chars, must include at least 1 digit, 1 letter and 1 symbol</string>
+    <string name="registration_password_mismatch_error">passwords do not match, try again!</string>
+    <string name="back_icon_description">Back icon</string>
+</resources>
