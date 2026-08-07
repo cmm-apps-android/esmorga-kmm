@@ -6,10 +6,8 @@ plugins {
 
 kotlin {
     androidTarget {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "1.8"
-            }
+        compilerOptions {
+            jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_1_8
         }
     }
     
@@ -31,23 +29,27 @@ kotlin {
             implementation(project(":viewmodel"))
             implementation(project(":datasource-remote"))
             implementation(project(":datasource-local"))
+            implementation(project.dependencies.platform(libs.koin.bom))
             implementation(libs.koin.core)
         }
         commonTest.dependencies {
-            implementation(libs.core.ktx)
             implementation(libs.kotlin.test)
-            implementation(libs.mockk)
             implementation(libs.kotlinx.coroutines.test)
             implementation(libs.kotlin.datetime)
-            implementation(libs.koin.test)
-            implementation(libs.room.ktx)
-            implementation(libs.robolectric)
 
             //Mock server calls
             implementation(libs.ktor.test)
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.serialization.kotlinx.json)
+        }
+        androidUnitTest.dependencies {
+            implementation(libs.core.ktx)
+            implementation(libs.mockk)
+            implementation(libs.robolectric)
+            implementation(project.dependencies.platform(libs.koin.bom))
+            implementation(libs.koin.test)
+            implementation(libs.koin.android)
         }
         androidMain.dependencies {
             implementation(libs.koin.android)
@@ -57,7 +59,7 @@ kotlin {
 
 android {
     namespace = "cmm.apps.esmorga"
-    compileSdk = 34
+    compileSdk = 36
     defaultConfig {
         minSdk = 29
     }

@@ -6,10 +6,8 @@ plugins {
 
 kotlin {
     androidTarget {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "1.8"
-            }
+        compilerOptions {
+            jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_1_8
         }
     }
 
@@ -35,6 +33,12 @@ kotlin {
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }
+        androidUnitTest.dependencies {
+            implementation(libs.kotlin.test)
+            implementation(libs.junit)
+            implementation(libs.mockk)
+            implementation(libs.robolectric)
+        }
         androidMain.dependencies {
             implementation(libs.androidx.lifecycle.viewmodel)
         }
@@ -43,7 +47,7 @@ kotlin {
 
 android {
     namespace = "cmm.esmorga.viewmodel"
-    compileSdk = 34
+    compileSdk = 36
     defaultConfig {
         minSdk = 29
     }
@@ -54,6 +58,7 @@ android {
     buildTypes {
         create("esmorgaRelease") {
             isMinifyEnabled = false
+            matchingFallbacks += "release"
         }
     }
 }

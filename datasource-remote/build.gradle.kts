@@ -7,10 +7,8 @@ plugins {
 
 kotlin {
     androidTarget {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "1.8"
-            }
+        compilerOptions {
+            jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_1_8
         }
     }
 
@@ -37,11 +35,8 @@ kotlin {
 
         }
         commonTest.dependencies {
-            implementation(libs.junit)
-            implementation(libs.mockk)
             implementation(libs.kotlinx.coroutines.test)
             implementation(libs.ktor.test)
-            implementation(libs.robolectric)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
@@ -49,12 +44,17 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.ktor.client.android)
         }
+        androidUnitTest.dependencies {
+            implementation(libs.junit)
+            implementation(libs.mockk)
+            implementation(libs.robolectric)
+        }
     }
 }
 
 android {
     namespace = "cmm.esmorga.datasource_remote"
-    compileSdk = 34
+    compileSdk = 36
     defaultConfig {
         minSdk = 29
     }

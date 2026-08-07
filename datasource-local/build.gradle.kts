@@ -8,10 +8,8 @@ plugins {
 
 kotlin {
     androidTarget {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "1.8"
-            }
+        compilerOptions {
+            jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_1_8
         }
     }
     
@@ -29,6 +27,7 @@ kotlin {
     sourceSets {
         androidMain.dependencies {
             implementation(libs.androidx.core.ktx)
+            implementation(libs.room.ktx)
         }
         commonMain.dependencies {
             api(project(":data"))
@@ -37,13 +36,15 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.kotlinx.coroutines)
             implementation(libs.room.runtime)
-            implementation(libs.room.ktx)
             implementation(libs.kotlin.datetime)
         }
         commonTest.dependencies {
+            implementation(libs.kotlinx.coroutines.test)
+        }
+        androidUnitTest.dependencies {
             implementation(libs.junit)
             implementation(libs.mockk)
-            implementation(libs.kotlinx.coroutines.test)
+            implementation(libs.robolectric)
         }
         iosMain.dependencies {
 
@@ -62,7 +63,7 @@ room {
 }
 android {
     namespace = "cmm.apps.datasource.local"
-    compileSdk = 34
+    compileSdk = 36
     defaultConfig {
         minSdk = 29
 
@@ -78,6 +79,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             signingConfig = signingConfigs.getByName("debug")
+            matchingFallbacks += "release"
         }
     }
     compileOptions {
@@ -86,6 +88,5 @@ android {
     }
 
 }
-
 
 
