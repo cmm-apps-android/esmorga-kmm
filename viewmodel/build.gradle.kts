@@ -1,13 +1,19 @@
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.androidKotlinMultiplatformLibrary)
 //    alias(libs.plugins.kover)
 }
 
 kotlin {
-    androidTarget {
+    android {
+        namespace = "cmm.esmorga.viewmodel"
+        compileSdk = 37
+        minSdk = 29
+        withHostTestBuilder {}.configure {
+            isIncludeAndroidResources = true
+        }
         compilerOptions {
-            jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_1_8
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
         }
     }
 
@@ -33,7 +39,7 @@ kotlin {
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }
-        androidUnitTest.dependencies {
+        getByName("androidHostTest").dependencies {
             implementation(libs.kotlin.test)
             implementation(libs.junit)
             implementation(libs.mockk)
@@ -41,24 +47,6 @@ kotlin {
         }
         androidMain.dependencies {
             implementation(libs.androidx.lifecycle.viewmodel)
-        }
-    }
-}
-
-android {
-    namespace = "cmm.esmorga.viewmodel"
-    compileSdk = 36
-    defaultConfig {
-        minSdk = 29
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    buildTypes {
-        create("esmorgaRelease") {
-            isMinifyEnabled = false
-            matchingFallbacks += "release"
         }
     }
 }

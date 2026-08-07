@@ -1,14 +1,20 @@
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.androidKotlinMultiplatformLibrary)
     alias(libs.plugins.jetbrains.kotlin.serialization)
 //    alias(libs.plugins.kover)
 }
 
 kotlin {
-    androidTarget {
+    android {
+        namespace = "cmm.esmorga.datasource_remote"
+        compileSdk = 37
+        minSdk = 29
+        withHostTestBuilder {}.configure {
+            isIncludeAndroidResources = true
+        }
         compilerOptions {
-            jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_1_8
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
         }
     }
 
@@ -44,22 +50,10 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.ktor.client.android)
         }
-        androidUnitTest.dependencies {
+        getByName("androidHostTest").dependencies {
             implementation(libs.junit)
             implementation(libs.mockk)
             implementation(libs.robolectric)
         }
-    }
-}
-
-android {
-    namespace = "cmm.esmorga.datasource_remote"
-    compileSdk = 36
-    defaultConfig {
-        minSdk = 29
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
     }
 }

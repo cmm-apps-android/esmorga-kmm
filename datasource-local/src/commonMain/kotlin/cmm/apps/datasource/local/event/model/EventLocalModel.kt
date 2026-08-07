@@ -2,7 +2,7 @@ package cmm.apps.datasource.local.event.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 
 @Entity
 data class EventLocalModel(

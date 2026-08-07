@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.androidApplication)
-    alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.jetbrains.kotlin.serialization)
     alias(libs.plugins.paparazzi)
@@ -16,11 +15,11 @@ kotlin {
 
 android {
     namespace = "cmm.apps.esmorga.android"
-    compileSdk = 36
+    compileSdk = 37
     defaultConfig {
         applicationId = "cmm.apps.esmorga.android"
         minSdk = 29
-        targetSdk = 36
+        targetSdk = 37
         versionCode = 1
         versionName = "1.0"
     }

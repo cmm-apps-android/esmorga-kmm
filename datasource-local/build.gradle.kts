@@ -1,15 +1,21 @@
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.androidKotlinMultiplatformLibrary)
     alias(libs.plugins.devtools.ksp)
     alias(libs.plugins.room)
 //    alias(libs.plugins.kover)
 }
 
 kotlin {
-    androidTarget {
+    android {
+        namespace = "cmm.apps.datasource.local"
+        compileSdk = 37
+        minSdk = 29
+        withHostTestBuilder {}.configure {
+            isIncludeAndroidResources = true
+        }
         compilerOptions {
-            jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_1_8
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
         }
     }
     
@@ -41,13 +47,10 @@ kotlin {
         commonTest.dependencies {
             implementation(libs.kotlinx.coroutines.test)
         }
-        androidUnitTest.dependencies {
+        getByName("androidHostTest").dependencies {
             implementation(libs.junit)
             implementation(libs.mockk)
             implementation(libs.robolectric)
-        }
-        iosMain.dependencies {
-
         }
     }
 }
@@ -61,32 +64,3 @@ dependencies {
 room {
     schemaDirectory("$projectDir/schemas")
 }
-android {
-    namespace = "cmm.apps.datasource.local"
-    compileSdk = 36
-    defaultConfig {
-        minSdk = 29
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
-    }
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-        }
-        create("esmorgaRelease") {
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-            signingConfig = signingConfigs.getByName("debug")
-            matchingFallbacks += "release"
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-
-}
-
-

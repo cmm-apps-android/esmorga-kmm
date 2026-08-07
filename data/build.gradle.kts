@@ -1,13 +1,19 @@
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.androidKotlinMultiplatformLibrary)
 //    alias(libs.plugins.kover)
 }
 
 kotlin {
-    androidTarget {
+    android {
+        namespace = "cmm.esmorga.data"
+        compileSdk = 37
+        minSdk = 29
+        withHostTestBuilder {}.configure {
+            isIncludeAndroidResources = true
+        }
         compilerOptions {
-            jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_1_8
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
         }
     }
 
@@ -34,21 +40,9 @@ kotlin {
             implementation(libs.kotlin.test)
             implementation(libs.kotlinx.coroutines.test)
         }
-        androidUnitTest.dependencies {
+        getByName("androidHostTest").dependencies {
             implementation(libs.kotlin.test)
             implementation(libs.mockk)
         }
-    }
-}
-
-android {
-    namespace = "cmm.esmorga.data"
-    compileSdk = 36
-    defaultConfig {
-        minSdk = 29
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
     }
 }

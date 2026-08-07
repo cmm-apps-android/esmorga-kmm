@@ -2,7 +2,7 @@ package cmm.apps.viewmodel.eventlist.mapper
 
 import cmm.apps.domain.event.model.Event
 import cmm.apps.esmorga.view.eventlist.model.EventListUiModel
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 

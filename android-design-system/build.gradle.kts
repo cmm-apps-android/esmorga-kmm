@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.androidLibrary)
-    alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.compose.compiler)
 }
 
@@ -12,7 +11,7 @@ kotlin {
 
 android {
     namespace = "cmm.apps.android.designsystem"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         minSdk = 28
