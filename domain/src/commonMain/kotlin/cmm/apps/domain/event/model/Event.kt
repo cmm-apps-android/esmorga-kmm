@@ -1,6 +1,6 @@
 package cmm.apps.domain.event.model
 
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 
 enum class EventType {
     PARTY, SPORT, FOOD, CHARITY, GAMES

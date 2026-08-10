@@ -3,7 +3,7 @@ package cmm.apps.esmorga.domain.mock
 import cmm.apps.domain.event.model.Event
 import cmm.apps.domain.event.model.EventLocation
 import cmm.apps.domain.event.model.EventType
-import kotlinx.datetime.Clock
+import kotlin.time.Clock
 
 
 object EventDomainMock {

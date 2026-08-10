@@ -1,8 +1,8 @@
 package cmm.apps.data.event.model
 
 import cmm.apps.domain.event.model.EventType
-import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
+import kotlin.time.Clock
+import kotlin.time.Instant
 
 
 data class EventDataModel(
@@ -13,7 +13,7 @@ data class EventDataModel(
     val dataType: EventType,
     val dataImageUrl: String? = null,
     val dataLocation: EventLocationDataModel,
-    val dataCreationTime: Long = Clock.System.now().toEpochMilliseconds()
+    val dataCreationTime: Long = Clock.System.now().toEpochMilliseconds(),
 )
 
 data class EventLocationDataModel(

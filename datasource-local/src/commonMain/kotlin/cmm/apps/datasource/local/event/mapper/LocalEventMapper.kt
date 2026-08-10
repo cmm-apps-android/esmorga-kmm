@@ -7,7 +7,7 @@ import cmm.apps.domain.event.model.EventType
 import cmm.apps.domain.result.ErrorCodes
 import cmm.apps.domain.result.EsmorgaException
 import cmm.apps.domain.result.Source
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 
 
 fun EventLocalModel.toEventDataModel(): EventDataModel {

@@ -9,7 +9,7 @@ import cmm.apps.domain.result.Source
 import cmm.apps.data.event.model.EventDataModel
 import cmm.apps.data.event.model.EventLocationDataModel
 import io.ktor.http.parsing.ParseException
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 
 
 fun EventRemoteModel.toEventDataModel(): EventDataModel {

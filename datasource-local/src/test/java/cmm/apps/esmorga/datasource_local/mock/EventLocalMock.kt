@@ -2,7 +2,7 @@ package cmm.apps.esmorga.datasource_local.mock
 
 import cmm.apps.datasource.local.event.model.EventLocalModel
 import cmm.apps.domain.event.model.EventType
-import kotlinx.datetime.Clock
+import kotlin.time.Clock
 
 
 object EventLocalMock {

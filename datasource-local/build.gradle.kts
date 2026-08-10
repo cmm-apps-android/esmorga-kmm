@@ -1,17 +1,21 @@
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.androidKotlinMultiplatformLibrary)
     alias(libs.plugins.devtools.ksp)
     alias(libs.plugins.room)
 //    alias(libs.plugins.kover)
 }
 
 kotlin {
-    androidTarget {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "1.8"
-            }
+    android {
+        namespace = "cmm.apps.datasource.local"
+        compileSdk = 37
+        minSdk = 29
+        withHostTestBuilder {}.configure {
+            isIncludeAndroidResources = true
+        }
+        compilerOptions {
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
         }
     }
     
@@ -29,6 +33,7 @@ kotlin {
     sourceSets {
         androidMain.dependencies {
             implementation(libs.androidx.core.ktx)
+            implementation(libs.room.ktx)
         }
         commonMain.dependencies {
             api(project(":data"))
@@ -37,16 +42,15 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.kotlinx.coroutines)
             implementation(libs.room.runtime)
-            implementation(libs.room.ktx)
             implementation(libs.kotlin.datetime)
         }
         commonTest.dependencies {
-            implementation(libs.junit)
-            implementation(libs.mockk)
             implementation(libs.kotlinx.coroutines.test)
         }
-        iosMain.dependencies {
-
+        getByName("androidHostTest").dependencies {
+            implementation(libs.junit)
+            implementation(libs.mockk)
+            implementation(libs.robolectric)
         }
     }
 }
@@ -60,32 +64,3 @@ dependencies {
 room {
     schemaDirectory("$projectDir/schemas")
 }
-android {
-    namespace = "cmm.apps.datasource.local"
-    compileSdk = 34
-    defaultConfig {
-        minSdk = 29
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
-    }
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-        }
-        create("esmorgaRelease") {
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-            signingConfig = signingConfigs.getByName("debug")
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-
-}
-
-
-
