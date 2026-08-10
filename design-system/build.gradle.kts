@@ -18,8 +18,8 @@ kotlin {
         androidResources {
             enable = true
         }
-        
-        withHostTestBuilder {}.configure {
+
+        withHostTest {
             isIncludeAndroidResources = true
         }
     }

@@ -45,7 +45,6 @@ android {
 
 dependencies {
     implementation(project(":design-system"))
-    implementation(project(":android-design-system"))
     implementation(project(":viewmodel"))
     implementation(project(":shared"))
 
