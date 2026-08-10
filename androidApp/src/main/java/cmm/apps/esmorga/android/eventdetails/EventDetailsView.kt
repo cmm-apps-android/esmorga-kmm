@@ -25,8 +25,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cmm.apps.android.designsystem.EsmorgaButton
-import cmm.apps.android.designsystem.EsmorgaText
-import cmm.apps.android.designsystem.EsmorgaTextStyle
+import cmm.apps.designsystem.EsmorgaText
+import cmm.apps.designsystem.EsmorgaTextStyle
 import cmm.apps.esmorga.android.R
 import cmm.apps.esmorga.view.navigation.openNavigationApp
 import cmm.apps.esmorga.android.theme.EsmorgaTheme

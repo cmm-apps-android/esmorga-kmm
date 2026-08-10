@@ -41,7 +41,7 @@ android {
 }
 
 dependencies {
-
+    api(project(":design-system"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

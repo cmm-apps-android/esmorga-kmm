@@ -9,6 +9,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import cmm.apps.designsystem.EsmorgaText
+import cmm.apps.designsystem.EsmorgaTextStyle
 
 @Composable
 fun EsmorgaButton(text: String, modifier: Modifier = Modifier, isLoading: Boolean = false, isEnabled: Boolean = true, primary: Boolean = true, onClick: () -> Unit) {

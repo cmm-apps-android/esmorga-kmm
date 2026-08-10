@@ -13,6 +13,7 @@ room = "2.8.4"
 robolectric = "4.16.1"
 coil = "2.7.0"
 paparazzi = "2.0.0-alpha05"
+compose-plugin = "1.7.3"
 navigationCompose = "2.9.8"
 kotlinxSerializationJson = "1.11.0"
 datetime = "0.8.0"
@@ -95,4 +96,5 @@ devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 jetbrains-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize",  version.ref = "kotlin"  }
 paparazzi = { id = "app.cash.paparazzi", version.ref = "paparazzi" }
+composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

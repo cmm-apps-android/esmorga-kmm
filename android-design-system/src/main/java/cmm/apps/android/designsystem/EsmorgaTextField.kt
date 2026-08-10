@@ -27,8 +27,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import cmm.apps.android.designsystem.EsmorgaText
-import cmm.apps.android.designsystem.EsmorgaTextStyle
+import cmm.apps.designsystem.EsmorgaText
+import cmm.apps.designsystem.EsmorgaTextStyle
 
 @Composable
 fun EsmorgaTextField(

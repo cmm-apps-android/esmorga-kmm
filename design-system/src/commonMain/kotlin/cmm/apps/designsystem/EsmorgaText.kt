@@ -1,4 +1,4 @@
-package cmm.apps.android.designsystem
+package cmm.apps.designsystem
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
