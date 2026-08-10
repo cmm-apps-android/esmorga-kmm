@@ -1,4 +1,4 @@
-package cmm.apps.android.designsystem
+package cmm.apps.designsystem
 
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.CircularProgressIndicator

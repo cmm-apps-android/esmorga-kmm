@@ -14,7 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import cmm.apps.android.designsystem.EsmorgaButton
+import cmm.apps.designsystem.EsmorgaButton
 import cmm.apps.esmorga.android.theme.EsmorgaTheme
 import cmm.apps.viewmodel.welcome.WelcomeViewModel
 import cmm.apps.viewmodel.welcome.model.WelcomeEffect

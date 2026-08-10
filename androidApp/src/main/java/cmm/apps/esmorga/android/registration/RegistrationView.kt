@@ -28,9 +28,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import cmm.apps.android.designsystem.EsmorgaButton
+import cmm.apps.designsystem.EsmorgaButton
 import cmm.apps.designsystem.EsmorgaText
-import cmm.apps.android.designsystem.EsmorgaTextField
+import cmm.apps.designsystem.EsmorgaTextField
 import cmm.apps.designsystem.EsmorgaTextStyle
 import cmm.apps.esmorga.android.R
 import cmm.apps.esmorga.android.theme.EsmorgaTheme
@@ -138,7 +138,7 @@ fun RegistrationView(
                     onFieldChanged(RegistrationField.NAME)
                 },
                 errorText = uiState.nameError,
-                placeholder = R.string.registration_name_placeholder,
+                placeholder = stringResource(id = R.string.registration_name_placeholder),
                 modifier = Modifier.onFocusChanged { focusState ->
                     if (!focusState.isFocused) {
                         validateField(RegistrationField.NAME, name, null)
@@ -154,7 +154,7 @@ fun RegistrationView(
                     onFieldChanged(RegistrationField.LAST_NAME)
                 },
                 errorText = uiState.lastNameError,
-                placeholder = R.string.registration_last_name_placeholder,
+                placeholder = stringResource(id = R.string.registration_last_name_placeholder),
                 modifier = Modifier.onFocusChanged { focusState ->
                     if (!focusState.isFocused) {
                         validateField(RegistrationField.LAST_NAME, lastName, null)
@@ -170,7 +170,7 @@ fun RegistrationView(
                     onFieldChanged(RegistrationField.EMAIL)
                 },
                 errorText = uiState.emailError,
-                placeholder = R.string.registration_email_placeholder,
+                placeholder = stringResource(id = R.string.registration_email_placeholder),
                 modifier = Modifier.onFocusChanged { focusState ->
                     if (!focusState.isFocused) {
                         validateField(RegistrationField.EMAIL, email, null)
@@ -187,13 +187,15 @@ fun RegistrationView(
                 },
                 errorText = uiState.passError,
                 isPassword = true,
-                placeholder = R.string.registration_password_placeholder,
+                placeholder = stringResource(id = R.string.registration_password_placeholder),
                 modifier = Modifier.onFocusChanged { focusState ->
                     if (!focusState.isFocused) {
                         validateField(RegistrationField.PASS, password, null)
                     }
                 },
-                imeAction = ImeAction.Next
+                imeAction = ImeAction.Next,
+                visibilityIcon = painterResource(id = R.drawable.ic_visibility),
+                visibilityOffIcon = painterResource(id = R.drawable.ic_visibility_off),
             )
             EsmorgaTextField(
                 value = repeatedPassword,
@@ -204,7 +206,7 @@ fun RegistrationView(
                 },
                 errorText = uiState.repeatPassError,
                 isPassword = true,
-                placeholder = R.string.registration_confirm_password_placeholder,
+                placeholder = stringResource(id = R.string.registration_confirm_password_placeholder),
                 modifier = Modifier.onFocusChanged { focusState ->
                     if (!focusState.isFocused) {
                         validateField(RegistrationField.REPEAT_PASS, password, repeatedPassword)
@@ -213,7 +215,9 @@ fun RegistrationView(
                 imeAction = ImeAction.Done,
                 onDonePressed = {
                     onRegisterClicked(name, lastName, email, password, repeatedPassword)
-                }
+                },
+                visibilityIcon = painterResource(id = R.drawable.ic_visibility),
+                visibilityOffIcon = painterResource(id = R.drawable.ic_visibility_off),
             )
             Spacer(modifier = Modifier.height(16.dp))
             EsmorgaButton(text = stringResource(id = R.string.registration_submit_button), isEnabled = !uiState.loading, primary = true) {

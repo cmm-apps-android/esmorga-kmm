@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -37,6 +38,7 @@ class MainActivity : ComponentActivity() {
                     val esmorgaErrorScreenArguments = backStackEntry.toRoute<Navigation.FullScreenError>().esmorgaErrorScreenArguments
                     EsmorgaErrorScreen(
                         esmorgaErrorScreenArguments = esmorgaErrorScreenArguments,
+                        icon = painterResource(R.drawable.outline_cancel),
                         onButtonPressed = {
                             navigationController.popBackStack()
                         })

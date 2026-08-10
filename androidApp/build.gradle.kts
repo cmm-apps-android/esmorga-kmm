@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.serialization)
     alias(libs.plugins.paparazzi)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.composeMultiplatform)
 //    alias(libs.plugins.kover)
 }
 
@@ -43,6 +44,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":design-system"))
     implementation(project(":android-design-system"))
     implementation(project(":viewmodel"))
     implementation(project(":shared"))
@@ -56,6 +58,7 @@ dependencies {
     implementation(libs.androidx.navigation.kt)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.compose.ui)
+    implementation(compose.components.resources)
     implementation(libs.compose.ui.graphics)
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.compose.material3)

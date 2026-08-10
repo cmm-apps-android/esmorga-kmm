@@ -30,9 +30,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import cmm.apps.android.designsystem.EsmorgaButton
+import cmm.apps.designsystem.EsmorgaButton
 import cmm.apps.designsystem.EsmorgaText
-import cmm.apps.android.designsystem.EsmorgaTextField
+import cmm.apps.designsystem.EsmorgaTextField
 import cmm.apps.designsystem.EsmorgaTextStyle
 import cmm.apps.esmorga.android.R
 import cmm.apps.esmorga.android.theme.EsmorgaTheme
@@ -150,7 +150,7 @@ fun LoginView(
                         onEmailChanged()
                     },
                     errorText = uiState.emailError,
-                    placeholder = R.string.login_screen_email,
+                    placeholder = stringResource(id = R.string.login_screen_email),
                     modifier = Modifier.onFocusChanged { focusState ->
                         if (!focusState.isFocused) {
                             validateEmail(email)
@@ -167,13 +167,15 @@ fun LoginView(
                     },
                     errorText = uiState.passwordError,
                     isPassword = true,
-                    placeholder = R.string.login_screen_password,
+                    placeholder = stringResource(id = R.string.login_screen_password),
                     modifier = Modifier.onFocusChanged { focusState ->
                         if (!focusState.isFocused) {
                             validatePass(password)
                         }
                     },
                     imeAction = ImeAction.Done,
+                    visibilityIcon = painterResource(id = R.drawable.ic_visibility),
+                    visibilityOffIcon = painterResource(id = R.drawable.ic_visibility_off),
                     onDonePressed = {
                         onLoginClicked(email, password)
                     }
