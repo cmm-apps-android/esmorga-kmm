@@ -20,6 +20,8 @@
     <string name="registration_password_invalid">Min 8 chars, must include at least 1 digit, 1 letter and 1 symbol</string>
     <string name="registration_password_mismatch_error">passwords do not match, try again!</string>
     <string name="back_icon_description">Back icon</string>
+    <string name="default_error_title">Something failed, please try again</string>
+    <string name="default_error_button">Retry</string>
     <string name="event_list_title">Event list</string>
     <string name="event_list_loading">Loading events…</string>
     <string name="event_list_empty_text">No events available now. Please come back later.</string>
@@ -27,4 +29,7 @@
     <string name="event_list_error_subtitle">Please retry later</string>
     <string name="event_list_error_button">Retry</string>
     <string name="event_image_content_description">Event %s image</string>
+    <string name="event_details_description">Event details</string>
+    <string name="event_details_location">Location</string>
+    <string name="navigate">Navigate</string>
 </resources>

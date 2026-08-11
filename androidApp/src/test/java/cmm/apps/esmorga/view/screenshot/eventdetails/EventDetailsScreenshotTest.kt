@@ -1,6 +1,6 @@
 package cmm.apps.esmorga.view.screenshot.eventdetails
 
-import cmm.apps.esmorga.android.eventdetails.EventDetailsView
+import cmm.apps.esmorga.eventdetails.EventDetailsView
 import cmm.apps.esmorga.android.theme.EsmorgaTheme
 import cmm.apps.esmorga.view.screenshot.BaseScreenshotTest
 import cmm.apps.viewmodel.eventdetails.model.EventDetailsUiState

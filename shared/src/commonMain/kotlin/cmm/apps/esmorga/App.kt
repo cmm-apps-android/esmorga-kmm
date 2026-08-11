@@ -2,10 +2,14 @@ package cmm.apps.esmorga
 
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
+import cmm.apps.esmorga.errors.EsmorgaErrorScreen
+import cmm.apps.esmorga.eventdetails.EventDetailsScreen
 import cmm.apps.esmorga.login.LoginScreen
 import cmm.apps.esmorga.navigation.Navigation
 import cmm.apps.esmorga.registration.RegistrationScreen
@@ -18,6 +22,7 @@ fun App() {
     EsmorgaTheme {
         Surface {
             val navController: NavHostController = rememberNavController()
+            val uriHandler = LocalUriHandler.current
             NavHost(
                 navController = navController,
                 startDestination = Navigation.WelcomeScreen
@@ -62,7 +67,12 @@ fun App() {
                     )
                 }
                 composable<Navigation.FullScreenError> { backStackEntry ->
-                    // TODO: Implement FullScreenError or use a generic one
+                    EsmorgaErrorScreen(
+                        esmorgaErrorScreenArguments = backStackEntry.toRoute<Navigation.FullScreenError>().esmorgaErrorScreenArguments,
+                        onButtonPressed = {
+                            navController.popBackStack()
+                        }
+                    )
                 }
                 composable<Navigation.EventListScreen> {
                     EventListScreen(
@@ -72,7 +82,13 @@ fun App() {
                     )
                 }
                 composable<Navigation.EventDetailScreen> { backStackEntry ->
-                    // TODO: Implement EventDetailScreen
+                    EventDetailsScreen(
+                        eventId = backStackEntry.toRoute<Navigation.EventDetailScreen>().eventId,
+                        onBackPressed = { navController.popBackStack() },
+                        onNavigateToLocation = { lat, lng ->
+                            uriHandler.openUri("geo:$lat,$lng")
+                        }
+                    )
                 }
             }
         }

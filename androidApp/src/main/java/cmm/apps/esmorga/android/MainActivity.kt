@@ -4,22 +4,15 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import cmm.apps.esmorga.App
-import cmm.apps.esmorga.android.errors.EsmorgaErrorScreen
-import cmm.apps.esmorga.android.errors.model.EsmorgaErrorScreenArguments
-import cmm.apps.esmorga.android.eventdetails.EventDetailsScreen
 import cmm.apps.esmorga.android.welcome.WelcomeScreen
+import cmm.apps.esmorga.eventdetails.EventDetailsScreen
 import cmm.apps.esmorga.view.login.LoginScreen
 import cmm.apps.esmorga.view.navigation.Navigation
-import cmm.apps.esmorga.view.navigation.serializableType
-import kotlin.reflect.typeOf
 
 class MainActivity : ComponentActivity() {
 
@@ -91,10 +84,10 @@ class MainActivity : ComponentActivity() {
                 })*/
         }
         composable<Navigation.EventDetailScreen> { backStackEntry ->
-            EventDetailsScreen(
+           /* EventDetailsScreen(
                 eventId = backStackEntry.toRoute<Navigation.EventDetailScreen>().eventId,
                 onBackPressed = { navigationController.popBackStack() }
-            )
+            )*/
         }
     }
 }

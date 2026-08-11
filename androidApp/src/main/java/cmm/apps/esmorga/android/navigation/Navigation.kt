@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
-import cmm.apps.esmorga.android.errors.model.EsmorgaErrorScreenArguments
 import kotlinx.serialization.Serializable
 
 sealed class Navigation {
