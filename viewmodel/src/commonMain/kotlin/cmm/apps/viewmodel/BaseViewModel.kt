@@ -1,7 +1,4 @@
 package cmm.apps.viewmodel
 
-import kotlinx.coroutines.CoroutineScope
-
-expect open class BaseViewModel() {
-    val scope: CoroutineScope
-}
+import androidx.lifecycle.ViewModel
+open class BaseViewModel : ViewModel()

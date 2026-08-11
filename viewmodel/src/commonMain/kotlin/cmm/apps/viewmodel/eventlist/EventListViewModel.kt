@@ -1,5 +1,6 @@
 package cmm.apps.viewmodel.eventlist
 
+import androidx.lifecycle.viewModelScope
 import cmm.apps.domain.event.GetEventListUseCase
 import cmm.apps.domain.result.ErrorCodes
 import cmm.apps.domain.result.EsmorgaException
@@ -30,7 +31,7 @@ class EventListViewModel(private val getEventListUseCase: GetEventListUseCase) :
 
     fun loadEvents() {
         _uiState.value = EventListUiState(loading = true)
-        scope.launch {
+        viewModelScope.launch {
             val result = getEventListUseCase()
 
             result.onSuccess { success ->

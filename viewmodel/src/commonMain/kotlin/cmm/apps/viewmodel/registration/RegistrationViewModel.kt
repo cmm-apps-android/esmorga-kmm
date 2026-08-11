@@ -1,5 +1,6 @@
 package cmm.apps.viewmodel.registration
 
+import androidx.lifecycle.viewModelScope
 import cmm.apps.domain.result.ErrorCodes
 import cmm.apps.domain.result.EsmorgaException
 import cmm.apps.domain.user.PerformRegistrationUserCase
@@ -39,7 +40,7 @@ class RegistrationViewModel(private val performRegistrationUserCase: PerformRegi
         validateField(field = RegistrationField.PASS, value = password, acceptsEmpty = false)
         validateField(field = RegistrationField.REPEAT_PASS, value = repeatedPassword, comparisonField = password, acceptsEmpty = false)
         if (!_uiState.value.hasAnyError()) {
-            scope.launch {
+            viewModelScope.launch {
                 _uiState.value = RegistrationUiState(loading = true)
                 val result = performRegistrationUserCase(name.trim(), lastName.trim(), email.trim(), password.trim())
                 result.onSuccess {

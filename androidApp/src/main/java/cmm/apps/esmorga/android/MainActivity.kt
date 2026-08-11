@@ -11,6 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import cmm.apps.esmorga.App
 import cmm.apps.esmorga.android.errors.EsmorgaErrorScreen
 import cmm.apps.esmorga.android.errors.model.EsmorgaErrorScreenArguments
 import cmm.apps.esmorga.android.eventdetails.EventDetailsScreen
@@ -28,22 +29,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val navigationController = rememberNavController()
-            NavHost(navController = navigationController, startDestination = Navigation.WelcomeScreen) {
-                eventFlow(navigationController)
-                loginFlow(navigationController)
-                composable<Navigation.FullScreenError>(
-                    typeMap = mapOf(typeOf<EsmorgaErrorScreenArguments>() to serializableType<EsmorgaErrorScreenArguments>())
-                ) { backStackEntry ->
-                    val esmorgaErrorScreenArguments = backStackEntry.toRoute<Navigation.FullScreenError>().esmorgaErrorScreenArguments
-                    EsmorgaErrorScreen(
-                        esmorgaErrorScreenArguments = esmorgaErrorScreenArguments,
-                        icon = painterResource(R.drawable.outline_cancel),
-                        onButtonPressed = {
-                            navigationController.popBackStack()
-                        })
-                }
-            }
+            App()
         }
     }
 

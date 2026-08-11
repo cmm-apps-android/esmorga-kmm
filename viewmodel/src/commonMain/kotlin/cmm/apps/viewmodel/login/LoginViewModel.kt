@@ -1,5 +1,6 @@
 package cmm.apps.viewmodel.login
 
+import androidx.lifecycle.viewModelScope
 import cmm.apps.domain.result.ErrorCodes
 import cmm.apps.domain.result.EsmorgaException
 import cmm.apps.domain.user.PerformLoginUseCase
@@ -26,7 +27,7 @@ class LoginViewModel(private val performLoginUseCase: PerformLoginUseCase) : Bas
         validateEmail(email, false)
         validatePass(password, false)
         if (!_uiState.value.hasAnyError()) {
-            scope.launch {
+            viewModelScope.launch {
                 _uiState.value = LoginUiState(loading = true)
                 val result = performLoginUseCase(email.trim(), password.trim())
                 result.onSuccess {

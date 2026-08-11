@@ -1,5 +1,6 @@
 package cmm.apps.viewmodel.eventdetails
 
+import androidx.lifecycle.viewModelScope
 import cmm.apps.domain.event.GetEventDetailsUseCase
 import cmm.apps.viewmodel.BaseViewModel
 import cmm.apps.viewmodel.eventdetails.mapper.EventDetailsUiMapper.toEventUiDetails
@@ -25,7 +26,7 @@ class EventDetailsViewModel(
     val effect: SharedFlow<EventDetailsEffect> = _effect.asSharedFlow()
 
     init {
-        scope.launch {
+        viewModelScope.launch {
             val result = getEventDetailsUseCase(eventId)
             result.onSuccess {
                 _uiState.value = it.data.toEventUiDetails()

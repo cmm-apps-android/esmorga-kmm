@@ -18,7 +18,6 @@ kotlin {
     }
 
     listOf(
-        iosX64(),
         iosArm64(),
         iosSimulatorArm64()
     ).forEach {
@@ -35,6 +34,7 @@ kotlin {
             implementation(project.dependencies.platform(libs.koin.bom))
             implementation(libs.koin.core)
             implementation(libs.kotlin.datetime)
+            implementation(libs.androidx.lifecycle.viewmodel)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -46,7 +46,6 @@ kotlin {
             implementation(libs.robolectric)
         }
         androidMain.dependencies {
-            implementation(libs.androidx.lifecycle.viewmodel)
         }
     }
 }

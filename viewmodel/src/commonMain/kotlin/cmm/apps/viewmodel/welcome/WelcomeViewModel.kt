@@ -1,5 +1,6 @@
 package cmm.apps.viewmodel.welcome
 
+import androidx.lifecycle.viewModelScope
 import cmm.apps.domain.user.GetSavedUserUseCase
 import cmm.apps.viewmodel.BaseViewModel
 import cmm.apps.viewmodel.welcome.model.WelcomeEffect
@@ -30,7 +31,7 @@ class WelcomeViewModel(private val getSavedUserUseCase: GetSavedUserUseCase) : B
     }
 
     fun init() {
-        scope.launch {
+        viewModelScope.launch {
             val result = getSavedUserUseCase()
             if (result.isSuccess) {
                 _effect.tryEmit(WelcomeEffect.NavigateToEventList)
