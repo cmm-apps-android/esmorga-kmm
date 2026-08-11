@@ -11,7 +11,7 @@ data class WelcomeUiState(
     fun createDefaultWelcomeUiState(): WelcomeUiState {
         return WelcomeUiState(
             primaryButtonText = "Login",
-            secondaryButtonText = "Register",
+            secondaryButtonText = "Guest",
 //            icon = R.drawable.ic_app
         )
     }

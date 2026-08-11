@@ -12,12 +12,13 @@ kotlin {
         namespace = "cmm.apps.esmorga"
         compileSdk = 37
         minSdk = 29
-        withHostTestBuilder {}.configure {
+        withHostTest {
             isIncludeAndroidResources = true
         }
         compilerOptions {
             jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
         }
+        experimentalProperties["android.experimental.kmp.enableAndroidResources"] = true
     }
     
     listOf(

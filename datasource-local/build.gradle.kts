@@ -11,7 +11,7 @@ kotlin {
         namespace = "cmm.apps.datasource.local"
         compileSdk = 37
         minSdk = 29
-        withHostTestBuilder {}.configure {
+        withHostTest {
             isIncludeAndroidResources = true
         }
         compilerOptions {

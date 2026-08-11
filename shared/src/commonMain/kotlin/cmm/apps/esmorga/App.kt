@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import cmm.apps.esmorga.login.LoginScreen
 import cmm.apps.esmorga.navigation.Navigation
 import cmm.apps.esmorga.view.theme.EsmorgaTheme
 import cmm.apps.esmorga.welcome.WelcomeScreen
@@ -30,7 +31,20 @@ fun App() {
                     )
                 }
                 composable<Navigation.LoginScreen> {
-                    // TODO: Implement LoginScreen
+                    LoginScreen(
+                        onRegisterClicked = {
+                            // TODO: Implement navigation to RegistrationScreen
+                        },
+                        onLoginSuccess = {
+                            navController.navigate(Navigation.EventListScreen)
+                        },
+                        onLoginError = { error ->
+                            // TODO: Show full screen error
+                        },
+                        onBackClicked = {
+                            navController.popBackStack()
+                        }
+                    )
                 }
                 composable<Navigation.EventListScreen> {
                     // TODO: Implement EventListScreen

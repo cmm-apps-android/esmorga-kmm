@@ -10,7 +10,7 @@ kotlin {
         namespace = "cmm.esmorga.datasource_remote"
         compileSdk = 37
         minSdk = 29
-        withHostTestBuilder {}.configure {
+        withHostTest {
             isIncludeAndroidResources = true
         }
         compilerOptions {

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="no_internet_snackbar">No internet connection.</string>
+    <string name="login_screen_email">Email</string>
+    <string name="login_screen_password">Password</string>
+    <string name="login_button">Login</string>
+    <string name="login_screen_create_account_button">Register</string>
+    <string name="login_screen_title">Hello again!</string>
+    <string name="back_icon_description">Back icon</string>
+</resources>

@@ -9,7 +9,7 @@ kotlin {
         namespace = "cmm.esmorga.data"
         compileSdk = 37
         minSdk = 29
-        withHostTestBuilder {}.configure {
+        withHostTest {
             isIncludeAndroidResources = true
         }
         compilerOptions {
