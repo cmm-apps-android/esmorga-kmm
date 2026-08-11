@@ -16,6 +16,7 @@ import cmm.apps.esmorga.screens.registration.RegistrationScreen
 import cmm.apps.esmorga.screens.eventlist.EventListScreen
 import cmm.apps.esmorga.view.theme.EsmorgaTheme
 import cmm.apps.esmorga.screens.welcome.WelcomeScreen
+import cmm.apps.esmorga.utils.buildMapUri
 
 @Composable
 fun App() {
@@ -86,7 +87,7 @@ fun App() {
                         eventId = backStackEntry.toRoute<Navigation.EventDetailScreen>().eventId,
                         onBackPressed = { navController.popBackStack() },
                         onNavigateToLocation = { lat, lng ->
-                            uriHandler.openUri("geo:$lat,$lng")
+                            uriHandler.openUri(buildMapUri(lat = lat, lng = lng))
                         }
                     )
                 }
