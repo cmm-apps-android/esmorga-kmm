@@ -1,8 +1,8 @@
 package cmm.apps.esmorga.view.screenshot.login
 
 import androidx.compose.material3.SnackbarHostState
-import cmm.apps.esmorga.android.theme.EsmorgaTheme
-import cmm.apps.esmorga.view.login.LoginView
+import cmm.apps.esmorga.view.theme.EsmorgaTheme
+import cmm.apps.esmorga.screens.login.LoginView
 import cmm.apps.esmorga.view.screenshot.BaseScreenshotTest
 import cmm.apps.viewmodel.login.LoginUiState
 import org.junit.Test

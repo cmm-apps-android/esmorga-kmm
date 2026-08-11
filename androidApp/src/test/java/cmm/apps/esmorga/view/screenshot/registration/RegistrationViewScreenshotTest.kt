@@ -2,7 +2,7 @@ package cmm.apps.esmorga.view.screenshot.registration
 
 import androidx.compose.material3.SnackbarHostState
 import cmm.apps.esmorga.android.registration.RegistrationView
-import cmm.apps.esmorga.android.theme.EsmorgaTheme
+import cmm.apps.esmorga.view.theme.EsmorgaTheme
 import cmm.apps.esmorga.view.screenshot.BaseScreenshotTest
 import cmm.apps.viewmodel.registration.RegistrationUiState
 import org.junit.Test

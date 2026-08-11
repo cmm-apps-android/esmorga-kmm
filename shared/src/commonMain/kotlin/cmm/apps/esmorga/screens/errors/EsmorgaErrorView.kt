@@ -1,4 +1,4 @@
-package cmm.apps.esmorga.errors
+package cmm.apps.esmorga.screens.errors
 
 import androidx.compose.runtime.Composable
 import cmm.apps.designsystem.EsmorgaFullScreenError

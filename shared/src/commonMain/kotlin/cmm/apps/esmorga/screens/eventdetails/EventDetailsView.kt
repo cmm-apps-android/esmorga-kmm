@@ -1,4 +1,4 @@
-package cmm.apps.esmorga.eventdetails
+package cmm.apps.esmorga.screens.eventdetails
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column

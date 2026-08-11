@@ -1,7 +1,7 @@
 package cmm.apps.esmorga.view.screenshot.welcome
 
-import cmm.apps.esmorga.android.theme.EsmorgaTheme
-import cmm.apps.esmorga.android.welcome.WelcomeView
+import cmm.apps.esmorga.view.theme.EsmorgaTheme
+import cmm.apps.esmorga.screens.welcome.WelcomeView
 import cmm.apps.esmorga.view.screenshot.BaseScreenshotTest
 import cmm.apps.viewmodel.welcome.model.WelcomeUiState
 import org.junit.Test

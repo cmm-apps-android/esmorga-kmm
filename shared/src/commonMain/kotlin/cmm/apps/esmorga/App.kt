@@ -8,14 +8,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import cmm.apps.esmorga.errors.EsmorgaErrorScreen
-import cmm.apps.esmorga.eventdetails.EventDetailsScreen
-import cmm.apps.esmorga.login.LoginScreen
+import cmm.apps.esmorga.screens.errors.EsmorgaErrorScreen
+import cmm.apps.esmorga.screens.eventdetails.EventDetailsScreen
+import cmm.apps.esmorga.screens.login.LoginScreen
 import cmm.apps.esmorga.navigation.Navigation
-import cmm.apps.esmorga.registration.RegistrationScreen
-import cmm.apps.esmorga.eventlist.EventListScreen
+import cmm.apps.esmorga.screens.registration.RegistrationScreen
+import cmm.apps.esmorga.screens.eventlist.EventListScreen
 import cmm.apps.esmorga.view.theme.EsmorgaTheme
-import cmm.apps.esmorga.welcome.WelcomeScreen
+import cmm.apps.esmorga.screens.welcome.WelcomeScreen
 
 @Composable
 fun App() {

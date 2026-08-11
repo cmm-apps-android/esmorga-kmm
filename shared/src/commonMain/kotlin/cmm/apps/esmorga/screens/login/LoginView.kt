@@ -1,4 +1,4 @@
-package cmm.apps.esmorga.view.login
+package cmm.apps.esmorga.screens.login
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -25,8 +25,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -34,13 +32,26 @@ import cmm.apps.designsystem.EsmorgaButton
 import cmm.apps.designsystem.EsmorgaText
 import cmm.apps.designsystem.EsmorgaTextField
 import cmm.apps.designsystem.EsmorgaTextStyle
-import cmm.apps.esmorga.android.R
-import cmm.apps.esmorga.android.theme.EsmorgaTheme
+import cmm.apps.esmorga.view.theme.EsmorgaTheme
 import cmm.apps.viewmodel.login.LoginEffect
 import cmm.apps.viewmodel.login.LoginUiState
 import cmm.apps.viewmodel.login.LoginViewModel
+import esmorga.shared.generated.resources.Res
+import esmorga.shared.generated.resources.back_icon_description
+import esmorga.shared.generated.resources.ic_arrow_back
+import esmorga.shared.generated.resources.ic_visibility
+import esmorga.shared.generated.resources.ic_visibility_off
+import esmorga.shared.generated.resources.img_login_header
+import esmorga.shared.generated.resources.login_button
+import esmorga.shared.generated.resources.login_screen_create_account_button
+import esmorga.shared.generated.resources.login_screen_email
+import esmorga.shared.generated.resources.login_screen_password
+import esmorga.shared.generated.resources.login_screen_title
+import esmorga.shared.generated.resources.no_internet_snackbar
 import kotlinx.coroutines.launch
-import org.koin.androidx.compose.koinViewModel
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun LoginScreen(
@@ -51,7 +62,7 @@ fun LoginScreen(
     onBackClicked: () -> Unit
 ) {
     val uiState: LoginUiState by lvm.uiState.collectAsStateWithLifecycle()
-    val message = stringResource(R.string.no_internet_snackbar)
+    val message = stringResource(Res.string.no_internet_snackbar)
     val snackbarHostState = remember { SnackbarHostState() }
     val localCoroutineScope = rememberCoroutineScope()
     LaunchedEffect(Unit) {
@@ -109,8 +120,8 @@ fun LoginView(
                     .height(48.dp)
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.ic_arrow_back),
-                    contentDescription = stringResource(R.string.back_icon_description),
+                    painter = painterResource(Res.drawable.ic_arrow_back),
+                    contentDescription = stringResource(Res.string.back_icon_description),
                     modifier = Modifier
                         .align(Alignment.CenterStart)
                         .clickable { onBackClicked() }
@@ -124,7 +135,7 @@ fun LoginView(
                 .padding(top = innerPadding.calculateTopPadding())
         ) {
             Image(
-                painter = painterResource(id = R.drawable.img_login_header),
+                painter = painterResource(Res.drawable.img_login_header),
                 contentDescription = "Login header",
                 modifier = Modifier
                     .fillMaxWidth()
@@ -141,7 +152,7 @@ fun LoginView(
                     .fillMaxWidth()
                     .verticalScroll(state = rememberScrollState())
             ) {
-                EsmorgaText(text = stringResource(id = R.string.login_screen_title), style = EsmorgaTextStyle.HEADING_1, modifier = Modifier.padding(vertical = 16.dp))
+                EsmorgaText(text = stringResource(Res.string.login_screen_title), style = EsmorgaTextStyle.HEADING_1, modifier = Modifier.padding(vertical = 16.dp))
                 EsmorgaTextField(
                     value = email,
                     isEnabled = !uiState.loading,
@@ -150,7 +161,7 @@ fun LoginView(
                         onEmailChanged()
                     },
                     errorText = uiState.emailError,
-                    placeholder = stringResource(id = R.string.login_screen_email),
+                    placeholder = stringResource(Res.string.login_screen_email),
                     modifier = Modifier.onFocusChanged { focusState ->
                         if (!focusState.isFocused) {
                             validateEmail(email)
@@ -167,24 +178,24 @@ fun LoginView(
                     },
                     errorText = uiState.passwordError,
                     isPassword = true,
-                    placeholder = stringResource(id = R.string.login_screen_password),
+                    placeholder = stringResource(Res.string.login_screen_password),
                     modifier = Modifier.onFocusChanged { focusState ->
                         if (!focusState.isFocused) {
                             validatePass(password)
                         }
                     },
                     imeAction = ImeAction.Done,
-                    visibilityIcon = painterResource(id = R.drawable.ic_visibility),
-                    visibilityOffIcon = painterResource(id = R.drawable.ic_visibility_off),
+                    visibilityIcon = painterResource(Res.drawable.ic_visibility),
+                    visibilityOffIcon = painterResource(Res.drawable.ic_visibility_off),
                     onDonePressed = {
                         onLoginClicked(email, password)
                     }
                 )
                 Spacer(modifier = Modifier.height(16.dp))
-                EsmorgaButton(text = stringResource(id = R.string.login_button), isLoading = uiState.loading) {
+                EsmorgaButton(text = stringResource(Res.string.login_button), isLoading = uiState.loading) {
                     onLoginClicked(email, password)
                 }
-                EsmorgaButton(text = stringResource(id = R.string.login_screen_create_account_button), isEnabled = !uiState.loading, primary = false) {
+                EsmorgaButton(text = stringResource(Res.string.login_screen_create_account_button), isEnabled = !uiState.loading, primary = false) {
                     onRegisterClicked()
                 }
             }

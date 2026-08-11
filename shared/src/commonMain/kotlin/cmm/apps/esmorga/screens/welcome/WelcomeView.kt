@@ -1,4 +1,4 @@
-package cmm.apps.esmorga.welcome
+package cmm.apps.esmorga.screens.welcome
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

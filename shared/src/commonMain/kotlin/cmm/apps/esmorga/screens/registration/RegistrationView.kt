@@ -1,4 +1,4 @@
-package cmm.apps.esmorga.registration
+package cmm.apps.esmorga.screens.registration
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable

@@ -1,4 +1,4 @@
-package cmm.apps.esmorga.eventlist
+package cmm.apps.esmorga.screens.eventlist
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
