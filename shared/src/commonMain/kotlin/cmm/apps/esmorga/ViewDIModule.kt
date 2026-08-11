@@ -5,9 +5,8 @@ import cmm.apps.viewmodel.eventlist.EventListViewModel
 import cmm.apps.viewmodel.login.LoginViewModel
 import cmm.apps.viewmodel.registration.RegistrationViewModel
 import cmm.apps.viewmodel.welcome.WelcomeViewModel
-import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.compose.viewmodel.dsl.viewModel
 import org.koin.dsl.module
-
 
 object ViewDIModule {
 

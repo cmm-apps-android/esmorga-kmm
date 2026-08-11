@@ -12,8 +12,7 @@ object EsmorgaDatabaseHelper {
     fun getDatabase(): EsmorgaDatabase {
         val dbFilePath = NSHomeDirectory() + "/esmorga.db"
         return Room.databaseBuilder<EsmorgaDatabase>(
-            name = dbFilePath,
-            factory = { EsmorgaDatabase::class.instantiateImpl() }
+            name = dbFilePath
         ).setDriver(BundledSQLiteDriver())
             .setQueryCoroutineContext(Dispatchers.IO).build()
     }
