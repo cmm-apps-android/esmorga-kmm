@@ -8,6 +8,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import cmm.apps.esmorga.login.LoginScreen
 import cmm.apps.esmorga.navigation.Navigation
+import cmm.apps.esmorga.registration.RegistrationScreen
+import cmm.apps.esmorga.eventlist.EventListScreen
 import cmm.apps.esmorga.view.theme.EsmorgaTheme
 import cmm.apps.esmorga.welcome.WelcomeScreen
 
@@ -33,21 +35,44 @@ fun App() {
                 composable<Navigation.LoginScreen> {
                     LoginScreen(
                         onRegisterClicked = {
-                            // TODO: Implement navigation to RegistrationScreen
+                            navController.navigate(Navigation.RegistrationScreen)
                         },
                         onLoginSuccess = {
                             navController.navigate(Navigation.EventListScreen)
                         },
                         onLoginError = { error ->
-                            // TODO: Show full screen error
+                            navController.navigate(Navigation.FullScreenError(esmorgaErrorScreenArguments = error))
                         },
                         onBackClicked = {
                             navController.popBackStack()
                         }
                     )
                 }
+                composable<Navigation.RegistrationScreen> {
+                    RegistrationScreen(
+                        onRegistrationSuccess = {
+                            navController.navigate(Navigation.EventListScreen)
+                        },
+                        onRegistrationError = { error ->
+                            navController.navigate(Navigation.FullScreenError(esmorgaErrorScreenArguments = error))
+                        },
+                        onBackClicked = {
+                            navController.popBackStack()
+                        }
+                    )
+                }
+                composable<Navigation.FullScreenError> { backStackEntry ->
+                    // TODO: Implement FullScreenError or use a generic one
+                }
                 composable<Navigation.EventListScreen> {
-                    // TODO: Implement EventListScreen
+                    EventListScreen(
+                        onEventClick = { eventId ->
+                            navController.navigate(Navigation.EventDetailScreen(eventId))
+                        }
+                    )
+                }
+                composable<Navigation.EventDetailScreen> { backStackEntry ->
+                    // TODO: Implement EventDetailScreen
                 }
             }
         }

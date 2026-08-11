@@ -15,8 +15,6 @@ import cmm.apps.esmorga.App
 import cmm.apps.esmorga.android.errors.EsmorgaErrorScreen
 import cmm.apps.esmorga.android.errors.model.EsmorgaErrorScreenArguments
 import cmm.apps.esmorga.android.eventdetails.EventDetailsScreen
-import cmm.apps.esmorga.android.eventlist.EventListScreen
-import cmm.apps.esmorga.android.registration.RegistrationScreen
 import cmm.apps.esmorga.android.welcome.WelcomeScreen
 import cmm.apps.esmorga.view.login.LoginScreen
 import cmm.apps.esmorga.view.navigation.Navigation
@@ -67,7 +65,7 @@ class MainActivity : ComponentActivity() {
                 })
         }
         composable<Navigation.RegistrationScreen> {
-            RegistrationScreen(
+ /*           RegistrationScreen(
                 onRegistrationSuccess = {
                     navigationController.navigate(Navigation.EventListScreen) {
                         popUpTo(Navigation.WelcomeScreen) {
@@ -81,16 +79,16 @@ class MainActivity : ComponentActivity() {
                 onBackClicked = {
                     navigationController.popBackStack()
                 }
-            )
+            )*/
         }
     }
 
     private fun NavGraphBuilder.eventFlow(navigationController: NavHostController) {
         composable<Navigation.EventListScreen> {
-            EventListScreen(
+         /*   EventListScreen(
                 onEventClick = { eventId ->
                     navigationController.navigate(Navigation.EventDetailScreen(eventId))
-                })
+                })*/
         }
         composable<Navigation.EventDetailScreen> { backStackEntry ->
             EventDetailsScreen(

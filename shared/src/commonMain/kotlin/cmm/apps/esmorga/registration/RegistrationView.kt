@@ -1,4 +1,4 @@
-package cmm.apps.esmorga.android.registration
+package cmm.apps.esmorga.registration
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -23,8 +23,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -32,14 +30,28 @@ import cmm.apps.designsystem.EsmorgaButton
 import cmm.apps.designsystem.EsmorgaText
 import cmm.apps.designsystem.EsmorgaTextField
 import cmm.apps.designsystem.EsmorgaTextStyle
-import cmm.apps.esmorga.android.R
-import cmm.apps.esmorga.android.theme.EsmorgaTheme
+import cmm.apps.esmorga.view.theme.EsmorgaTheme
 import cmm.apps.viewmodel.registration.RegistrationEffect
 import cmm.apps.viewmodel.registration.RegistrationField
 import cmm.apps.viewmodel.registration.RegistrationUiState
 import cmm.apps.viewmodel.registration.RegistrationViewModel
+import esmorga.shared.generated.resources.Res
+import esmorga.shared.generated.resources.back_icon_description
+import esmorga.shared.generated.resources.ic_arrow_back
+import esmorga.shared.generated.resources.ic_visibility
+import esmorga.shared.generated.resources.ic_visibility_off
+import esmorga.shared.generated.resources.no_internet_snackbar
+import esmorga.shared.generated.resources.registration_confirm_password_placeholder
+import esmorga.shared.generated.resources.registration_email_placeholder
+import esmorga.shared.generated.resources.registration_last_name_placeholder
+import esmorga.shared.generated.resources.registration_name_placeholder
+import esmorga.shared.generated.resources.registration_password_placeholder
+import esmorga.shared.generated.resources.registration_screen_title
+import esmorga.shared.generated.resources.registration_submit_button
 import kotlinx.coroutines.launch
-import org.koin.androidx.compose.koinViewModel
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.viewmodel.koinViewModel
 
 
 @Composable
@@ -50,7 +62,7 @@ fun RegistrationScreen(
     onBackClicked: () -> Unit
 ) {
     val uiState: RegistrationUiState by rvm.uiState.collectAsStateWithLifecycle()
-    val message = stringResource(R.string.no_internet_snackbar)
+    val message = stringResource(Res.string.no_internet_snackbar)
     val snackbarHostState = remember { SnackbarHostState() }
     val localCoroutineScope = rememberCoroutineScope()
     LaunchedEffect(Unit) {
@@ -104,8 +116,8 @@ fun RegistrationView(
                     .height(48.dp)
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.ic_arrow_back),
-                    contentDescription = stringResource(R.string.back_icon_description),
+                    painter = painterResource(Res.drawable.ic_arrow_back),
+                    contentDescription = stringResource(Res.string.back_icon_description),
                     modifier = Modifier
                         .align(Alignment.CenterStart)
                         .clickable { onBackClicked() }
@@ -126,7 +138,7 @@ fun RegistrationView(
                 .verticalScroll(state = rememberScrollState())
         ) {
             EsmorgaText(
-                text = stringResource(id = R.string.registration_screen_title),
+                text = stringResource(Res.string.registration_screen_title),
                 style = EsmorgaTextStyle.HEADING_1,
                 modifier = Modifier.padding(vertical = 16.dp)
             )
@@ -138,7 +150,7 @@ fun RegistrationView(
                     onFieldChanged(RegistrationField.NAME)
                 },
                 errorText = uiState.nameError,
-                placeholder = stringResource(id = R.string.registration_name_placeholder),
+                placeholder = stringResource(Res.string.registration_name_placeholder),
                 modifier = Modifier.onFocusChanged { focusState ->
                     if (!focusState.isFocused) {
                         validateField(RegistrationField.NAME, name, null)
@@ -154,7 +166,7 @@ fun RegistrationView(
                     onFieldChanged(RegistrationField.LAST_NAME)
                 },
                 errorText = uiState.lastNameError,
-                placeholder = stringResource(id = R.string.registration_last_name_placeholder),
+                placeholder = stringResource(Res.string.registration_last_name_placeholder),
                 modifier = Modifier.onFocusChanged { focusState ->
                     if (!focusState.isFocused) {
                         validateField(RegistrationField.LAST_NAME, lastName, null)
@@ -170,7 +182,7 @@ fun RegistrationView(
                     onFieldChanged(RegistrationField.EMAIL)
                 },
                 errorText = uiState.emailError,
-                placeholder = stringResource(id = R.string.registration_email_placeholder),
+                placeholder = stringResource(Res.string.registration_email_placeholder),
                 modifier = Modifier.onFocusChanged { focusState ->
                     if (!focusState.isFocused) {
                         validateField(RegistrationField.EMAIL, email, null)
@@ -187,15 +199,15 @@ fun RegistrationView(
                 },
                 errorText = uiState.passError,
                 isPassword = true,
-                placeholder = stringResource(id = R.string.registration_password_placeholder),
+                placeholder = stringResource(Res.string.registration_password_placeholder),
                 modifier = Modifier.onFocusChanged { focusState ->
                     if (!focusState.isFocused) {
                         validateField(RegistrationField.PASS, password, null)
                     }
                 },
                 imeAction = ImeAction.Next,
-                visibilityIcon = painterResource(id = R.drawable.ic_visibility),
-                visibilityOffIcon = painterResource(id = R.drawable.ic_visibility_off),
+                visibilityIcon = painterResource(Res.drawable.ic_visibility),
+                visibilityOffIcon = painterResource(Res.drawable.ic_visibility_off),
             )
             EsmorgaTextField(
                 value = repeatedPassword,
@@ -206,7 +218,7 @@ fun RegistrationView(
                 },
                 errorText = uiState.repeatPassError,
                 isPassword = true,
-                placeholder = stringResource(id = R.string.registration_confirm_password_placeholder),
+                placeholder = stringResource(Res.string.registration_confirm_password_placeholder),
                 modifier = Modifier.onFocusChanged { focusState ->
                     if (!focusState.isFocused) {
                         validateField(RegistrationField.REPEAT_PASS, password, repeatedPassword)
@@ -216,11 +228,11 @@ fun RegistrationView(
                 onDonePressed = {
                     onRegisterClicked(name, lastName, email, password, repeatedPassword)
                 },
-                visibilityIcon = painterResource(id = R.drawable.ic_visibility),
-                visibilityOffIcon = painterResource(id = R.drawable.ic_visibility_off),
+                visibilityIcon = painterResource(Res.drawable.ic_visibility),
+                visibilityOffIcon = painterResource(Res.drawable.ic_visibility_off),
             )
             Spacer(modifier = Modifier.height(16.dp))
-            EsmorgaButton(text = stringResource(id = R.string.registration_submit_button), isEnabled = !uiState.loading, primary = true) {
+            EsmorgaButton(text = stringResource(Res.string.registration_submit_button), isEnabled = !uiState.loading, primary = true) {
                 onRegisterClicked(name, lastName, email, password, repeatedPassword)
             }
         }
