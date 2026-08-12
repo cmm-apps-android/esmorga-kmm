@@ -22,6 +22,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cmm.apps.designsystem.EsmorgaButton
 import cmm.apps.designsystem.EsmorgaText
 import cmm.apps.designsystem.EsmorgaTextStyle
+import cmm.apps.esmorga.utils.screenContentInsets
+import cmm.apps.esmorga.utils.screenTopBarInsets
 import cmm.apps.esmorga.view.theme.EsmorgaTheme
 import cmm.apps.viewmodel.eventdetails.EventDetailsViewModel
 import cmm.apps.viewmodel.eventdetails.model.EventDetailsEffect
@@ -70,9 +72,11 @@ fun EventDetailsScreen(
 fun EventDetailsView(uiState: EventDetailsUiState, onNavigateClicked: () -> Unit, onBackPressed: () -> Unit) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
+        contentWindowInsets = screenContentInsets(),
         topBar = {
             TopAppBar(
                 title = {},
+                windowInsets = screenTopBarInsets(),
                 navigationIcon = {
                     Icon(
                         painter = painterResource(Res.drawable.ic_arrow_back),
