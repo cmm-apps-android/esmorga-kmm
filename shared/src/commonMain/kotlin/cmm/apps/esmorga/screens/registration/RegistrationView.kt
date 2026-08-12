@@ -43,8 +43,6 @@ import cmm.apps.viewmodel.registration.RegistrationViewModel
 import esmorga.shared.generated.resources.Res
 import esmorga.shared.generated.resources.back_icon_description
 import esmorga.shared.generated.resources.ic_arrow_back
-import esmorga.shared.generated.resources.ic_visibility
-import esmorga.shared.generated.resources.ic_visibility_off
 import esmorga.shared.generated.resources.no_internet_snackbar
 import esmorga.shared.generated.resources.registration_confirm_password_placeholder
 import esmorga.shared.generated.resources.registration_email_placeholder
@@ -199,8 +197,6 @@ fun RegistrationView(
                     }
                 },
                 imeAction = ImeAction.Next,
-                visibilityIcon = painterResource(Res.drawable.ic_visibility),
-                visibilityOffIcon = painterResource(Res.drawable.ic_visibility_off),
             )
             EsmorgaTextField(
                 value = repeatedPassword,
@@ -221,8 +217,6 @@ fun RegistrationView(
                 onDonePressed = {
                     onRegisterClicked(name, lastName, email, password, repeatedPassword)
                 },
-                visibilityIcon = painterResource(Res.drawable.ic_visibility),
-                visibilityOffIcon = painterResource(Res.drawable.ic_visibility_off),
             )
             Spacer(modifier = Modifier.height(16.dp))
             EsmorgaButton(text = stringResource(Res.string.registration_submit_button), isEnabled = !uiState.loading, primary = true) {

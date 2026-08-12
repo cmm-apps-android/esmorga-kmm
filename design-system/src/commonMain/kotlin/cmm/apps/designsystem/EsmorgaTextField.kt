@@ -25,7 +25,10 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.graphics.painter.Painter
+import esmorga.design_system.generated.resources.Res
+import esmorga.design_system.generated.resources.ic_visibility
+import esmorga.design_system.generated.resources.ic_visibility_off
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun EsmorgaTextField(
@@ -38,8 +41,6 @@ fun EsmorgaTextField(
     imeAction: ImeAction = ImeAction.Done,
     errorText: String? = null,
     isEnabled: Boolean = true,
-    visibilityIcon: Painter? = null,
-    visibilityOffIcon: Painter? = null,
     onDonePressed: () -> Unit = {}
 ) {
     var passwordVisible by remember { mutableStateOf(false) }
@@ -75,8 +76,8 @@ fun EsmorgaTextField(
             modifier = modifier.fillMaxWidth(),
             shape = RoundedCornerShape(12),
             trailingIcon = {
-                if (isPassword && visibilityIcon != null && visibilityOffIcon != null) {
-                    val image = if (passwordVisible) visibilityOffIcon else visibilityIcon
+                if (isPassword) {
+                    val image = if (passwordVisible) painterResource(Res.drawable.ic_visibility_off) else painterResource(Res.drawable.ic_visibility)
                     IconButton(onClick = { passwordVisible = !passwordVisible }) {
                         Icon(painter = image, contentDescription = "toggle password visibility")
                     }

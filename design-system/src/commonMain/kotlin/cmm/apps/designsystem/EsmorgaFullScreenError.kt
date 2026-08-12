@@ -10,15 +10,16 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
+import esmorga.design_system.generated.resources.Res
+import esmorga.design_system.generated.resources.ic_error
+import org.jetbrains.compose.resources.painterResource
 
 
 @Composable
 fun EsmorgaFullScreenError(
     title: String,
     buttonText: String,
-    icon: Painter,
     buttonAction: () -> Unit
 ) {
     Scaffold { innerPadding ->
@@ -28,7 +29,7 @@ fun EsmorgaFullScreenError(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Image(
-                    painter = icon,
+                    painter = painterResource(Res.drawable.ic_error),
                     contentDescription = "Error",
                     modifier = Modifier.size(128.dp)
                 )

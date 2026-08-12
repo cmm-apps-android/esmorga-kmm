@@ -42,8 +42,6 @@ import cmm.apps.viewmodel.login.LoginViewModel
 import esmorga.shared.generated.resources.Res
 import esmorga.shared.generated.resources.back_icon_description
 import esmorga.shared.generated.resources.ic_arrow_back
-import esmorga.shared.generated.resources.ic_visibility
-import esmorga.shared.generated.resources.ic_visibility_off
 import esmorga.shared.generated.resources.img_login_header
 import esmorga.shared.generated.resources.login_button
 import esmorga.shared.generated.resources.login_screen_create_account_button
@@ -178,8 +176,6 @@ fun LoginView(
                         }
                     },
                     imeAction = ImeAction.Done,
-                    visibilityIcon = painterResource(Res.drawable.ic_visibility),
-                    visibilityOffIcon = painterResource(Res.drawable.ic_visibility_off),
                     onDonePressed = {
                         onLoginClicked(email, password)
                     }

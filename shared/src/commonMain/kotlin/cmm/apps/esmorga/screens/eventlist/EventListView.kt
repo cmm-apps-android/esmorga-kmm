@@ -6,7 +6,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -15,7 +14,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -37,20 +35,15 @@ import cmm.apps.designsystem.EsmorgaButton
 import cmm.apps.designsystem.EsmorgaLinearLoader
 import cmm.apps.designsystem.EsmorgaText
 import cmm.apps.designsystem.EsmorgaTextStyle
+import cmm.apps.esmorga.utils.screenContentInsets
 import cmm.apps.esmorga.utils.screenTopBarInsets
 import cmm.apps.esmorga.view.eventlist.model.EventListEffect
 import cmm.apps.esmorga.view.eventlist.model.EventListUiModel
 import cmm.apps.esmorga.view.eventlist.model.EventListUiState
 import cmm.apps.esmorga.view.theme.EsmorgaTheme
-import cmm.apps.esmorga.utils.screenContentInsets
 import cmm.apps.viewmodel.eventlist.EventListViewModel
 import coil3.compose.AsyncImage
-import kotlinx.coroutines.launch
-import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.resources.stringResource
-import org.koin.compose.viewmodel.koinViewModel
 import esmorga.shared.generated.resources.Res
-import esmorga.shared.generated.resources.back_icon_description
 import esmorga.shared.generated.resources.event_image_content_description
 import esmorga.shared.generated.resources.event_list_empty_text
 import esmorga.shared.generated.resources.event_list_error_button
@@ -58,10 +51,14 @@ import esmorga.shared.generated.resources.event_list_error_subtitle
 import esmorga.shared.generated.resources.event_list_error_title
 import esmorga.shared.generated.resources.event_list_loading
 import esmorga.shared.generated.resources.event_list_title
-import esmorga.shared.generated.resources.ic_arrow_back
-import esmorga.shared.generated.resources.ic_error
 import esmorga.shared.generated.resources.img_event_list_empty
 import esmorga.shared.generated.resources.no_internet_snackbar
+import esmorga.design_system.generated.resources.Res as DesignSystemRes
+import esmorga.design_system.generated.resources.ic_error
+import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun EventListScreen(elvm: EventListViewModel = koinViewModel(), onEventClick: (eventId: String) -> Unit) {
@@ -182,7 +179,7 @@ fun EventListError(onRetryClick: () -> Unit) {
                     .size(48.dp)
             ) {
                 Image(
-                    painter = painterResource(Res.drawable.ic_error),
+                    painter = painterResource(DesignSystemRes.drawable.ic_error),
                     contentDescription = stringResource(Res.string.event_list_error_title),
                     modifier = Modifier.align(Alignment.Center)
                 )

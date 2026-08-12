@@ -6,8 +6,6 @@ import cmm.apps.esmorga.view.theme.EsmorgaTheme
 import esmorga.shared.generated.resources.Res
 import esmorga.shared.generated.resources.default_error_button
 import esmorga.shared.generated.resources.default_error_title
-import esmorga.shared.generated.resources.ic_error
-import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -20,7 +18,6 @@ fun EsmorgaErrorScreen(
         EsmorgaFullScreenError(
             title = title,
             buttonText = stringResource(Res.string.default_error_button),
-            icon = painterResource(Res.drawable.ic_error),
             buttonAction = onButtonPressed
         )
     }
