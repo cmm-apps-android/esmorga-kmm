@@ -223,6 +223,7 @@ fun RegistrationView(
             EsmorgaButton(text = stringResource(Res.string.registration_submit_button), isEnabled = !uiState.loading, primary = true) {
                 onRegisterClicked(name, lastName, email, password, repeatedPassword)
             }
+            Spacer(modifier = Modifier.height(16.dp))
         }
 
     }

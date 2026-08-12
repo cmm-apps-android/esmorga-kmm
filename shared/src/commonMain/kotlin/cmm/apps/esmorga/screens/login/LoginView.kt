@@ -187,6 +187,7 @@ fun LoginView(
                 EsmorgaButton(text = stringResource(Res.string.login_screen_create_account_button), isEnabled = !uiState.loading, primary = false) {
                     onRegisterClicked()
                 }
+                Spacer(modifier = Modifier.height(16.dp))
             }
         }
 
