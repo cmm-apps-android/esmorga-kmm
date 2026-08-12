@@ -5,10 +5,13 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.RoomDatabaseConstructor
 import androidx.room.TypeConverters
+import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import cmm.apps.datasource.local.database.dao.EventDao
 import cmm.apps.datasource.local.database.dao.UserDao
 import cmm.apps.datasource.local.event.model.EventLocalModel
 import cmm.apps.datasource.local.user.model.UserLocalModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 
 @Database(
     entities = [
@@ -21,6 +24,13 @@ import cmm.apps.datasource.local.user.model.UserLocalModel
 abstract class EsmorgaDatabase : RoomDatabase() {
     abstract fun eventDao(): EventDao
     abstract fun userDao(): UserDao
+}
+
+fun buildDatabase(builder: RoomDatabase.Builder<EsmorgaDatabase>): EsmorgaDatabase {
+    return builder
+        .setDriver(BundledSQLiteDriver())
+        .setQueryCoroutineContext(Dispatchers.IO)
+        .build()
 }
 
 // The Room compiler generates the `actual` implementations.

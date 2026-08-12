@@ -7,14 +7,15 @@ import kotlinx.coroutines.Dispatchers
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-object EsmorgaDatabaseHelper : KoinComponent {
+actual object EsmorgaDatabaseHelper : KoinComponent {
     private val context: Context by inject()
-    fun getDatabase(): EsmorgaDatabase {
+    actual fun getDatabase(): EsmorgaDatabase {
         val dbFile = context.getDatabasePath("esmorga.db")
-        return Room.databaseBuilder<EsmorgaDatabase>(
-            context = context,
-            name = dbFile.absolutePath
-        ).setDriver(BundledSQLiteDriver())
-            .setQueryCoroutineContext(Dispatchers.IO).build()
+        return buildDatabase(
+            Room.databaseBuilder<EsmorgaDatabase>(
+                context = context,
+                name = dbFile.absolutePath
+            )
+        )
     }
 }
