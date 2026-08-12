@@ -34,7 +34,9 @@ fun App() {
                             navController.navigate(Navigation.LoginScreen)
                         },
                         onEnterAsGuestClicked = {
-                            navController.navigate(Navigation.EventListScreen)
+                            navController.navigate(Navigation.EventListScreen) {
+                                popUpTo(Navigation.WelcomeScreen) { inclusive = true }
+                            }
                         }
                     )
                 }
@@ -44,7 +46,9 @@ fun App() {
                             navController.navigate(Navigation.RegistrationScreen)
                         },
                         onLoginSuccess = {
-                            navController.navigate(Navigation.EventListScreen)
+                            navController.navigate(Navigation.EventListScreen) {
+                                popUpTo(Navigation.WelcomeScreen) { inclusive = true }
+                            }
                         },
                         onLoginError = { error ->
                             navController.navigate(Navigation.FullScreenError(esmorgaErrorScreenArguments = error))
@@ -57,7 +61,9 @@ fun App() {
                 composable<Navigation.RegistrationScreen> {
                     RegistrationScreen(
                         onRegistrationSuccess = {
-                            navController.navigate(Navigation.EventListScreen)
+                            navController.navigate(Navigation.EventListScreen) {
+                                popUpTo(Navigation.WelcomeScreen) { inclusive = true }
+                            }
                         },
                         onRegistrationError = { error ->
                             navController.navigate(Navigation.FullScreenError(esmorgaErrorScreenArguments = error))
