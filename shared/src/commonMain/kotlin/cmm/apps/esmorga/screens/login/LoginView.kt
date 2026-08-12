@@ -4,7 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -128,20 +128,20 @@ fun LoginView(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(innerPadding)
+                .verticalScroll(state = rememberScrollState())
         ) {
             Image(
                 painter = painterResource(Res.drawable.img_login_header),
                 contentDescription = "Login header",
                 modifier = Modifier
                     .fillMaxWidth()
-                    .fillMaxHeight(0.3f),
+                    .aspectRatio(16f / 9f),
                 contentScale = ContentScale.FillWidth
             )
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
-                    .verticalScroll(state = rememberScrollState())
             ) {
                 EsmorgaText(text = stringResource(Res.string.login_screen_title), style = EsmorgaTextStyle.HEADING_1, modifier = Modifier.padding(vertical = 16.dp))
                 EsmorgaTextField(

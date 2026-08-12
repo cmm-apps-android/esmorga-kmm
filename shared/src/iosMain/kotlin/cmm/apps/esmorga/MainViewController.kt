@@ -1,5 +1,6 @@
 package cmm.apps.esmorga
 
+import androidx.compose.ui.uikit.OnFocusBehavior
 import androidx.compose.ui.window.ComposeUIViewController
 import cmm.apps.esmorga.di.sharedKoinModules
 import org.koin.core.context.startKoin
@@ -13,5 +14,9 @@ fun MainViewController() = run {
         }
         isKoinStarted = true
     }
-    ComposeUIViewController { App() }
+    ComposeUIViewController(
+        configure = {
+            onFocusBehavior = OnFocusBehavior.DoNothing
+        }
+    ) { App() }
 }
