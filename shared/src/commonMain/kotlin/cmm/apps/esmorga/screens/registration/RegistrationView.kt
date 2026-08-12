@@ -10,9 +10,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -30,6 +33,8 @@ import cmm.apps.designsystem.EsmorgaButton
 import cmm.apps.designsystem.EsmorgaText
 import cmm.apps.designsystem.EsmorgaTextField
 import cmm.apps.designsystem.EsmorgaTextStyle
+import cmm.apps.esmorga.utils.screenContentInsets
+import cmm.apps.esmorga.utils.screenTopBarInsets
 import cmm.apps.esmorga.view.theme.EsmorgaTheme
 import cmm.apps.viewmodel.registration.RegistrationEffect
 import cmm.apps.viewmodel.registration.RegistrationField
@@ -87,6 +92,7 @@ fun RegistrationScreen(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegistrationView(
     uiState: RegistrationUiState,
@@ -103,45 +109,32 @@ fun RegistrationView(
     var repeatedPassword by remember { mutableStateOf("") }
     Scaffold(
         snackbarHost = { SnackbarHost(snackbarHostState) },
+        contentWindowInsets = screenContentInsets(),
         topBar = {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        top = 16.dp,
-                        bottom = 16.dp,
-                        start = 16.dp,
-                        end = 8.dp
+            TopAppBar(
+                title = {},
+                windowInsets = screenTopBarInsets(),
+                navigationIcon = {
+                    Icon(
+                        painter = painterResource(Res.drawable.ic_arrow_back),
+                        contentDescription = stringResource(Res.string.back_icon_description),
+                        modifier = Modifier.clickable { onBackClicked() }
                     )
-                    .height(48.dp)
-            ) {
-                Image(
-                    painter = painterResource(Res.drawable.ic_arrow_back),
-                    contentDescription = stringResource(Res.string.back_icon_description),
-                    modifier = Modifier
-                        .align(Alignment.CenterStart)
-                        .clickable { onBackClicked() }
-                )
-            }
+                }
+            )
         }
     ) { innerPadding ->
         Column(
             modifier = Modifier
+                .verticalScroll(rememberScrollState())
                 .fillMaxWidth()
-                .padding(
-                    top = innerPadding.calculateTopPadding(),
-                    bottom = innerPadding.calculateBottomPadding(),
-                    start = 16.dp,
-                    end = 16.dp
-                )
-                .fillMaxWidth()
-                .verticalScroll(state = rememberScrollState())
+                .padding(start = 16.dp, end = 16.dp, top = innerPadding.calculateTopPadding(), bottom = innerPadding.calculateBottomPadding())
         ) {
             EsmorgaText(
                 text = stringResource(Res.string.registration_screen_title),
-                style = EsmorgaTextStyle.HEADING_1,
-                modifier = Modifier.padding(vertical = 16.dp)
+                style = EsmorgaTextStyle.HEADING_1
             )
+            Spacer(modifier = Modifier.height(16.dp))
             EsmorgaTextField(
                 value = name,
                 isEnabled = !uiState.loading,
