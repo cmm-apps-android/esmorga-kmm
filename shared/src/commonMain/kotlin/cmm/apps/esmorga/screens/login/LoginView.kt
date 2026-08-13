@@ -118,7 +118,9 @@ fun LoginView(
                     Icon(
                         painter = painterResource(Res.drawable.ic_arrow_back),
                         contentDescription = stringResource(Res.string.back_icon_description),
-                        modifier = Modifier.clickable { onBackClicked() }
+                        modifier = Modifier
+                            .padding(start = 8.dp)
+                            .clickable { onBackClicked() }
                     )
                 }
             )

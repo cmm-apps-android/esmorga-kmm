@@ -81,7 +81,9 @@ fun EventDetailsView(uiState: EventDetailsUiState, onNavigateClicked: () -> Unit
                     Icon(
                         painter = painterResource(Res.drawable.ic_arrow_back),
                         contentDescription = stringResource(Res.string.back_icon_description),
-                        modifier = Modifier.clickable { onBackPressed() }
+                        modifier = Modifier
+                            .padding(start = 8.dp)
+                            .clickable { onBackPressed() }
                     )
                 }
             )
