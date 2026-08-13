@@ -15,10 +15,10 @@ kotlin {
 }
 
 android {
-    namespace = "cmm.apps.esmorga.android"
+    namespace = "cmm.esmorga.android"
     compileSdk = 37
     defaultConfig {
-        applicationId = "cmm.apps.esmorga.android"
+        applicationId = "cmm.esmorga.android"
         minSdk = 29
         targetSdk = 37
         versionCode = 1

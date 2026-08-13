@@ -1,0 +1,30 @@
+package cmm.esmorga.view.screenshot.welcome
+
+import cmm.esmorga.view.theme.EsmorgaTheme
+import cmm.esmorga.screens.welcome.WelcomeView
+import cmm.esmorga.view.screenshot.BaseScreenshotTest
+import cmm.esmorga.viewmodel.welcome.model.WelcomeUiState
+import org.junit.Test
+
+class WelcomeViewScreenshotTest : BaseScreenshotTest() {
+
+    @Test
+    fun welcomeView_lightTheme_data() {
+        val uiState = WelcomeUiState(
+            primaryButtonText = "Primary",
+            secondaryButtonText = "Secondary",
+        )
+
+        snapshotWithState(uiState)
+    }
+
+    private fun snapshotWithState(uiState: WelcomeUiState) {
+        paparazzi.snapshot {
+            EsmorgaTheme(darkTheme = false) {
+                WelcomeView(uiState = uiState, onPrimaryButtonClicked = { }) {
+
+                }
+            }
+        }
+    }
+}

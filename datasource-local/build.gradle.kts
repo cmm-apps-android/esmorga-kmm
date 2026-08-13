@@ -8,7 +8,7 @@ plugins {
 
 kotlin {
     android {
-        namespace = "cmm.apps.datasource.local"
+        namespace = "cmm.esmorga.datasource.local"
         compileSdk = 37
         minSdk = 29
         withHostTest {

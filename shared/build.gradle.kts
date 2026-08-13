@@ -9,7 +9,7 @@ plugins {
 
 kotlin {
     android {
-        namespace = "cmm.apps.esmorga"
+        namespace = "cmm.esmorga"
         compileSdk = 37
         minSdk = 29
         withHostTest {

@@ -7,7 +7,7 @@ plugins {
 
 kotlin {
     android {
-        namespace = "cmm.apps.designsystem"
+        namespace = "cmm.esmorga.designsystem"
         compileSdk = 37
         minSdk = 29
         

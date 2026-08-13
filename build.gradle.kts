@@ -7,6 +7,10 @@ plugins {
 //    alias(libs.plugins.kover)
 }
 
+allprojects {
+    group = "cmm.esmorga"
+}
+
 //dependencies {
 //    kover(project(":androidApp"))
 //    kover(project(":viewmodel"))

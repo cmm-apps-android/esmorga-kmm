@@ -7,7 +7,7 @@ plugins {
 
 kotlin {
     android {
-        namespace = "cmm.esmorga.datasource_remote"
+        namespace = "cmm.esmorga.datasource.remote"
         compileSdk = 37
         minSdk = 29
         withHostTest {

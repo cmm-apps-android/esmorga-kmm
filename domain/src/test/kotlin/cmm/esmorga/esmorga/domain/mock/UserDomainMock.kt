@@ -1,0 +1,12 @@
+package cmm.esmorga.domain.mock
+
+import cmm.esmorga.domain.user.model.User
+
+object UserDomainMock {
+
+    fun provideUser(name: String = "Ron", lastName: String = "Weasley", email: String = "ron@weasleyfamily.redhead") = User(
+        name = name,
+        lastName = lastName,
+        email = email
+    )
+}
