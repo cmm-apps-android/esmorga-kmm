@@ -9,6 +9,7 @@ plugins {
 
 allprojects {
     group = "cmm.esmorga"
+    version = "1.0.0"
 }
 
 //dependencies {

@@ -8,7 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import cmm.esmorga.esmorga.screens.errors.EsmorgaErrorScreen
+import cmm.esmorga.screens.errors.EsmorgaErrorScreen
 import cmm.esmorga.screens.eventdetails.EventDetailsScreen
 import cmm.esmorga.screens.login.LoginScreen
 import cmm.esmorga.navigation.Navigation
