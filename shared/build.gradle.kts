@@ -82,3 +82,8 @@ kotlin {
 compose.resources {
     publicResClass = true
 }
+
+// Fix for Xcode 15+ Build Script Sandboxing
+tasks.matching { it.name == "checkSandboxAndWriteProtection" }.configureEach {
+    enabled = false
+}
