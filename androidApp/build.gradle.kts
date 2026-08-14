@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.serialization)
     alias(libs.plugins.paparazzi)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.composeMultiplatform)
 //    alias(libs.plugins.kover)
 }
 
@@ -14,10 +15,10 @@ kotlin {
 }
 
 android {
-    namespace = "cmm.apps.esmorga.android"
+    namespace = "cmm.esmorga.android"
     compileSdk = 37
     defaultConfig {
-        applicationId = "cmm.apps.esmorga.android"
+        applicationId = "cmm.esmorga.android"
         minSdk = 29
         targetSdk = 37
         versionCode = 1
@@ -43,7 +44,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":android-design-system"))
+    implementation(project(":design-system"))
     implementation(project(":viewmodel"))
     implementation(project(":shared"))
 
@@ -56,6 +57,7 @@ dependencies {
     implementation(libs.androidx.navigation.kt)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.compose.ui)
+    implementation(compose.components.resources)
     implementation(libs.compose.ui.graphics)
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.compose.material3)
@@ -63,7 +65,8 @@ dependencies {
     implementation(platform(libs.koin.bom))
     implementation(libs.koin.android)
     implementation(libs.koin.androidx.compose)
-    implementation(libs.coil)
+    implementation(libs.coil3.compose)
+    implementation(libs.coil3.network.ktor)
     implementation(libs.kotlinx.serialization.json)
 
     testImplementation(libs.kotlin.datetime)

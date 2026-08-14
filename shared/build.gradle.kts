@@ -1,24 +1,27 @@
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidKotlinMultiplatformLibrary)
+    alias(libs.plugins.jetbrains.kotlin.serialization)
+    alias(libs.plugins.composeMultiplatform)
+    alias(libs.plugins.compose.compiler)
 //    alias(libs.plugins.kover)
 }
 
 kotlin {
     android {
-        namespace = "cmm.apps.esmorga"
+        namespace = "cmm.esmorga"
         compileSdk = 37
         minSdk = 29
-        withHostTestBuilder {}.configure {
+        withHostTest {
             isIncludeAndroidResources = true
         }
         compilerOptions {
             jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
         }
+        experimentalProperties["android.experimental.kmp.enableAndroidResources"] = true
     }
     
     listOf(
-        iosX64(),
         iosArm64(),
         iosSimulatorArm64()
     ).forEach {
@@ -30,13 +33,26 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
+            implementation(compose.runtime)
+            implementation(compose.foundation)
+            implementation(compose.material3)
+            implementation(libs.androidx.navigation.compose)
+            implementation(libs.kotlinx.serialization.json)
+            implementation(libs.androidx.lifecycle.viewmodel)
+            implementation(libs.androidx.lifecycle.runtime.compose)
+            implementation(compose.components.resources)
+            implementation(project.dependencies.platform(libs.koin.bom))
+            implementation(libs.koin.core)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
+            implementation(libs.coil3.compose)
+            implementation(libs.coil3.network.ktor)
             implementation(project(":domain"))
             implementation(project(":data"))
             implementation(project(":viewmodel"))
             implementation(project(":datasource-remote"))
             implementation(project(":datasource-local"))
-            implementation(project.dependencies.platform(libs.koin.bom))
-            implementation(libs.koin.core)
+            implementation(project(":design-system"))
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -61,4 +77,13 @@ kotlin {
             implementation(libs.koin.android)
         }
     }
+}
+
+compose.resources {
+    publicResClass = true
+}
+
+// Fix for Xcode 15+ Build Script Sandboxing
+tasks.matching { it.name == "checkSandboxAndWriteProtection" }.configureEach {
+    enabled = false
 }

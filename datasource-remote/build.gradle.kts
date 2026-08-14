@@ -7,10 +7,10 @@ plugins {
 
 kotlin {
     android {
-        namespace = "cmm.esmorga.datasource_remote"
+        namespace = "cmm.esmorga.datasource.remote"
         compileSdk = 37
         minSdk = 29
-        withHostTestBuilder {}.configure {
+        withHostTest {
             isIncludeAndroidResources = true
         }
         compilerOptions {
@@ -19,7 +19,6 @@ kotlin {
     }
 
     listOf(
-        iosX64(),
         iosArm64(),
         iosSimulatorArm64()
     ).forEach {

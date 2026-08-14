@@ -1,0 +1,22 @@
+package cmm.esmorga.view.viewmodel.mock
+
+import cmm.esmorga.domain.event.model.Event
+import cmm.esmorga.domain.event.model.EventLocation
+import cmm.esmorga.domain.event.model.EventType
+import kotlin.time.Clock
+
+
+object EventViewMock {
+
+    fun provideEventList(nameList: List<String>): List<Event> = nameList.map { name -> provideEvent(name) }
+
+    fun provideEvent(name: String): Event = Event(
+        id = "$name-${System.currentTimeMillis()}",
+        name = name,
+        date = Clock.System.now(),
+        description = "description",
+        type = EventType.SPORT,
+        location = EventLocation("Location")
+    )
+
+}
