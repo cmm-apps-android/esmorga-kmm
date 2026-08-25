@@ -87,3 +87,8 @@ compose.resources {
 tasks.matching { it.name == "checkSandboxAndWriteProtection" }.configureEach {
     enabled = false
 }
+
+// Bypass symbolic link issues in DerivedData
+tasks.matching { it.name.contains("symbolicLinkToAssemble") }.configureEach {
+    enabled = false
+}
