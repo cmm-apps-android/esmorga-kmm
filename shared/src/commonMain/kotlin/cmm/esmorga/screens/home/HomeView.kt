@@ -9,8 +9,10 @@ import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import cmm.esmorga.screens.eventlist.EventListScreen
+import cmm.esmorga.screens.myevents.MyEventsScreen
 import cmm.esmorga.shared.generated.resources.Res
 import cmm.esmorga.shared.generated.resources.bottom_bar_explore
 import cmm.esmorga.shared.generated.resources.bottom_bar_myevents
@@ -37,7 +40,7 @@ enum class HomeTab(val title: StringResource, val icon: ImageVector) {
 }
 
 @Composable
-fun HomeScreen(onEventClick: (String) -> Unit) {
+fun HomeScreen(onEventClick: (String) -> Unit, onNavigateToLogin: () -> Unit) {
     var selectedTab by remember { mutableStateOf(HomeTab.Explore) }
 
     Scaffold(
@@ -50,6 +53,13 @@ fun HomeScreen(onEventClick: (String) -> Unit) {
                         onClick = { selectedTab = tab },
                         label = { Text(label) },
                         icon = { Icon(tab.icon, contentDescription = label) },
+                        colors = NavigationBarItemDefaults.colors(
+                            selectedIconColor = colorScheme.primary,
+                            selectedTextColor = colorScheme.primary,
+                            unselectedIconColor = colorScheme.onSurfaceVariant,
+                            unselectedTextColor = colorScheme.onSurfaceVariant,
+                            indicatorColor = Color.Transparent
+                        )
                     )
                 }
             }
@@ -58,7 +68,10 @@ fun HomeScreen(onEventClick: (String) -> Unit) {
         Box(modifier = Modifier.padding(innerPadding)) {
             when (selectedTab) {
                 HomeTab.Explore -> EventListScreen(onEventClick = onEventClick)
-                HomeTab.MyEvents -> PlaceholderScreen(stringResource(Res.string.bottom_bar_myevents))
+                HomeTab.MyEvents -> MyEventsScreen(
+                    onNavigateToLogin = onNavigateToLogin,
+                    onEventClick = onEventClick
+                )
                 HomeTab.Profile -> PlaceholderScreen(stringResource(Res.string.bottom_bar_myprofile))
             }
         }

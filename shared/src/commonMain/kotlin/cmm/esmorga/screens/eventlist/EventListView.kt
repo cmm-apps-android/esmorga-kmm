@@ -48,11 +48,11 @@ import cmm.esmorga.shared.generated.resources.img_event_list_empty
 import cmm.esmorga.shared.generated.resources.no_internet_snackbar
 import cmm.esmorga.utils.screenContentInsets
 import cmm.esmorga.utils.screenTopBarInsets
-import cmm.esmorga.view.eventlist.model.EventListEffect
-import cmm.esmorga.view.eventlist.model.EventListUiModel
-import cmm.esmorga.view.eventlist.model.EventListUiState
 import cmm.esmorga.view.theme.EsmorgaTheme
 import cmm.esmorga.viewmodel.eventlist.EventListViewModel
+import cmm.esmorga.viewmodel.eventlist.model.EventListEffect
+import cmm.esmorga.viewmodel.eventlist.model.EventListUiModel
+import cmm.esmorga.viewmodel.eventlist.model.EventListUiState
 import coil3.compose.AsyncImage
 import cmm.esmorga.design_system.generated.resources.Res as DesignSystemRes
 import kotlinx.coroutines.launch

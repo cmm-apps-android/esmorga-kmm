@@ -16,7 +16,6 @@ import cmm.esmorga.navigation.Navigation
 import cmm.esmorga.screens.registration.RegistrationScreen
 import cmm.esmorga.screens.eventlist.EventListScreen
 import cmm.esmorga.view.theme.EsmorgaTheme
-import cmm.esmorga.screens.welcome.WelcomeScreen
 import cmm.esmorga.utils.buildMapUri
 
 @Composable
@@ -33,21 +32,13 @@ fun App() {
                     HomeScreen(
                         onEventClick = { eventId ->
                             navController.navigate(Navigation.EventDetailScreen(eventId))
-                        }
-                    )
-                }
-                composable<Navigation.WelcomeScreen> {
-                    WelcomeScreen(
-                        onLoginRegisterClicked = {
-                            navController.navigate(Navigation.LoginScreen)
                         },
-                        onEnterAsGuestClicked = {
-                            navController.navigate(Navigation.HomeScreen) {
-                                popUpTo(Navigation.WelcomeScreen) { inclusive = true }
-                            }
+                        onNavigateToLogin = {
+                            navController.navigate(Navigation.LoginScreen)
                         }
                     )
                 }
+
                 composable<Navigation.LoginScreen> {
                     LoginScreen(
                         onRegisterClicked = {
@@ -55,7 +46,7 @@ fun App() {
                         },
                         onLoginSuccess = {
                             navController.navigate(Navigation.HomeScreen) {
-                                popUpTo(Navigation.WelcomeScreen) { inclusive = true }
+                                popUpTo(Navigation.HomeScreen) { inclusive = true }
                             }
                         },
                         onLoginError = { error ->
@@ -70,7 +61,7 @@ fun App() {
                     RegistrationScreen(
                         onRegistrationSuccess = {
                             navController.navigate(Navigation.HomeScreen) {
-                                popUpTo(Navigation.WelcomeScreen) { inclusive = true }
+                                popUpTo(Navigation.HomeScreen) { inclusive = true }
                             }
                         },
                         onRegistrationError = { error ->

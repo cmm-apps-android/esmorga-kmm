@@ -5,9 +5,9 @@ import cmm.esmorga.domain.event.GetEventListUseCase
 import cmm.esmorga.domain.result.ErrorCodes
 import cmm.esmorga.domain.result.EsmorgaException
 import cmm.esmorga.viewmodel.eventlist.mapper.EventListUiMapper.toEventUiList
-import cmm.esmorga.view.eventlist.model.EventListEffect
-import cmm.esmorga.view.eventlist.model.EventListUiState
 import cmm.esmorga.viewmodel.BaseViewModel
+import cmm.esmorga.viewmodel.eventlist.model.EventListEffect
+import cmm.esmorga.viewmodel.eventlist.model.EventListUiState
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
