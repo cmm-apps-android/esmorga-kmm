@@ -8,6 +8,9 @@ sealed class Navigation {
     data object WelcomeScreen : Navigation()
 
     @Serializable
+    data object HomeScreen : Navigation()
+
+    @Serializable
     data object EventListScreen : Navigation()
 
     @Serializable

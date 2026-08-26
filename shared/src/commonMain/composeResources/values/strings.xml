@@ -32,4 +32,7 @@
     <string name="event_details_description">Event details</string>
     <string name="event_details_location">Location</string>
     <string name="navigate">Navigate</string>
+    <string name="bottom_bar_explore">Explore</string>
+    <string name="bottom_bar_myevents">My Events</string>
+    <string name="bottom_bar_myprofile">Profile</string>
 </resources>

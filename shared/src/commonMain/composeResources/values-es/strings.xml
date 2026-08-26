@@ -32,4 +32,7 @@
     <string name="event_details_description">Detalles del evento</string>
     <string name="event_details_location">Localización</string>
     <string name="navigate">Navegar</string>
+    <string name="bottom_bar_explore">Explorar</string>
+    <string name="bottom_bar_myevents">Mis Eventos</string>
+    <string name="bottom_bar_myprofile">Perfil</string>
 </resources>
