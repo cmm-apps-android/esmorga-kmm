@@ -18,7 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -41,7 +41,7 @@ enum class HomeTab(val title: StringResource, val icon: ImageVector) {
 
 @Composable
 fun HomeScreen(onEventClick: (String) -> Unit, onNavigateToLogin: () -> Unit) {
-    var selectedTab by remember { mutableStateOf(HomeTab.Explore) }
+    var selectedTab by rememberSaveable { mutableStateOf(HomeTab.Explore) }
 
     Scaffold(
         bottomBar = {
@@ -57,8 +57,7 @@ fun HomeScreen(onEventClick: (String) -> Unit, onNavigateToLogin: () -> Unit) {
                             selectedIconColor = colorScheme.primary,
                             selectedTextColor = colorScheme.primary,
                             unselectedIconColor = colorScheme.onSurfaceVariant,
-                            unselectedTextColor = colorScheme.onSurfaceVariant,
-                            indicatorColor = Color.Transparent
+                            unselectedTextColor = colorScheme.onSurfaceVariant
                         )
                     )
                 }
