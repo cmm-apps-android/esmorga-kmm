@@ -33,6 +33,15 @@ class EventRepositoryImpl(private val localDs: EventDatasource, private val remo
         }
     }
 
+    override suspend fun getMyEvents(forceRefresh: Boolean): Success<List<Event>> {
+        try {
+            val remoteList = remoteDs.getMyEvents()
+            return Success(remoteList.toEventList())
+        } catch (esmorgaEx: EsmorgaException) {
+            throw esmorgaEx
+        }
+    }
+
     override suspend fun getEventDetails(eventId: String): Success<Event> {
         return Success(localDs.getEventById(eventId).toEvent())
     }

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -17,10 +18,12 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cmm.esmorga.designsystem.EsmorgaButton
 import cmm.esmorga.designsystem.EsmorgaLinearLoader
+import cmm.esmorga.designsystem.EsmorgaText
+import cmm.esmorga.designsystem.EsmorgaTextStyle
 import cmm.esmorga.screens.eventlist.EventList
-import cmm.esmorga.screens.eventlist.EventListEmpty
 import cmm.esmorga.screens.eventlist.EventListError
 import cmm.esmorga.shared.generated.resources.Res
+import cmm.esmorga.shared.generated.resources.screen_my_events_title
 import cmm.esmorga.shared.generated.resources.login_button
 import cmm.esmorga.viewmodel.myevents.MyEventsViewModel
 import cmm.esmorga.viewmodel.myevents.model.MyEventsEffect
@@ -64,24 +67,26 @@ fun MyEventsView(
     onRetryClick: () -> Unit,
     onEventClick: (String) -> Unit
 ) {
-    Box(modifier = Modifier.fillMaxSize().background(Color.White)) {
-
+    Box(modifier = Modifier.fillMaxSize().background(Color.White).padding(16.dp)) {
         when {
             uiState.loading -> EsmorgaLinearLoader(modifier = Modifier.fillMaxWidth().align(Alignment.TopCenter))
             uiState.isLoggedIn -> {
                 if (uiState.error != null) {
-                    EventListError(onRetryClick = onRetryClick)
-                } else if (uiState.eventList.isEmpty()) {
-                    EventListEmpty()
+                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        EventListError(onRetryClick = onRetryClick)
+                    }
                 } else {
-                    Box(modifier = Modifier.padding(horizontal = 16.dp)) {
+                    Column {
+                        EsmorgaText(text = stringResource(Res.string.screen_my_events_title), style = EsmorgaTextStyle.HEADING_1)
+                        Spacer(modifier = Modifier.height(16.dp))
                         EventList(events = uiState.eventList, onEventClick = onEventClick)
                     }
                 }
             }
+
             !uiState.isLoggedIn -> {
                 Column(
-                    modifier = Modifier.fillMaxSize().padding(16.dp),
+                    modifier = Modifier.fillMaxSize(),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Spacer(modifier = Modifier.weight(1f))

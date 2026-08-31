@@ -5,7 +5,7 @@ import cmm.esmorga.viewmodel.eventlist.model.EventListUiModel
 
 data class MyEventsUiState(
     val isLoggedIn: Boolean = false,
-    val loading: Boolean = true,
+    val loading: Boolean = false,
     val eventList: List<EventListUiModel> = emptyList(),
     val error: String? = null
 )

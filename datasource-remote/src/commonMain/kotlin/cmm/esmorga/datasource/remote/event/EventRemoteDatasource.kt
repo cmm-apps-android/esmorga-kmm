@@ -17,4 +17,13 @@ class EventRemoteDatasourceImpl(private val eventApi: EsmorgaApi) : EventDatasou
             throw manageApiException(e)
         }
     }
+
+    override suspend fun getMyEvents(): List<EventDataModel> {
+        try {
+            val eventList = eventApi.getMyEvents()
+            return eventList.remoteEventList.toEventDataModelList()
+        } catch (e: Throwable) {
+            throw manageApiException(e)
+        }
+    }
 }

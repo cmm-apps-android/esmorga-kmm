@@ -30,13 +30,11 @@ class MyEventsViewModel(
 
     fun checkLoginStatus() {
         viewModelScope.launch {
-            _uiState.value = _uiState.value.copy(loading = true)
             val userResult = getSavedUserUseCase()
             if (userResult.isSuccess) {
                 loadMyEvents()
             } else {
                 _uiState.value = MyEventsUiState(
-                    isLoggedIn = false,
                     loading = false
                 )
             }
@@ -45,6 +43,7 @@ class MyEventsViewModel(
 
     private fun loadMyEvents() {
         viewModelScope.launch {
+            _uiState.value = _uiState.value.copy(loading = true)
             val result = getMyEventListUseCase()
 
             result.onSuccess { success ->

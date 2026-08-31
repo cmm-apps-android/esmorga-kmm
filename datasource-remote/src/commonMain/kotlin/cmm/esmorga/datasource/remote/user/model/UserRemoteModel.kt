@@ -7,6 +7,7 @@ import kotlinx.serialization.Serializable
 data class UserRemoteModel(
     @SerialName("accessToken") val remoteAccessToken: String,
     @SerialName("refreshToken") val remoteRefreshToken: String,
+    @SerialName("ttl") val ttl: Int,
     @SerialName("profile") val remoteProfile: ProfileRemoteModel
 )
 

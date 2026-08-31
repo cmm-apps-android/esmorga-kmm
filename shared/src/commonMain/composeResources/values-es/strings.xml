@@ -35,4 +35,5 @@
     <string name="bottom_bar_explore">Explorar</string>
     <string name="bottom_bar_myevents">Mis Eventos</string>
     <string name="bottom_bar_myprofile">Perfil</string>
+    <string name="screen_my_events_title">Tus eventos</string>
 </resources>

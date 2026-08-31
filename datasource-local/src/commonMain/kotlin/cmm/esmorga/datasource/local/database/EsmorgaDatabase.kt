@@ -17,7 +17,7 @@ import kotlinx.coroutines.IO
     entities = [
         EventLocalModel::class,
         UserLocalModel::class
-    ], version = 1, exportSchema = true
+    ], version = 2, exportSchema = true
 )
 @TypeConverters(ZonedDateTimeConverter::class)
 @ConstructedBy(EsmorgaDatabaseConstructor::class)
@@ -28,6 +28,7 @@ abstract class EsmorgaDatabase : RoomDatabase() {
 
 fun buildDatabase(builder: RoomDatabase.Builder<EsmorgaDatabase>): EsmorgaDatabase {
     return builder
+        .fallbackToDestructiveMigration(true)
         .setDriver(BundledSQLiteDriver())
         .setQueryCoroutineContext(Dispatchers.IO)
         .build()
