@@ -43,6 +43,7 @@ kotlin {
             implementation(compose.material3)
             implementation(compose.ui)
             implementation(compose.components.resources)
+            implementation(libs.coil3.compose)
         }
         androidMain.dependencies {
             implementation(libs.androidx.activity.compose)

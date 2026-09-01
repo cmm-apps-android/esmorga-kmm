@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -15,16 +16,23 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import cmm.esmorga.designsystem.EsmorgaEventCard
+import cmm.esmorga.designsystem.EsmorgaFullScreenError
 import cmm.esmorga.designsystem.EsmorgaLinearLoader
 import cmm.esmorga.screens.errors.EsmorgaGuestError
-import cmm.esmorga.screens.eventlist.EventList
-import cmm.esmorga.screens.eventlist.EventListError
 import cmm.esmorga.shared.generated.resources.Res
+import cmm.esmorga.shared.generated.resources.event_image_content_description
+import cmm.esmorga.shared.generated.resources.event_list_error_button
+import cmm.esmorga.shared.generated.resources.event_list_error_subtitle
+import cmm.esmorga.shared.generated.resources.event_list_error_title
+import cmm.esmorga.shared.generated.resources.img_event_list_empty
 import cmm.esmorga.shared.generated.resources.login_button
 import cmm.esmorga.shared.generated.resources.unauthenticated_error_message
+import cmm.esmorga.viewmodel.eventlist.model.EventListUiModel
 import cmm.esmorga.viewmodel.myevents.MyEventsViewModel
 import cmm.esmorga.viewmodel.myevents.model.MyEventsEffect
 import cmm.esmorga.viewmodel.myevents.model.MyEventsUiState
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -58,7 +66,7 @@ fun MyEventsScreen(
 }
 
 @Composable
-fun MyEventsView(
+private fun MyEventsView(
     uiState: MyEventsUiState,
     onLoginClicked: () -> Unit,
     onRetryClick: () -> Unit,
@@ -73,20 +81,43 @@ fun MyEventsView(
             uiState.loading -> EsmorgaLinearLoader(modifier = Modifier.fillMaxWidth().align(Alignment.TopCenter))
             uiState.isLoggedIn -> {
                 if (uiState.error != null) {
-                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        EventListError(onRetryClick = onRetryClick)
-                    }
+                    EsmorgaFullScreenError(
+                        title = stringResource(Res.string.event_list_error_title),
+                        subtitle = stringResource(Res.string.event_list_error_subtitle),
+                        buttonText = stringResource(Res.string.event_list_error_button),
+                        buttonAction = onRetryClick
+                    )
                 } else {
                     Column {
-                        EventList(events = uiState.eventList, onEventClick = onEventClick)
+                        MyEventList(events = uiState.eventList, onEventClick = onEventClick)
                     }
                 }
             }
 
-            !uiState.isLoggedIn ->  EsmorgaGuestError(
+            !uiState.isLoggedIn -> EsmorgaGuestError(
                 errorMessage = stringResource(Res.string.unauthenticated_error_message),
                 buttonText = stringResource(Res.string.login_button),
                 onButtonClicked = onLoginClicked
+            )
+        }
+    }
+}
+
+@Composable
+private fun MyEventList(events: List<EventListUiModel>, onEventClick: (eventId: String) -> Unit) {
+    LazyColumn {
+        items(events.size) { pos ->
+            val event = events[pos]
+
+            EsmorgaEventCard(
+                imageUrl = event.imageUrl,
+                title = event.cardTitle,
+                subtitle1 = event.cardSubtitle1,
+                subtitle2 = event.cardSubtitle2,
+                placeholder = painterResource(Res.drawable.img_event_list_empty),
+                contentDescription = stringResource(Res.string.event_image_content_description, event.cardTitle),
+                onClick = { onEventClick(event.id) },
+                modifier = Modifier.padding(bottom = 16.dp)
             )
         }
     }

@@ -3,6 +3,7 @@ package cmm.esmorga.designsystem
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -19,6 +20,7 @@ import org.jetbrains.compose.resources.painterResource
 @Composable
 fun EsmorgaFullScreenError(
     title: String,
+    subtitle: String? = null,
     buttonText: String,
     buttonAction: () -> Unit
 ) {
@@ -34,6 +36,10 @@ fun EsmorgaFullScreenError(
                     modifier = Modifier.size(128.dp)
                 )
                 EsmorgaText(text = title, style = EsmorgaTextStyle.HEADING_1)
+                Spacer(modifier = Modifier.size(8.dp))
+                subtitle?.let {
+                    EsmorgaText(text = subtitle, style = EsmorgaTextStyle.BODY_1)
+                }
             }
             EsmorgaButton(
                 text = buttonText,
