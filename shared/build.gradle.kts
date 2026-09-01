@@ -47,6 +47,8 @@ kotlin {
             implementation(libs.koin.compose.viewmodel)
             implementation(libs.coil3.compose)
             implementation(libs.coil3.network.ktor)
+            implementation(libs.compottie)
+            implementation(libs.compottie.resources)
             implementation(project(":domain"))
             implementation(project(":data"))
             implementation(project(":viewmodel"))

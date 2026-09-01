@@ -13,12 +13,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -43,29 +39,29 @@ import cmm.esmorga.shared.generated.resources.event_list_error_button
 import cmm.esmorga.shared.generated.resources.event_list_error_subtitle
 import cmm.esmorga.shared.generated.resources.event_list_error_title
 import cmm.esmorga.shared.generated.resources.event_list_loading
-import cmm.esmorga.shared.generated.resources.event_list_title
 import cmm.esmorga.shared.generated.resources.img_event_list_empty
 import cmm.esmorga.shared.generated.resources.no_internet_snackbar
-import cmm.esmorga.utils.screenContentInsets
-import cmm.esmorga.utils.screenTopBarInsets
 import cmm.esmorga.view.theme.EsmorgaTheme
 import cmm.esmorga.viewmodel.eventlist.EventListViewModel
 import cmm.esmorga.viewmodel.eventlist.model.EventListEffect
 import cmm.esmorga.viewmodel.eventlist.model.EventListUiModel
 import cmm.esmorga.viewmodel.eventlist.model.EventListUiState
 import coil3.compose.AsyncImage
-import cmm.esmorga.design_system.generated.resources.Res as DesignSystemRes
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import cmm.esmorga.design_system.generated.resources.Res as DesignSystemRes
 
 @Composable
-fun EventListScreen(elvm: EventListViewModel = koinViewModel(), onEventClick: (eventId: String) -> Unit) {
+fun EventListScreen(
+    elvm: EventListViewModel = koinViewModel(),
+    snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
+    onEventClick: (eventId: String) -> Unit
+) {
     val uiState: EventListUiState by elvm.uiState.collectAsStateWithLifecycle()
 
     val message = stringResource(Res.string.no_internet_snackbar)
-    val snackbarHostState = remember { SnackbarHostState() }
     val localCoroutineScope = rememberCoroutineScope()
     LaunchedEffect(Unit) {
         elvm.effect.collect { eff ->
@@ -84,47 +80,32 @@ fun EventListScreen(elvm: EventListViewModel = koinViewModel(), onEventClick: (e
     EsmorgaTheme {
         EventListView(
             uiState = uiState,
-            snackbarHostState = snackbarHostState,
             onRetryClick = { elvm.loadEvents() },
             onEventClick = { elvm.onEventClick(it) }
         )
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EventListView(uiState: EventListUiState, snackbarHostState: SnackbarHostState, onRetryClick: () -> Unit, onEventClick: (eventId: String) -> Unit) {
-    Scaffold(
-        modifier = Modifier.fillMaxSize(),
-        contentWindowInsets = screenContentInsets(),
-        topBar = {
-            TopAppBar(
-                title = {
-                    EsmorgaText(text = stringResource(Res.string.event_list_title), style = EsmorgaTextStyle.HEADING_1)
-                },
-                windowInsets = screenTopBarInsets(),
-            )
-        },
-        snackbarHost = { SnackbarHost(snackbarHostState) }
-    ) { innerPadding ->
-        Column(
-            modifier = Modifier.padding(
-                top = innerPadding.calculateTopPadding(),
-                bottom = innerPadding.calculateBottomPadding(),
-                start = 16.dp,
-                end = 16.dp
-            )
-        ) {
-            if (uiState.loading) {
-                EventListLoading()
+fun EventListView(
+    uiState: EventListUiState,
+    onRetryClick: () -> Unit,
+    onEventClick: (eventId: String) -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp)
+    ) {
+        if (uiState.loading) {
+            EventListLoading()
+        } else {
+            if (uiState.error.isNullOrBlank().not()) {
+                EventListError(onRetryClick)
+            } else if (uiState.eventList.isEmpty()) {
+                EventListEmpty()
             } else {
-                if (uiState.error.isNullOrBlank().not()) {
-                    EventListError(onRetryClick)
-                } else if (uiState.eventList.isEmpty()) {
-                    EventListEmpty()
-                } else {
-                    EventList(uiState.eventList, onEventClick)
-                }
+                EventList(uiState.eventList, onEventClick)
             }
         }
     }

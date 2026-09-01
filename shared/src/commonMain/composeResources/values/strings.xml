@@ -36,4 +36,5 @@
     <string name="bottom_bar_myevents">My Events</string>
     <string name="bottom_bar_myprofile">Profile</string>
     <string name="screen_my_events_title">Your events</string>
+    <string name="unauthenticated_error_message">Ups… You are not logged in!</string>
 </resources>

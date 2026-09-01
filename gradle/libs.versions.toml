@@ -25,11 +25,16 @@ androidxJunit = "1.3.0"
 espressoCoreVersion = "3.7.0"
 sqlite = "2.6.2"
 coreKtx = "1.7.0"
+compottie = "2.3.0"
 
 [libraries]
 #Kotlin Core
 kotlinx-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
 kotlin-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "datetime" }
+
+#Animation
+compottie = { module = "io.github.alexzhirkevich:compottie", version.ref = "compottie" }
+compottie-resources = { module = "io.github.alexzhirkevich:compottie-resources", version.ref = "compottie" }
 
 #DI
 koin-bom = { group = "io.insert-koin", name = "koin-bom", version.ref = "koinBom" }
