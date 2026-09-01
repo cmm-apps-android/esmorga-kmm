@@ -2,9 +2,11 @@ package cmm.esmorga.screens.eventdetails
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -107,26 +109,29 @@ fun EventDetailsView(uiState: EventDetailsUiState, onNavigateClicked: () -> Unit
                     .fillMaxWidth()
                     .aspectRatio(16 / 9f)
             )
+            Spacer(modifier = Modifier.height(16.dp))
             EsmorgaText(
                 text = uiState.title,
-                style = EsmorgaTextStyle.TITLE,
-                modifier = Modifier.padding(top = 32.dp, start = 16.dp, bottom = 16.dp, end = 16.dp)
+                style = EsmorgaTextStyle.HEADING_1,
+                modifier = Modifier.padding(horizontal = 16.dp)
             )
             EsmorgaText(text = uiState.subtitle, style = EsmorgaTextStyle.BODY_1_ACCENT, modifier = Modifier.padding(horizontal = 16.dp))
+            Spacer(modifier = Modifier.height(16.dp))
             EsmorgaText(
                 text = stringResource(Res.string.event_details_description),
-                style = EsmorgaTextStyle.HEADING_1,
-                modifier = Modifier.padding(start = 16.dp, top = 32.dp, end = 16.dp)
+                style = EsmorgaTextStyle.HEADING_2,
+                modifier = Modifier.padding(horizontal = 16.dp)
             )
             EsmorgaText(
                 text = uiState.description,
                 style = EsmorgaTextStyle.BODY_1,
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)
+                modifier = Modifier.padding(horizontal = 16.dp)
             )
+            Spacer(modifier = Modifier.height(16.dp))
             EsmorgaText(
                 text = stringResource(Res.string.event_details_location),
-                style = EsmorgaTextStyle.HEADING_1,
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)
+                style = EsmorgaTextStyle.HEADING_2,
+                modifier = Modifier.padding(horizontal = 16.dp)
             )
             EsmorgaText(
                 text = uiState.locationName,

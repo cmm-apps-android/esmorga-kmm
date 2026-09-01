@@ -10,7 +10,7 @@ object EventListUiMapper {
 
     fun formatDate(date: Instant): String {
         val dateTime = date.toLocalDateTime(TimeZone.currentSystemDefault())
-        val day = dateTime.dayOfMonth
+        val day = dateTime.day
         val month = dateTime.month.name.lowercase().replaceFirstChar { it.uppercase() }
         val hour = dateTime.hour.toString().padStart(2, '0')
         val minute = dateTime.minute.toString().padStart(2, '0')

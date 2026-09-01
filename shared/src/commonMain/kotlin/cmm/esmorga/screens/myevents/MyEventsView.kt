@@ -1,12 +1,14 @@
 package cmm.esmorga.screens.myevents
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.runtime.Composable
@@ -14,11 +16,14 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cmm.esmorga.designsystem.EsmorgaEventCard
 import cmm.esmorga.designsystem.EsmorgaFullScreenError
 import cmm.esmorga.designsystem.EsmorgaLinearLoader
+import cmm.esmorga.designsystem.EsmorgaText
+import cmm.esmorga.designsystem.EsmorgaTextStyle
 import cmm.esmorga.screens.errors.EsmorgaGuestError
 import cmm.esmorga.shared.generated.resources.Res
 import cmm.esmorga.shared.generated.resources.event_image_content_description
@@ -27,11 +32,17 @@ import cmm.esmorga.shared.generated.resources.event_list_error_subtitle
 import cmm.esmorga.shared.generated.resources.event_list_error_title
 import cmm.esmorga.shared.generated.resources.img_event_list_empty
 import cmm.esmorga.shared.generated.resources.login_button
+import cmm.esmorga.shared.generated.resources.screen_my_events_empty_text
 import cmm.esmorga.shared.generated.resources.unauthenticated_error_message
 import cmm.esmorga.viewmodel.eventlist.model.EventListUiModel
 import cmm.esmorga.viewmodel.myevents.MyEventsViewModel
 import cmm.esmorga.viewmodel.myevents.model.MyEventsEffect
 import cmm.esmorga.viewmodel.myevents.model.MyEventsUiState
+import io.github.alexzhirkevich.compottie.Compottie
+import io.github.alexzhirkevich.compottie.LottieCompositionSpec
+import io.github.alexzhirkevich.compottie.animateLottieCompositionAsState
+import io.github.alexzhirkevich.compottie.rememberLottieComposition
+import io.github.alexzhirkevich.compottie.rememberLottiePainter
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -87,10 +98,10 @@ private fun MyEventsView(
                         buttonText = stringResource(Res.string.event_list_error_button),
                         buttonAction = onRetryClick
                     )
-                } else {
-                    Column {
-                        MyEventList(events = uiState.eventList, onEventClick = onEventClick)
-                    }
+                } else if (uiState.eventList.isEmpty()) {
+                    MyEventsEmptyView()
+                }else {
+                    MyEventList(events = uiState.eventList, onEventClick = onEventClick)
                 }
             }
 
@@ -121,4 +132,38 @@ private fun MyEventList(events: List<EventListUiModel>, onEventClick: (eventId: 
             )
         }
     }
+}
+
+@Composable
+fun MyEventsEmptyView() {
+    val composition by rememberLottieComposition {
+        LottieCompositionSpec.JsonString(
+            Res.readBytes("files/empty.json").decodeToString()
+        )
+    }
+    val progress by animateLottieCompositionAsState(
+        composition = composition,
+        iterations = Compottie.IterateForever
+    )
+
+    Column(
+        verticalArrangement = Arrangement.SpaceBetween,
+        horizontalAlignment = Alignment.Start,
+        modifier = Modifier.fillMaxSize(),
+    ) {
+        EsmorgaText(
+            text = stringResource(Res.string.screen_my_events_empty_text),
+            style = EsmorgaTextStyle.HEADING_1,
+        )
+        Image(
+            painter = rememberLottiePainter(
+                composition = composition,
+                progress = { progress }
+            ),
+            contentDescription = null,
+            contentScale = ContentScale.FillWidth,
+            modifier = Modifier.width(100.dp)
+        )
+    }
+
 }
