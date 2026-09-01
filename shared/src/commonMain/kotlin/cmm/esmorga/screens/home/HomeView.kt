@@ -1,13 +1,10 @@
 package cmm.esmorga.screens.home
 
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.NavigationBar
@@ -23,20 +20,26 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
+import cmm.esmorga.designsystem.EsmorgaText
+import cmm.esmorga.designsystem.EsmorgaTextStyle
 import cmm.esmorga.screens.eventlist.EventListScreen
 import cmm.esmorga.screens.myevents.MyEventsScreen
 import cmm.esmorga.shared.generated.resources.Res
 import cmm.esmorga.shared.generated.resources.bottom_bar_explore
 import cmm.esmorga.shared.generated.resources.bottom_bar_myevents
 import cmm.esmorga.shared.generated.resources.bottom_bar_myprofile
+import cmm.esmorga.shared.generated.resources.ic_explore
+import cmm.esmorga.shared.generated.resources.ic_my_events
+import cmm.esmorga.shared.generated.resources.ic_profile
+import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
-enum class HomeTab(val title: StringResource, val icon: ImageVector) {
-    Explore(Res.string.bottom_bar_explore, Icons.Default.Search),
-    MyEvents(Res.string.bottom_bar_myevents, Icons.Default.DateRange),
-    Profile(Res.string.bottom_bar_myprofile, Icons.Default.Person)
+enum class HomeTab(val title: StringResource, val icon: DrawableResource) {
+    Explore(Res.string.bottom_bar_explore, Res.drawable.ic_explore),
+    MyEvents(Res.string.bottom_bar_myevents, Res.drawable.ic_my_events),
+    Profile(Res.string.bottom_bar_myprofile, Res.drawable.ic_profile)
 }
 
 @Composable
@@ -51,21 +54,25 @@ fun HomeScreen(onEventClick: (String) -> Unit, onNavigateToLogin: () -> Unit) {
                     NavigationBarItem(
                         selected = selectedTab == tab,
                         onClick = { selectedTab = tab },
-                        label = { Text(label) },
-                        icon = { Icon(tab.icon, contentDescription = label) },
+                        label = { EsmorgaText(label, style = EsmorgaTextStyle.CAPTION) },
+                        icon = { Icon(painterResource(tab.icon), contentDescription = label) },
                         colors = NavigationBarItemDefaults.colors(
                             selectedIconColor = colorScheme.primary,
                             selectedTextColor = colorScheme.primary,
                             unselectedIconColor = colorScheme.onSurfaceVariant,
-                            unselectedTextColor = colorScheme.onSurfaceVariant
+                            unselectedTextColor = colorScheme.onSurfaceVariant,
+                            indicatorColor = Color.Transparent
                         )
                     )
                 }
             }
         }
     ) { innerPadding ->
-        Box(modifier = Modifier.padding(innerPadding)) {
-            when (selectedTab) {
+        Crossfade(
+            targetState = selectedTab,
+            modifier = Modifier.padding(innerPadding)
+        ) { tab ->
+            when (tab) {
                 HomeTab.Explore -> EventListScreen(onEventClick = onEventClick)
                 HomeTab.MyEvents -> MyEventsScreen(
                     onNavigateToLogin = onNavigateToLogin,
@@ -82,7 +89,7 @@ fun PlaceholderScreen(title: String) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White),
+            .background(colorScheme.background),
         contentAlignment = Alignment.Center
     ) {
         Text(text = title)
