@@ -27,9 +27,9 @@ fun EsmorgaRow(
 ) {
     Row(
         modifier = modifier
-            .clickable { onClick() }
             .fillMaxWidth()
-            .padding(vertical = 16.dp),
+            .clickable { onClick() }
+            .padding(horizontal = 16.dp, vertical = 8.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {

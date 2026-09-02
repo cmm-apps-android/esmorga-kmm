@@ -61,26 +61,28 @@ private fun ProfileView(
         modifier = Modifier
             .fillMaxSize()
             .background(colorScheme.background)
-            .padding(horizontal = 16.dp)
     ) {
         Spacer(modifier = Modifier.height(16.dp))
-        EsmorgaText(text = stringResource(Res.string.my_profile_name), style = EsmorgaTextStyle.HEADING_1)
+        EsmorgaText(text = stringResource(Res.string.my_profile_name), style = EsmorgaTextStyle.HEADING_1, Modifier.padding(horizontal = 16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
         EsmorgaText(
             text = uiState.name,
             style = EsmorgaTextStyle.BODY_1,
-            modifier = Modifier.padding(top = 4.dp)
+            modifier = Modifier.padding(horizontal = 16.dp)
         )
 
         Spacer(modifier = Modifier.height(36.dp))
-        EsmorgaText(text = stringResource(Res.string.my_profile_email), style = EsmorgaTextStyle.HEADING_1)
+        EsmorgaText(text = stringResource(Res.string.my_profile_email), style = EsmorgaTextStyle.HEADING_1, Modifier.padding(horizontal = 16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
         EsmorgaText(
             text = uiState.email,
             style = EsmorgaTextStyle.BODY_1,
-            modifier = Modifier.padding(top = 4.dp)
+            modifier = Modifier.padding(horizontal = 16.dp)
         )
 
         Spacer(modifier = Modifier.height(36.dp))
-        EsmorgaText(text = stringResource(Res.string.my_profile_options), style = EsmorgaTextStyle.HEADING_1)
+        EsmorgaText(text = stringResource(Res.string.my_profile_options), style = EsmorgaTextStyle.HEADING_1, Modifier.padding(horizontal = 16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
         EsmorgaRow(
             title = stringResource(Res.string.my_profile_change_password),
             onClick = onChangePasswordClicked
