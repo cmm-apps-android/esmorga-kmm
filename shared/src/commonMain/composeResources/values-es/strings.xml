@@ -38,4 +38,13 @@
     <string name="screen_my_events_title">Tus eventos</string>
     <string name="unauthenticated_error_message">Ups… ¡No estás logueado!</string>
     <string name="screen_my_events_empty_text">Todavía no estás apuntado a ningún evento. Anímate para el siguiente!</string>
+    <string name="my_profile_change_password">Cambiar contraseña</string>
+    <string name="my_profile_email">Email</string>
+    <string name="my_profile_logout">Cerrar sesion</string>
+    <string name="my_profile_logout_pop_up_cancel">No, cancelar</string>
+    <string name="my_profile_logout_pop_up_confirm">Sí, cerrar sesión</string>
+    <string name="my_profile_logout_pop_up_title">¿Seguro que quieres cerrar sesión?</string>
+    <string name="my_profile_name">Nombre</string>
+    <string name="my_profile_options">Opciones</string>
+    <string name="my_profile_title">Perfil</string>
 </resources>

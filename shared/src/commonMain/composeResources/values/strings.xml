@@ -38,4 +38,13 @@
     <string name="screen_my_events_title">Your events</string>
     <string name="unauthenticated_error_message">Ups… You are not logged in!</string>
     <string name="screen_my_events_empty_text">You are not registered for any event yet. Sign up for the next one!</string>
+    <string name="my_profile_change_password">Change password</string>
+    <string name="my_profile_email">Email</string>
+    <string name="my_profile_logout">Log out</string>
+    <string name="my_profile_logout_pop_up_cancel">No, cancel</string>
+    <string name="my_profile_logout_pop_up_confirm">Yes, log out</string>
+    <string name="my_profile_logout_pop_up_title">Are you sure you want to log out?</string>
+    <string name="my_profile_name">Name</string>
+    <string name="my_profile_options">Options</string>
+    <string name="my_profile_title">Profile</string>
 </resources>

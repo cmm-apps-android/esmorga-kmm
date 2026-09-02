@@ -87,7 +87,6 @@ private fun MyEventsView(
     Box(
         modifier = Modifier.fillMaxSize()
             .background(colorScheme.background)
-            .padding(horizontal = 16.dp)
     ) {
         when {
             uiState.loading -> MyEventListLoading()
@@ -101,7 +100,7 @@ private fun MyEventsView(
                     )
                 } else if (uiState.eventList.isEmpty()) {
                     MyEventsEmptyView()
-                }else {
+                } else {
                     MyEventList(events = uiState.eventList, onEventClick = onEventClick)
                 }
             }
@@ -117,7 +116,11 @@ private fun MyEventsView(
 
 @Composable
 private fun MyEventListLoading() {
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp)
+    ) {
         EsmorgaText(text = stringResource(Res.string.event_list_loading), style = EsmorgaTextStyle.HEADING_1, modifier = Modifier.padding(vertical = 16.dp))
         EsmorgaLinearLoader(modifier = Modifier.fillMaxWidth())
     }
@@ -137,7 +140,7 @@ private fun MyEventList(events: List<EventListUiModel>, onEventClick: (eventId: 
                 placeholder = painterResource(Res.drawable.img_event_list_empty),
                 contentDescription = stringResource(Res.string.event_image_content_description, event.cardTitle),
                 onClick = { onEventClick(event.id) },
-                modifier = Modifier.padding(bottom = 16.dp)
+                modifier = Modifier.padding(bottom = 16.dp).padding(horizontal = 16.dp)
             )
         }
     }
@@ -158,7 +161,8 @@ fun MyEventsEmptyView() {
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.Start,
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize().
+        padding(horizontal = 16.dp),
     ) {
         EsmorgaText(
             text = stringResource(Res.string.screen_my_events_empty_text),

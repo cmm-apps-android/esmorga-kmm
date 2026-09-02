@@ -8,6 +8,7 @@ import cmm.esmorga.viewmodel.eventdetails.EventDetailsViewModel
 import cmm.esmorga.viewmodel.eventlist.EventListViewModel
 import cmm.esmorga.viewmodel.login.LoginViewModel
 import cmm.esmorga.viewmodel.myevents.MyEventsViewModel
+import cmm.esmorga.viewmodel.profile.ProfileViewModel
 import cmm.esmorga.viewmodel.registration.RegistrationViewModel
 import cmm.esmorga.viewmodel.welcome.WelcomeViewModel
 import org.koin.core.module.dsl.viewModel
@@ -33,6 +34,7 @@ val viewModelModule = module {
     viewModelOf(::LoginViewModel)
     viewModelOf(::RegistrationViewModel)
     viewModelOf(::MyEventsViewModel)
+    viewModelOf(::ProfileViewModel)
 }
 
 fun initKoin(appDeclaration: KoinAppDeclaration = {}) {

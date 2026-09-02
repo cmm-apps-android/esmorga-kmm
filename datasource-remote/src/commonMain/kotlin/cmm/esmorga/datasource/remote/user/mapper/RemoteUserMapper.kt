@@ -9,6 +9,7 @@ fun UserRemoteModel.toUserDataModel(): UserDataModel {
         dataName = remoteProfile.remoteName,
         dataLastName = remoteProfile.remoteLastName,
         dataEmail = remoteProfile.remoteEmail,
+        role = remoteProfile.remoteRole,
         dataAccessToken = accessToken,
         dataRefreshToken = refreshToken,
         dataExpiresAt = Clock.System.now().toEpochMilliseconds() + (ttl * 1000L)

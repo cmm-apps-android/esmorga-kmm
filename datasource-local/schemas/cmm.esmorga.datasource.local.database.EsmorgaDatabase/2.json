@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "668f0cd6476c0147e15915e572fc991e",
+    "identityHash": "139d17bf455ae9b8b3550506c5f7e083",
     "entities": [
       {
         "tableName": "EventLocalModel",
@@ -81,7 +81,7 @@
       },
       {
         "tableName": "UserLocalModel",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localEmail` TEXT NOT NULL, `localName` TEXT NOT NULL, `localLastName` TEXT NOT NULL, `localAccessToken` TEXT NOT NULL, `localRefreshToken` TEXT NOT NULL, `localExpiresAt` INTEGER NOT NULL, PRIMARY KEY(`localEmail`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localEmail` TEXT NOT NULL, `localName` TEXT NOT NULL, `localLastName` TEXT NOT NULL, `localRole` TEXT NOT NULL, `localAccessToken` TEXT NOT NULL, `localRefreshToken` TEXT NOT NULL, `localExpiresAt` INTEGER NOT NULL, PRIMARY KEY(`localEmail`))",
         "fields": [
           {
             "fieldPath": "localEmail",
@@ -98,6 +98,12 @@
           {
             "fieldPath": "localLastName",
             "columnName": "localLastName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "localRole",
+            "columnName": "localRole",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -130,7 +136,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '668f0cd6476c0147e15915e572fc991e')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '139d17bf455ae9b8b3550506c5f7e083')"
     ]
   }
 }

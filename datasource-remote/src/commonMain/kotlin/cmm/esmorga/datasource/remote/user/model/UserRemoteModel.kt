@@ -28,5 +28,6 @@ data class UserRemoteModel(
 data class ProfileRemoteModel(
     @SerialName("name") val remoteName: String,
     @SerialName("lastName") val remoteLastName: String,
-    @SerialName("email") val remoteEmail: String
+    @SerialName("email") val remoteEmail: String,
+    @SerialName("role") val remoteRole: String
 )
