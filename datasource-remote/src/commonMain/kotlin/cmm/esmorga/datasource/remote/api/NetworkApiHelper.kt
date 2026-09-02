@@ -1,7 +1,7 @@
 package cmm.esmorga.datasource.remote.api
 
 import cmm.esmorga.data.user.datasource.UserDatasource
-import cmm.esmorga.datasource.remote.user.model.UserRemoteModel
+import cmm.esmorga.datasource.remote.user.model.AccessTokenRemoteModel
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.auth.Auth
@@ -77,11 +77,11 @@ class NetworkApiHelper {
             val response = refreshClient.post("account/refresh") {
                 contentType(ContentType.Application.Json)
                 setBody(mapOf("refreshToken" to user.dataRefreshToken))
-            }.body<UserRemoteModel>()
+            }.body<AccessTokenRemoteModel>()
 
             val updatedUser = user.copy(
-                dataAccessToken = response.remoteAccessToken,
-                dataRefreshToken = response.remoteRefreshToken,
+                dataAccessToken = response.accessToken,
+                dataRefreshToken = response.refreshToken,
                 dataExpiresAt = Clock.System.now().toEpochMilliseconds() + (response.ttl * 1000L)
             )
             userLocalDs.saveUser(updatedUser)
