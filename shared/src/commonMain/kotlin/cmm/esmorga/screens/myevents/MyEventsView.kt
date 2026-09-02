@@ -30,6 +30,7 @@ import cmm.esmorga.shared.generated.resources.event_image_content_description
 import cmm.esmorga.shared.generated.resources.event_list_error_button
 import cmm.esmorga.shared.generated.resources.event_list_error_subtitle
 import cmm.esmorga.shared.generated.resources.event_list_error_title
+import cmm.esmorga.shared.generated.resources.event_list_loading
 import cmm.esmorga.shared.generated.resources.img_event_list_empty
 import cmm.esmorga.shared.generated.resources.login_button
 import cmm.esmorga.shared.generated.resources.screen_my_events_empty_text
@@ -86,10 +87,10 @@ private fun MyEventsView(
     Box(
         modifier = Modifier.fillMaxSize()
             .background(colorScheme.background)
-            .padding(16.dp)
+            .padding(horizontal = 16.dp)
     ) {
         when {
-            uiState.loading -> EsmorgaLinearLoader(modifier = Modifier.fillMaxWidth().align(Alignment.TopCenter))
+            uiState.loading -> MyEventListLoading()
             uiState.isLoggedIn -> {
                 if (uiState.error != null) {
                     EsmorgaFullScreenError(
@@ -111,6 +112,14 @@ private fun MyEventsView(
                 onButtonClicked = onLoginClicked
             )
         }
+    }
+}
+
+@Composable
+private fun MyEventListLoading() {
+    Column(modifier = Modifier.fillMaxSize()) {
+        EsmorgaText(text = stringResource(Res.string.event_list_loading), style = EsmorgaTextStyle.HEADING_1, modifier = Modifier.padding(vertical = 16.dp))
+        EsmorgaLinearLoader(modifier = Modifier.fillMaxWidth())
     }
 }
 
