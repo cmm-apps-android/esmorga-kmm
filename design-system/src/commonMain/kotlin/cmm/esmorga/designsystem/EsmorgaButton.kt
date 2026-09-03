@@ -17,6 +17,7 @@ fun EsmorgaButton(
     isLoading: Boolean = false,
     isEnabled: Boolean = true,
     primary: Boolean = true,
+    oneLine: Boolean = false,
     onClick: () -> Unit
 ) {
     Button(
@@ -39,7 +40,8 @@ fun EsmorgaButton(
         } else {
             EsmorgaText(
                 text = text,
-                style = if (primary) EsmorgaTextStyle.BUTTON_PRIMARY else EsmorgaTextStyle.BUTTON_SECONDARY
+                style = if (primary) EsmorgaTextStyle.BUTTON_PRIMARY else EsmorgaTextStyle.BUTTON_SECONDARY,
+                maxLines = if (oneLine) 1 else Int.MAX_VALUE
             )
         }
     }

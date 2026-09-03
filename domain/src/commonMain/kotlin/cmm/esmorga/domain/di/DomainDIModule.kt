@@ -8,6 +8,8 @@ import cmm.esmorga.domain.event.GetMyEventListUseCase
 import cmm.esmorga.domain.event.GetMyEventListUseCaseImpl
 import cmm.esmorga.domain.user.GetSavedUserUseCase
 import cmm.esmorga.domain.user.GetSavedUserUseCaseImpl
+import cmm.esmorga.domain.user.LogOutUseCase
+import cmm.esmorga.domain.user.LogOutUseCaseImpl
 import cmm.esmorga.domain.user.PerformLoginUseCase
 import cmm.esmorga.domain.user.PerformLoginUseCaseImpl
 import cmm.esmorga.domain.user.PerformRegistrationUserCase
@@ -24,6 +26,7 @@ object DomainDIModule {
         factory<PerformLoginUseCase> { PerformLoginUseCaseImpl(get()) }
         factory<GetSavedUserUseCase> { GetSavedUserUseCaseImpl(get()) }
         factory<PerformRegistrationUserCase> { PerformRegistrationUserCaseImpl(get()) }
+        factory<LogOutUseCase> { LogOutUseCaseImpl(get()) }
     }
 
 }

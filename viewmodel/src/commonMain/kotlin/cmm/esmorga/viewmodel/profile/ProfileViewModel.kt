@@ -2,6 +2,7 @@ package cmm.esmorga.viewmodel.profile
 
 import androidx.lifecycle.viewModelScope
 import cmm.esmorga.domain.user.GetSavedUserUseCase
+import cmm.esmorga.domain.user.LogOutUseCase
 import cmm.esmorga.viewmodel.BaseViewModel
 import cmm.esmorga.viewmodel.profile.model.ProfileUiState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -10,7 +11,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class ProfileViewModel(
-    private val getSavedUserUseCase: GetSavedUserUseCase
+    private val getSavedUserUseCase: GetSavedUserUseCase,
+    private val logOutUseCase: LogOutUseCase
 ) : BaseViewModel() {
 
     private val _uiState = MutableStateFlow(ProfileUiState())
@@ -37,5 +39,12 @@ class ProfileViewModel(
 
     fun onChangePasswordClicked() {}
 
-    fun onLogoutClicked() {}
+    fun onLogoutClicked() {
+        viewModelScope.launch {
+            val result = logOutUseCase()
+            result.onSuccess {
+                _uiState.value = ProfileUiState(isLoggedIn = false)
+            }
+        }
+    }
 }

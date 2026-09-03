@@ -9,9 +9,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import cmm.esmorga.designsystem.EsmorgaDialog
 import cmm.esmorga.designsystem.EsmorgaRow
 import cmm.esmorga.designsystem.EsmorgaText
 import cmm.esmorga.designsystem.EsmorgaTextStyle
@@ -21,6 +25,9 @@ import cmm.esmorga.shared.generated.resources.login_button
 import cmm.esmorga.shared.generated.resources.my_profile_change_password
 import cmm.esmorga.shared.generated.resources.my_profile_email
 import cmm.esmorga.shared.generated.resources.my_profile_logout
+import cmm.esmorga.shared.generated.resources.my_profile_logout_pop_up_cancel
+import cmm.esmorga.shared.generated.resources.my_profile_logout_pop_up_confirm
+import cmm.esmorga.shared.generated.resources.my_profile_logout_pop_up_title
 import cmm.esmorga.shared.generated.resources.my_profile_name
 import cmm.esmorga.shared.generated.resources.my_profile_options
 import cmm.esmorga.shared.generated.resources.unauthenticated_error_message
@@ -57,6 +64,8 @@ private fun ProfileView(
     onChangePasswordClicked: () -> Unit,
     onLogoutClicked: () -> Unit
 ) {
+    var showLogoutDialog by remember { mutableStateOf(false) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -89,7 +98,20 @@ private fun ProfileView(
         )
         EsmorgaRow(
             title = stringResource(Res.string.my_profile_logout),
-            onClick = onLogoutClicked
+            onClick = { showLogoutDialog = true }
+        )
+    }
+
+    if (showLogoutDialog) {
+        EsmorgaDialog(
+            description = stringResource(Res.string.my_profile_logout_pop_up_title),
+            dismissButtonText = stringResource(Res.string.my_profile_logout_pop_up_cancel),
+            confirmButtonText = stringResource(Res.string.my_profile_logout_pop_up_confirm),
+            onDismiss = { showLogoutDialog = false },
+            onConfirm = {
+                showLogoutDialog = false
+                onLogoutClicked()
+            }
         )
     }
 }

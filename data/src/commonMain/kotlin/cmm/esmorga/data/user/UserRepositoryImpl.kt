@@ -32,4 +32,9 @@ class UserRepositoryImpl(private val localDs: UserDatasource, private val remote
             throw e
         }
     }
+
+    override suspend fun logout(): Success<Unit> {
+        localDs.logout()
+        return Success(Unit)
+    }
 }
