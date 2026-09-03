@@ -1,5 +1,4 @@
-package cmm.esmorga.view.eventlist.model
-
+package cmm.esmorga.viewmodel.eventlist.model
 data class EventListUiState(
     val loading: Boolean = false,
     val eventList: List<EventListUiModel> = emptyList(),

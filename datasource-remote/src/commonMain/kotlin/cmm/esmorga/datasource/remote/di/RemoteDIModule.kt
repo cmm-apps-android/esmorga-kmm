@@ -17,7 +17,10 @@ object RemoteDIModule {
         factory<EventDatasource>(named(DataDIModule.REMOTE_DATASOURCE_INSTANCE_NAME)) { EventRemoteDatasourceImpl(get()) }
         factory<UserDatasource>(named(DataDIModule.REMOTE_DATASOURCE_INSTANCE_NAME)) { UserRemoteDatasourceImpl(get()) }
         single<HttpClient> {
-            NetworkApiHelper().provideApi("https://qa.api.esmorgaevents.com/v1/")
+            NetworkApiHelper().provideApi(
+                baseUrl = "https://qa.api.esmorgaevents.com/v1/",
+                userLocalDs = get(named(DataDIModule.LOCAL_DATASOURCE_INSTANCE_NAME))
+            )
         }
         single<EsmorgaApi> { EsmorgaApi(get()) }
     }

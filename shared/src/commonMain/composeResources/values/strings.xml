@@ -32,4 +32,10 @@
     <string name="event_details_description">Event details</string>
     <string name="event_details_location">Location</string>
     <string name="navigate">Navigate</string>
+    <string name="bottom_bar_explore">Explore</string>
+    <string name="bottom_bar_myevents">My Events</string>
+    <string name="bottom_bar_myprofile">Profile</string>
+    <string name="screen_my_events_title">Your events</string>
+    <string name="unauthenticated_error_message">Ups… You are not logged in!</string>
+    <string name="screen_my_events_empty_text">You are not registered for any event yet. Sign up for the next one!</string>
 </resources>

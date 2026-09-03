@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 sealed class Navigation {
 
     @Serializable
-    data object WelcomeScreen : Navigation()
+    data object HomeScreen : Navigation()
 
     @Serializable
     data object EventListScreen : Navigation()

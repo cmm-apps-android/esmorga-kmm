@@ -6,5 +6,8 @@ import cmm.esmorga.domain.user.model.User
 fun UserDataModel.toUser() = User(
     name = dataName,
     lastName = dataLastName,
-    email = dataEmail
+    email = dataEmail,
+    accessToken = dataAccessToken,
+    refreshToken = dataRefreshToken,
+    expiresAt = dataExpiresAt
 )

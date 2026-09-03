@@ -27,6 +27,11 @@ class EsmorgaApi(private val httpClient: HttpClient) {
         return response.body()
     }
 
+    suspend fun getMyEvents(): EventListWrapperRemoteModel {
+        val response = httpClient.get("account/events")
+        return response.body()
+    }
+
     suspend fun register(body: Map<String, String>): UserRemoteModel {
         val response = httpClient.post("account/register") {
             contentType(ContentType.Application.Json)

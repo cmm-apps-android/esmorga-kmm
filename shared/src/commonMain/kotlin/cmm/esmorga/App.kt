@@ -11,11 +11,11 @@ import androidx.navigation.toRoute
 import cmm.esmorga.screens.errors.EsmorgaErrorScreen
 import cmm.esmorga.screens.eventdetails.EventDetailsScreen
 import cmm.esmorga.screens.login.LoginScreen
+import cmm.esmorga.screens.home.HomeScreen
 import cmm.esmorga.navigation.Navigation
 import cmm.esmorga.screens.registration.RegistrationScreen
 import cmm.esmorga.screens.eventlist.EventListScreen
 import cmm.esmorga.view.theme.EsmorgaTheme
-import cmm.esmorga.screens.welcome.WelcomeScreen
 import cmm.esmorga.utils.buildMapUri
 
 @Composable
@@ -26,28 +26,27 @@ fun App() {
             val uriHandler = LocalUriHandler.current
             NavHost(
                 navController = navController,
-                startDestination = Navigation.WelcomeScreen
+                startDestination = Navigation.HomeScreen
             ) {
-                composable<Navigation.WelcomeScreen> {
-                    WelcomeScreen(
-                        onLoginRegisterClicked = {
-                            navController.navigate(Navigation.LoginScreen)
+                composable<Navigation.HomeScreen> {
+                    HomeScreen(
+                        onEventClick = { eventId ->
+                            navController.navigate(Navigation.EventDetailScreen(eventId))
                         },
-                        onEnterAsGuestClicked = {
-                            navController.navigate(Navigation.EventListScreen) {
-                                popUpTo(Navigation.WelcomeScreen) { inclusive = true }
-                            }
+                        onNavigateToLogin = {
+                            navController.navigate(Navigation.LoginScreen)
                         }
                     )
                 }
+
                 composable<Navigation.LoginScreen> {
                     LoginScreen(
                         onRegisterClicked = {
                             navController.navigate(Navigation.RegistrationScreen)
                         },
                         onLoginSuccess = {
-                            navController.navigate(Navigation.EventListScreen) {
-                                popUpTo(Navigation.WelcomeScreen) { inclusive = true }
+                            navController.navigate(Navigation.HomeScreen) {
+                                popUpTo(Navigation.HomeScreen) { inclusive = true }
                             }
                         },
                         onLoginError = { error ->
@@ -61,8 +60,8 @@ fun App() {
                 composable<Navigation.RegistrationScreen> {
                     RegistrationScreen(
                         onRegistrationSuccess = {
-                            navController.navigate(Navigation.EventListScreen) {
-                                popUpTo(Navigation.WelcomeScreen) { inclusive = true }
+                            navController.navigate(Navigation.HomeScreen) {
+                                popUpTo(Navigation.HomeScreen) { inclusive = true }
                             }
                         },
                         onRegistrationError = { error ->
