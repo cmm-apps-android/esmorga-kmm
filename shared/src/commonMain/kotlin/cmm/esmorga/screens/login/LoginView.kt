@@ -35,6 +35,8 @@ import cmm.esmorga.designsystem.EsmorgaTextField
 import cmm.esmorga.designsystem.EsmorgaTextStyle
 import cmm.esmorga.shared.generated.resources.Res
 import cmm.esmorga.shared.generated.resources.back_icon_description
+import cmm.esmorga.shared.generated.resources.field_title_email
+import cmm.esmorga.shared.generated.resources.field_title_password
 import cmm.esmorga.shared.generated.resources.ic_arrow_back
 import cmm.esmorga.shared.generated.resources.img_login_header
 import cmm.esmorga.shared.generated.resources.login_button
@@ -43,6 +45,8 @@ import cmm.esmorga.shared.generated.resources.login_screen_email
 import cmm.esmorga.shared.generated.resources.login_screen_password
 import cmm.esmorga.shared.generated.resources.login_screen_title
 import cmm.esmorga.shared.generated.resources.no_internet_snackbar
+import cmm.esmorga.shared.generated.resources.placeholder_email
+import cmm.esmorga.shared.generated.resources.placeholder_password
 import cmm.esmorga.utils.screenContentInsets
 import cmm.esmorga.utils.screenTopBarInsets
 import cmm.esmorga.view.theme.EsmorgaTheme
@@ -154,7 +158,8 @@ fun LoginView(
                         onEmailChanged()
                     },
                     errorText = uiState.emailError,
-                    placeholder = stringResource(Res.string.login_screen_email),
+                    title = stringResource(Res.string.field_title_email),
+                    placeholder = stringResource(Res.string.placeholder_email),
                     modifier = Modifier.onFocusChanged { focusState ->
                         if (!focusState.isFocused) {
                             validateEmail(email)
@@ -171,7 +176,8 @@ fun LoginView(
                     },
                     errorText = uiState.passwordError,
                     isPassword = true,
-                    placeholder = stringResource(Res.string.login_screen_password),
+                    title = stringResource(Res.string.field_title_password),
+                    placeholder = stringResource(Res.string.placeholder_password),
                     modifier = Modifier.onFocusChanged { focusState ->
                         if (!focusState.isFocused) {
                             validatePass(password)

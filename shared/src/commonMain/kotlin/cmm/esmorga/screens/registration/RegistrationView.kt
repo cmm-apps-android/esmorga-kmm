@@ -35,8 +35,18 @@ import cmm.esmorga.designsystem.EsmorgaTextField
 import cmm.esmorga.designsystem.EsmorgaTextStyle
 import cmm.esmorga.shared.generated.resources.Res
 import cmm.esmorga.shared.generated.resources.back_icon_description
+import cmm.esmorga.shared.generated.resources.field_title_email
+import cmm.esmorga.shared.generated.resources.field_title_last_name
+import cmm.esmorga.shared.generated.resources.field_title_name
+import cmm.esmorga.shared.generated.resources.field_title_password
+import cmm.esmorga.shared.generated.resources.field_title_repeat_password
 import cmm.esmorga.shared.generated.resources.ic_arrow_back
 import cmm.esmorga.shared.generated.resources.no_internet_snackbar
+import cmm.esmorga.shared.generated.resources.placeholder_confirm_password
+import cmm.esmorga.shared.generated.resources.placeholder_email
+import cmm.esmorga.shared.generated.resources.placeholder_last_name
+import cmm.esmorga.shared.generated.resources.placeholder_name
+import cmm.esmorga.shared.generated.resources.placeholder_password
 import cmm.esmorga.shared.generated.resources.registration_confirm_password_placeholder
 import cmm.esmorga.shared.generated.resources.registration_email_placeholder
 import cmm.esmorga.shared.generated.resources.registration_last_name_placeholder
@@ -144,7 +154,8 @@ fun RegistrationView(
                     onFieldChanged(RegistrationField.NAME)
                 },
                 errorText = uiState.nameError,
-                placeholder = stringResource(Res.string.registration_name_placeholder),
+                title = stringResource(Res.string.field_title_name),
+                placeholder = stringResource(Res.string.placeholder_name),
                 modifier = Modifier.onFocusChanged { focusState ->
                     if (!focusState.isFocused) {
                         validateField(RegistrationField.NAME, name, null)
@@ -160,7 +171,8 @@ fun RegistrationView(
                     onFieldChanged(RegistrationField.LAST_NAME)
                 },
                 errorText = uiState.lastNameError,
-                placeholder = stringResource(Res.string.registration_last_name_placeholder),
+                title = stringResource(Res.string.field_title_last_name),
+                placeholder = stringResource(Res.string.placeholder_last_name),
                 modifier = Modifier.onFocusChanged { focusState ->
                     if (!focusState.isFocused) {
                         validateField(RegistrationField.LAST_NAME, lastName, null)
@@ -176,7 +188,8 @@ fun RegistrationView(
                     onFieldChanged(RegistrationField.EMAIL)
                 },
                 errorText = uiState.emailError,
-                placeholder = stringResource(Res.string.registration_email_placeholder),
+                title = stringResource(Res.string.field_title_email),
+                placeholder = stringResource(Res.string.placeholder_email),
                 modifier = Modifier.onFocusChanged { focusState ->
                     if (!focusState.isFocused) {
                         validateField(RegistrationField.EMAIL, email, null)
@@ -193,7 +206,8 @@ fun RegistrationView(
                 },
                 errorText = uiState.passError,
                 isPassword = true,
-                placeholder = stringResource(Res.string.registration_password_placeholder),
+                title = stringResource(Res.string.field_title_password),
+                placeholder = stringResource(Res.string.placeholder_password),
                 modifier = Modifier.onFocusChanged { focusState ->
                     if (!focusState.isFocused) {
                         validateField(RegistrationField.PASS, password, null)
@@ -210,7 +224,8 @@ fun RegistrationView(
                 },
                 errorText = uiState.repeatPassError,
                 isPassword = true,
-                placeholder = stringResource(Res.string.registration_confirm_password_placeholder),
+                title = stringResource(Res.string.field_title_repeat_password),
+                placeholder = stringResource(Res.string.placeholder_confirm_password),
                 modifier = Modifier.onFocusChanged { focusState ->
                     if (!focusState.isFocused) {
                         validateField(RegistrationField.REPEAT_PASS, password, repeatedPassword)

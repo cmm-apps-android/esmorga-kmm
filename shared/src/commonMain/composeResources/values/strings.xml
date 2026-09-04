@@ -38,7 +38,7 @@
     <string name="screen_my_events_title">Your events</string>
     <string name="unauthenticated_error_message">Ups… You are not logged in!</string>
     <string name="screen_my_events_empty_text">You are not registered for any event yet. Sign up for the next one!</string>
-    <string name="my_profile_change_password">Change password</string>
+    <string name="my_profile_change_password">Password Change</string>
     <string name="my_profile_email">Email</string>
     <string name="my_profile_logout">Log out</string>
     <string name="my_profile_logout_pop_up_cancel">No, cancel</string>
@@ -47,4 +47,19 @@
     <string name="my_profile_name">Name</string>
     <string name="my_profile_options">Options</string>
     <string name="my_profile_title">Profile</string>
+    <string name="registration_reused_password_error">The new password must be different from the current one.</string>
+    <string name="field_title_password">Password</string>
+    <string name="placeholder_password">Input your password</string>
+    <string name="reset_password_new_password_field">New password</string>
+    <string name="placeholder_new_password">Enter the new password</string>
+    <string name="reset_password_repeat_password_field">Repeat password</string>
+    <string name="placeholder_confirm_password">Confirm your password</string>
+    <string name="field_title_email">Email</string>
+    <string name="placeholder_email">Input your email</string>
+    <string name="field_title_name">Name</string>
+    <string name="placeholder_name">Input your name</string>
+    <string name="field_title_last_name">Last name</string>
+    <string name="placeholder_last_name">Input your last name</string>
+    <string name="field_title_repeat_password">Repeat password</string>
+
 </resources>

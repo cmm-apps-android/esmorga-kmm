@@ -47,7 +47,11 @@ enum class HomeTab(val title: StringResource, val icon: DrawableResource) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(onEventClick: (String) -> Unit, onNavigateToLogin: () -> Unit) {
+fun HomeScreen(
+    onEventClick: (String) -> Unit,
+    onNavigateToLogin: () -> Unit,
+    onNavigateToChangePassword: () -> Unit
+) {
     var selectedTab by rememberSaveable { mutableStateOf(HomeTab.Explore) }
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -103,7 +107,10 @@ fun HomeScreen(onEventClick: (String) -> Unit, onNavigateToLogin: () -> Unit) {
                     onEventClick = onEventClick
                 )
 
-                HomeTab.Profile -> ProfileScreen(onNavigateToLogin = onNavigateToLogin)
+                HomeTab.Profile -> ProfileScreen(
+                    onNavigateToLogin = onNavigateToLogin,
+                    onNavigateToChangePassword = onNavigateToChangePassword
+                )
             }
         }
     }

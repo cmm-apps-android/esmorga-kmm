@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,6 +33,7 @@ import cmm.esmorga.shared.generated.resources.my_profile_name
 import cmm.esmorga.shared.generated.resources.my_profile_options
 import cmm.esmorga.shared.generated.resources.unauthenticated_error_message
 import cmm.esmorga.viewmodel.profile.ProfileViewModel
+import cmm.esmorga.viewmodel.profile.model.ProfileEffect
 import cmm.esmorga.viewmodel.profile.model.ProfileUiState
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -39,9 +41,18 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun ProfileScreen(
     pvm: ProfileViewModel = koinViewModel(),
-    onNavigateToLogin: () -> Unit
+    onNavigateToLogin: () -> Unit,
+    onNavigateToChangePassword: () -> Unit
 ) {
     val uiState: ProfileUiState by pvm.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+        pvm.effect.collect { effect ->
+            when (effect) {
+                ProfileEffect.NavigateToChangePassword -> onNavigateToChangePassword()
+            }
+        }
+    }
 
     when {
         uiState.isLoggedIn -> ProfileView(

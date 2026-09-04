@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import cmm.esmorga.screens.errors.EsmorgaErrorScreen
+import cmm.esmorga.screens.changepassword.ChangePasswordScreen
 import cmm.esmorga.screens.eventdetails.EventDetailsScreen
 import cmm.esmorga.screens.login.LoginScreen
 import cmm.esmorga.screens.home.HomeScreen
@@ -35,6 +36,9 @@ fun App() {
                         },
                         onNavigateToLogin = {
                             navController.navigate(Navigation.LoginScreen)
+                        },
+                        onNavigateToChangePassword = {
+                            navController.navigate(Navigation.ChangePasswordScreen)
                         }
                     )
                 }
@@ -69,6 +73,21 @@ fun App() {
                         },
                         onBackClicked = {
                             navController.popBackStack()
+                        }
+                    )
+                }
+                composable<Navigation.ChangePasswordScreen> {
+                    ChangePasswordScreen(
+                        onBackClicked = {
+                            navController.popBackStack()
+                        },
+                        onChangePasswordSuccess = {
+                            navController.navigate(Navigation.LoginScreen) {
+                                popUpTo(Navigation.HomeScreen) { inclusive = true }
+                            }
+                        },
+                        onChangePasswordError = { error ->
+                            navController.navigate(Navigation.FullScreenError(esmorgaErrorScreenArguments = error))
                         }
                     )
                 }
