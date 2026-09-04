@@ -91,7 +91,7 @@ private fun ProfileView(
             modifier = Modifier.padding(horizontal = 16.dp)
         )
 
-        Spacer(modifier = Modifier.height(36.dp))
+        Spacer(modifier = Modifier.height(32.dp))
         EsmorgaText(text = stringResource(Res.string.my_profile_email), style = EsmorgaTextStyle.HEADING_1, Modifier.padding(horizontal = 16.dp))
         Spacer(modifier = Modifier.height(8.dp))
         EsmorgaText(
@@ -100,9 +100,9 @@ private fun ProfileView(
             modifier = Modifier.padding(horizontal = 16.dp)
         )
 
-        Spacer(modifier = Modifier.height(36.dp))
+        Spacer(modifier = Modifier.height(32.dp))
         EsmorgaText(text = stringResource(Res.string.my_profile_options), style = EsmorgaTextStyle.HEADING_1, Modifier.padding(horizontal = 16.dp))
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(16.dp))
         EsmorgaRow(
             title = stringResource(Res.string.my_profile_change_password),
             onClick = onChangePasswordClicked

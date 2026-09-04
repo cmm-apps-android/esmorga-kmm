@@ -26,38 +26,50 @@ class ChangePasswordViewModel(
     private val _effect: MutableSharedFlow<ChangePasswordEffect> = MutableSharedFlow(extraBufferCapacity = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
     val effect: SharedFlow<ChangePasswordEffect> = _effect.asSharedFlow()
 
-    fun onCurrentPasswordChanged(value: String) {
-        _uiState.value = _uiState.value.copy(
-            currentPasswordError = getPassFieldErrorText(
-                value = value,
-                isValidCondition = value.matches(PASSWORD_REGEX.toRegex())
+    fun validateField(
+        field: ChangePasswordField,
+        currentPassword: String,
+        newPassword: String,
+        repeatedPassword: String
+    ) {
+        _uiState.value = when (field) {
+            ChangePasswordField.CURRENT_PASSWORD -> _uiState.value.copy(
+                currentPasswordError = getPassFieldErrorText(
+                    value = currentPassword,
+                    isValidCondition = currentPassword.matches(PASSWORD_REGEX.toRegex())
+                )
             )
-        )
+
+            ChangePasswordField.NEW_PASSWORD -> _uiState.value.copy(
+                newPasswordError = getPassFieldErrorText(
+                    value = newPassword,
+                    isValidCondition = newPassword.matches(PASSWORD_REGEX.toRegex()),
+                    reusedError = newPassword.isNotEmpty() && currentPassword.isNotEmpty() && newPassword == currentPassword
+                )
+            )
+
+            ChangePasswordField.REPEAT_PASSWORD -> _uiState.value.copy(
+                repeatPasswordError = getPassFieldErrorText(
+                    value = repeatedPassword,
+                    isValidCondition = repeatedPassword.matches(PASSWORD_REGEX.toRegex()),
+                    mismatchError = repeatedPassword.isNotEmpty() && newPassword.isNotEmpty() && repeatedPassword != newPassword
+                )
+            )
+        }
     }
 
-    fun onNewPasswordChanged(value: String) {
-        _uiState.value = _uiState.value.copy(
-            newPasswordError = getPassFieldErrorText(
-                value = value,
-                isValidCondition = value.matches(PASSWORD_REGEX.toRegex())
-            )
-        )
-    }
-
-    fun onRepeatPasswordChanged(newPassword: String, repeatedPassword: String) {
-        _uiState.value = _uiState.value.copy(
-            repeatPasswordError = getPassFieldErrorText(
-                value = repeatedPassword,
-                isValidCondition = repeatedPassword.matches(PASSWORD_REGEX.toRegex()),
-                mismatchError = repeatedPassword.isNotEmpty() && newPassword.isNotEmpty() && repeatedPassword != newPassword
-            )
-        )
+    fun clearFieldError(field: ChangePasswordField) {
+        _uiState.value = when (field) {
+            ChangePasswordField.CURRENT_PASSWORD -> _uiState.value.copy(currentPasswordError = null)
+            ChangePasswordField.NEW_PASSWORD -> _uiState.value.copy(newPasswordError = null)
+            ChangePasswordField.REPEAT_PASSWORD -> _uiState.value.copy(repeatPasswordError = null)
+        }
     }
 
     fun onChangePasswordClicked(currentPassword: String, newPassword: String, repeatedPassword: String) {
-        onCurrentPasswordChanged(currentPassword)
-        onNewPasswordChanged(newPassword)
-        onRepeatPasswordChanged(newPassword = newPassword, repeatedPassword = repeatedPassword)
+        validateField(ChangePasswordField.CURRENT_PASSWORD, currentPassword, newPassword, repeatedPassword)
+        validateField(ChangePasswordField.NEW_PASSWORD, currentPassword, newPassword, repeatedPassword)
+        validateField(ChangePasswordField.REPEAT_PASSWORD, currentPassword, newPassword, repeatedPassword)
 
         if (_uiState.value.hasAnyError()) return
 
@@ -68,19 +80,9 @@ class ChangePasswordViewModel(
                 // Even if local cleanup fails, force a fresh login flow after password change.
                 logOutUseCase()
                 _effect.tryEmit(ChangePasswordEffect.NavigateToLogin)
-            }.onFailure { error ->
+            }.onFailure {
                 _uiState.value = _uiState.value.copy(loading = false)
-                if (error is EsmorgaException && error.code == 409) {
-                    _uiState.value = _uiState.value.copy(
-                        newPasswordError = getPassFieldErrorText(
-                            value = newPassword,
-                            isValidCondition = true,
-                            reusedError = true
-                        )
-                    )
-                } else {
-                    _effect.tryEmit(ChangePasswordEffect.ShowFullScreenError())
-                }
+                _effect.tryEmit(ChangePasswordEffect.ShowFullScreenError())
             }
         }
     }
@@ -91,10 +93,8 @@ class ChangePasswordViewModel(
         reusedError: Boolean = false,
         mismatchError: Boolean = false,
     ): ChangePasswordErrorRes? {
-        val isBlank = value.isBlank()
         val isValid = value.isEmpty() || isValidCondition
         return when {
-            isBlank -> ChangePasswordErrorRes.EMPTY_FIELD
             !isValid -> ChangePasswordErrorRes.INVALID_PASSWORD
             reusedError -> ChangePasswordErrorRes.REUSED_PASSWORD
             mismatchError -> ChangePasswordErrorRes.PASSWORD_MISMATCH

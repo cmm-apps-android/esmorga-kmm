@@ -19,6 +19,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -34,7 +35,6 @@ import cmm.esmorga.shared.generated.resources.my_profile_change_password
 import cmm.esmorga.shared.generated.resources.placeholder_confirm_password
 import cmm.esmorga.shared.generated.resources.placeholder_new_password
 import cmm.esmorga.shared.generated.resources.placeholder_password
-import cmm.esmorga.shared.generated.resources.registration_empty_field
 import cmm.esmorga.shared.generated.resources.registration_password_invalid
 import cmm.esmorga.shared.generated.resources.registration_password_mismatch_error
 import cmm.esmorga.shared.generated.resources.registration_reused_password_error
@@ -44,6 +44,7 @@ import cmm.esmorga.utils.screenContentInsets
 import cmm.esmorga.utils.screenTopBarInsets
 import cmm.esmorga.view.theme.EsmorgaTheme
 import cmm.esmorga.viewmodel.changepassword.ChangePasswordEffect
+import cmm.esmorga.viewmodel.changepassword.ChangePasswordField
 import cmm.esmorga.viewmodel.changepassword.ChangePasswordErrorRes
 import cmm.esmorga.viewmodel.changepassword.ChangePasswordUiState
 import cmm.esmorga.viewmodel.changepassword.ChangePasswordViewModel
@@ -73,10 +74,9 @@ fun ChangePasswordScreen(
         ChangePasswordView(
             uiState = uiState,
             onBackClicked = onBackClicked,
-            onCurrentPasswordChanged = cvm::onCurrentPasswordChanged,
-            onNewPasswordChanged = cvm::onNewPasswordChanged,
-            onRepeatPasswordChanged = cvm::onRepeatPasswordChanged,
-            onChangePasswordClicked = cvm::onChangePasswordClicked
+            validateField = cvm::validateField,
+            clearFieldError = cvm::clearFieldError,
+            onChangePasswordClicked = cvm::onChangePasswordClicked,
         )
     }
 }
@@ -86,10 +86,9 @@ fun ChangePasswordScreen(
 private fun ChangePasswordView(
     uiState: ChangePasswordUiState,
     onBackClicked: () -> Unit,
-    onCurrentPasswordChanged: (String) -> Unit,
-    onNewPasswordChanged: (String) -> Unit,
-    onRepeatPasswordChanged: (String, String) -> Unit,
-    onChangePasswordClicked: (String, String, String) -> Unit
+    validateField: (ChangePasswordField, String, String, String) -> Unit,
+    clearFieldError: (ChangePasswordField) -> Unit,
+    onChangePasswordClicked: (String, String, String) -> Unit,
 ) {
     var currentPassword by remember { mutableStateOf("") }
     var newPassword by remember { mutableStateOf("") }
@@ -126,11 +125,16 @@ private fun ChangePasswordView(
             )
             Spacer(modifier = Modifier.height(16.dp))
             EsmorgaTextField(
+                modifier = Modifier.onFocusChanged { focusState ->
+                    if (!focusState.isFocused && currentPassword.isNotEmpty()) {
+                        validateField(ChangePasswordField.CURRENT_PASSWORD, currentPassword, newPassword, repeatedPassword)
+                    }
+                },
                 value = currentPassword,
                 isEnabled = !uiState.loading,
                 onValueChange = {
                     currentPassword = it
-                    onCurrentPasswordChanged(it)
+                    clearFieldError(ChangePasswordField.CURRENT_PASSWORD)
                 },
                 errorText = resolveChangePasswordErrorText(uiState.currentPasswordError),
                 isPassword = true,
@@ -139,12 +143,16 @@ private fun ChangePasswordView(
                 imeAction = ImeAction.Next
             )
             EsmorgaTextField(
+                modifier = Modifier.onFocusChanged { focusState ->
+                    if (!focusState.isFocused && newPassword.isNotEmpty()) {
+                        validateField(ChangePasswordField.NEW_PASSWORD, currentPassword, newPassword, repeatedPassword)
+                    }
+                },
                 value = newPassword,
                 isEnabled = !uiState.loading,
                 onValueChange = {
                     newPassword = it
-                    onNewPasswordChanged(it)
-                    onRepeatPasswordChanged(newPassword, repeatedPassword)
+                    clearFieldError(ChangePasswordField.NEW_PASSWORD)
                 },
                 errorText = resolveChangePasswordErrorText(uiState.newPasswordError),
                 isPassword = true,
@@ -153,11 +161,16 @@ private fun ChangePasswordView(
                 imeAction = ImeAction.Next
             )
             EsmorgaTextField(
+                modifier = Modifier.onFocusChanged { focusState ->
+                    if (!focusState.isFocused && repeatedPassword.isNotEmpty()) {
+                        validateField(ChangePasswordField.REPEAT_PASSWORD, currentPassword, newPassword, repeatedPassword)
+                    }
+                },
                 value = repeatedPassword,
                 isEnabled = !uiState.loading,
                 onValueChange = {
                     repeatedPassword = it
-                    onRepeatPasswordChanged(newPassword, it)
+                    clearFieldError(ChangePasswordField.REPEAT_PASSWORD)
                 },
                 errorText = resolveChangePasswordErrorText(uiState.repeatPasswordError),
                 isPassword = true,
@@ -185,7 +198,6 @@ private fun ChangePasswordView(
 @Composable
 private fun resolveChangePasswordErrorText(errorRes: ChangePasswordErrorRes?): String? {
     return when (errorRes) {
-        ChangePasswordErrorRes.EMPTY_FIELD -> stringResource(Res.string.registration_empty_field)
         ChangePasswordErrorRes.INVALID_PASSWORD -> stringResource(Res.string.registration_password_invalid)
         ChangePasswordErrorRes.REUSED_PASSWORD -> stringResource(Res.string.registration_reused_password_error)
         ChangePasswordErrorRes.PASSWORD_MISMATCH -> stringResource(Res.string.registration_password_mismatch_error)

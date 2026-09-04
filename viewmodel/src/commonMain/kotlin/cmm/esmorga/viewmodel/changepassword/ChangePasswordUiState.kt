@@ -9,8 +9,13 @@ data class ChangePasswordUiState(
     fun hasAnyError() = currentPasswordError != null || newPasswordError != null || repeatPasswordError != null
 }
 
+enum class ChangePasswordField {
+    CURRENT_PASSWORD,
+    NEW_PASSWORD,
+    REPEAT_PASSWORD
+}
+
 enum class ChangePasswordErrorRes {
-    EMPTY_FIELD,
     INVALID_PASSWORD,
     REUSED_PASSWORD,
     PASSWORD_MISMATCH
