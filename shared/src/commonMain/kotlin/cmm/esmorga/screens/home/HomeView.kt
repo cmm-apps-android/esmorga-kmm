@@ -12,6 +12,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.TopAppBar
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -33,6 +34,7 @@ import cmm.esmorga.shared.generated.resources.ic_explore
 import cmm.esmorga.shared.generated.resources.ic_my_events
 import cmm.esmorga.shared.generated.resources.ic_profile
 import cmm.esmorga.shared.generated.resources.screen_my_events_title
+import cmm.esmorga.utils.screenBottomBarInsets
 import cmm.esmorga.utils.screenTopBarInsets
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
@@ -68,7 +70,9 @@ fun HomeScreen(
             )
         },
         bottomBar = {
-            NavigationBar {
+            NavigationBar(
+                windowInsets = screenBottomBarInsets()
+            ) {
                 HomeTab.entries.forEach { tab ->
                     val label = when (tab) {
                         HomeTab.Explore -> stringResource(Res.string.bottom_bar_explore)

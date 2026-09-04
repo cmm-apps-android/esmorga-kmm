@@ -11,3 +11,6 @@ actual fun screenContentInsets(): WindowInsets = WindowInsets.safeDrawing.only(W
 
 @Composable
 actual fun screenTopBarInsets(): WindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Top)
+
+@Composable
+actual fun screenBottomBarInsets(): WindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Bottom + WindowInsetsSides.Horizontal)

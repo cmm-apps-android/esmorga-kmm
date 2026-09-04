@@ -8,3 +8,6 @@ actual fun screenContentInsets(): WindowInsets = WindowInsets(0, 0, 0, 0)
 
 @Composable
 actual fun screenTopBarInsets(): WindowInsets = WindowInsets(0, 0, 0, 0)
+
+@Composable
+actual fun screenBottomBarInsets(): WindowInsets = WindowInsets(0, 0, 0, 0)
