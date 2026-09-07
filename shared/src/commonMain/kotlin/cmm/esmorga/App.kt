@@ -8,16 +8,17 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import cmm.esmorga.screens.errors.EsmorgaErrorScreen
-import cmm.esmorga.screens.changepassword.ChangePasswordScreen
-import cmm.esmorga.screens.eventdetails.EventDetailsScreen
-import cmm.esmorga.screens.login.LoginScreen
-import cmm.esmorga.screens.home.HomeScreen
 import cmm.esmorga.navigation.Navigation
-import cmm.esmorga.screens.registration.RegistrationScreen
+import cmm.esmorga.navigation.NavigationKeys
+import cmm.esmorga.screens.changepassword.ChangePasswordScreen
+import cmm.esmorga.screens.errors.EsmorgaErrorScreen
+import cmm.esmorga.screens.eventdetails.EventDetailsScreen
 import cmm.esmorga.screens.eventlist.EventListScreen
-import cmm.esmorga.view.theme.EsmorgaTheme
+import cmm.esmorga.screens.home.HomeScreen
+import cmm.esmorga.screens.login.LoginScreen
+import cmm.esmorga.screens.registration.RegistrationScreen
 import cmm.esmorga.utils.buildMapUri
+import cmm.esmorga.view.theme.EsmorgaTheme
 
 @Composable
 fun App() {
@@ -29,8 +30,9 @@ fun App() {
                 navController = navController,
                 startDestination = Navigation.HomeScreen
             ) {
-                composable<Navigation.HomeScreen> {
+                composable<Navigation.HomeScreen> { backStackEntry ->
                     HomeScreen(
+                        backStackEntry = backStackEntry,
                         onEventClick = { eventId ->
                             navController.navigate(Navigation.EventDetailScreen(eventId))
                         },
@@ -82,9 +84,8 @@ fun App() {
                             navController.popBackStack()
                         },
                         onChangePasswordSuccess = {
-                            navController.navigate(Navigation.LoginScreen) {
-                                popUpTo(Navigation.HomeScreen) { inclusive = true }
-                            }
+                            navController.getBackStackEntry<Navigation.HomeScreen>().savedStateHandle[NavigationKeys.PASSWORD_CHANGE_SUCCESS] = true
+                            navController.popBackStack(Navigation.HomeScreen, inclusive = false)
                         },
                         onChangePasswordError = { error ->
                             navController.navigate(Navigation.FullScreenError(esmorgaErrorScreenArguments = error))

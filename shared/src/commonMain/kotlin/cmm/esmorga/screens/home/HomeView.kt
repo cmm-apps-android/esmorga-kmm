@@ -1,21 +1,24 @@
 package cmm.esmorga.screens.home
 
 import androidx.compose.animation.Crossfade
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -23,8 +26,11 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavBackStackEntry
 import cmm.esmorga.designsystem.EsmorgaText
 import cmm.esmorga.designsystem.EsmorgaTextStyle
+import cmm.esmorga.navigation.NavigationKeys
 import cmm.esmorga.screens.eventlist.EventListScreen
 import cmm.esmorga.screens.myevents.MyEventsScreen
 import cmm.esmorga.screens.profile.ProfileScreen
@@ -36,6 +42,7 @@ import cmm.esmorga.shared.generated.resources.event_list_title
 import cmm.esmorga.shared.generated.resources.ic_explore
 import cmm.esmorga.shared.generated.resources.ic_my_events
 import cmm.esmorga.shared.generated.resources.ic_profile
+import cmm.esmorga.shared.generated.resources.password_change_success_snackbar
 import cmm.esmorga.shared.generated.resources.screen_my_events_title
 import cmm.esmorga.utils.screenBottomBarInsets
 import cmm.esmorga.utils.screenTopBarInsets
@@ -53,12 +60,25 @@ enum class HomeTab(val title: StringResource, val icon: DrawableResource) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
+    backStackEntry: NavBackStackEntry,
     onEventClick: (String) -> Unit,
     onNavigateToLogin: () -> Unit,
     onNavigateToChangePassword: () -> Unit
 ) {
+    val isPasswordChangeSuccessful by backStackEntry.savedStateHandle
+        .getStateFlow(NavigationKeys.PASSWORD_CHANGE_SUCCESS, false)
+        .collectAsStateWithLifecycle()
+
     var selectedTab by rememberSaveable { mutableStateOf(HomeTab.Explore) }
     val snackbarHostState = remember { SnackbarHostState() }
+
+    val passwordChangeConfirmation = stringResource(Res.string.password_change_success_snackbar)
+    LaunchedEffect(isPasswordChangeSuccessful) {
+        if (isPasswordChangeSuccessful) {
+            snackbarHostState.showSnackbar(passwordChangeConfirmation)
+            backStackEntry.savedStateHandle[NavigationKeys.PASSWORD_CHANGE_SUCCESS] = false
+        }
+    }
 
     Scaffold(
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
@@ -108,7 +128,19 @@ fun HomeScreen(
                 }
             }
         },
-        snackbarHost = { SnackbarHost(snackbarHostState) }
+        snackbarHost = {
+            SnackbarHost(snackbarHostState) { data ->
+                MaterialTheme(typography = typography.copy(
+                    bodyMedium = typography.bodyMedium.copy(color = colorScheme.inverseOnSurface)
+                )) {
+                    Snackbar(
+                        snackbarData = data,
+                        containerColor = colorScheme.inverseSurface,
+                        contentColor = colorScheme.inverseOnSurface
+                    )
+                }
+            }
+        }
     ) { innerPadding ->
         Crossfade(
             targetState = selectedTab,
