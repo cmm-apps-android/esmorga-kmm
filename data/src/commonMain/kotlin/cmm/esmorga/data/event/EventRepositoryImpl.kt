@@ -42,6 +42,11 @@ class EventRepositoryImpl(private val localDs: EventDatasource, private val remo
         }
     }
 
+    override suspend fun joinEvent(eventId: String): Success<Unit> {
+        remoteDs.joinEvent(eventId)
+        return Success(Unit)
+    }
+
     override suspend fun getEventDetails(eventId: String): Success<Event> {
         return Success(localDs.getEventById(eventId).toEvent())
     }

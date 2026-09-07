@@ -6,6 +6,8 @@ import cmm.esmorga.domain.event.GetEventListUseCase
 import cmm.esmorga.domain.event.GetEventListUseCaseImpl
 import cmm.esmorga.domain.event.GetMyEventListUseCase
 import cmm.esmorga.domain.event.GetMyEventListUseCaseImpl
+import cmm.esmorga.domain.event.JoinEventUseCase
+import cmm.esmorga.domain.event.JoinEventUseCaseImpl
 import cmm.esmorga.domain.user.GetSavedUserUseCase
 import cmm.esmorga.domain.user.GetSavedUserUseCaseImpl
 import cmm.esmorga.domain.user.LogOutUseCase
@@ -24,6 +26,7 @@ object DomainDIModule {
     val module = module {
         factory<GetEventListUseCase> { GetEventListUseCaseImpl(get()) }
         factory<GetMyEventListUseCase> { GetMyEventListUseCaseImpl(get()) }
+        factory<JoinEventUseCase> { JoinEventUseCaseImpl(get()) }
         factory<GetEventDetailsUseCase> { GetEventDetailsUseCaseImpl(get()) }
         factory<PerformLoginUseCase> { PerformLoginUseCaseImpl(get()) }
         factory<GetSavedUserUseCase> { GetSavedUserUseCaseImpl(get()) }
