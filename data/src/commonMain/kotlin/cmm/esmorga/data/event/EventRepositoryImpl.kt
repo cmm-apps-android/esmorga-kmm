@@ -47,6 +47,11 @@ class EventRepositoryImpl(private val localDs: EventDatasource, private val remo
         return Success(Unit)
     }
 
+    override suspend fun leaveEvent(eventId: String): Success<Unit> {
+        remoteDs.leaveEvent(eventId)
+        return Success(Unit)
+    }
+
     override suspend fun getEventDetails(eventId: String): Success<Event> {
         return Success(localDs.getEventById(eventId).toEvent())
     }
