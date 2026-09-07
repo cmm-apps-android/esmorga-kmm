@@ -13,6 +13,10 @@ fun EventDataModel.toEvent(): Event = Event(
     type = this.dataType,
     imageUrl = this.dataImageUrl,
     location = EventLocation(this.dataLocation.name, this.dataLocation.lat, this.dataLocation.long),
+    tags = this.dataTags,
+    maxCapacity = this.dataMaxCapacity,
+    joinDeadline = this.dataJoinDeadline,
+    currentAttendeeCount = this.dataCurrentAttendeeCount,
 )
 
 fun List<EventDataModel>.toEventList(): List<Event> = map { edm -> edm.toEvent() }

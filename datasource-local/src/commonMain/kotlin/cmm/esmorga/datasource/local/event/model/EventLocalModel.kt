@@ -2,7 +2,6 @@ package cmm.esmorga.datasource.local.event.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import kotlin.time.Instant
 
 @Entity
 data class EventLocalModel(
@@ -16,5 +15,8 @@ data class EventLocalModel(
     val localLocationLat: Double? = null,
     val localLocationLong: Double? = null,
     val localTags: List<String> = listOf(),
+    val localMaxCapacity: Int? = null,
+    val localJoinDeadline: String? = null,
+    val localCurrentAttendeeCount: Int = 0,
     val localCreationTime: Long
 )

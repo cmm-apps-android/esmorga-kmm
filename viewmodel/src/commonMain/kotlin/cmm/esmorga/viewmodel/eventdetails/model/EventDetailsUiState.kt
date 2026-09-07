@@ -1,5 +1,7 @@
 package cmm.esmorga.viewmodel.eventdetails.model
 
+import kotlin.time.Instant
+
 data class EventDetailsUiState(
     val id: String = "",
     val title: String = "",
@@ -9,6 +11,10 @@ data class EventDetailsUiState(
     val locationName: String = "",
     val locationLat: Double? = null,
     val locationLng: Double? = null,
+    val tags: List<String> = emptyList(),
+    val maxCapacity: Int? = null,
+    val joinDeadline: Instant? = null,
+    val currentAttendeeCount: Int = 0,
     val navigateButton: Boolean = locationLat != null && locationLng != null,
 )
 
