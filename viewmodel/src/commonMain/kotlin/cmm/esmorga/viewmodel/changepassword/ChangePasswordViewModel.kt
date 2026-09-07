@@ -57,7 +57,11 @@ class ChangePasswordViewModel(
 
     fun clearFieldError(field: ChangePasswordField) {
         _uiState.value = when (field) {
-            ChangePasswordField.CURRENT_PASSWORD -> _uiState.value.copy(currentPasswordError = null)
+            ChangePasswordField.CURRENT_PASSWORD -> _uiState.value.copy(
+                currentPasswordError = null,
+                newPasswordError = if (_uiState.value.newPasswordError == ChangePasswordErrorRes.REUSED_PASSWORD) null else _uiState.value.newPasswordError
+            )
+
             ChangePasswordField.NEW_PASSWORD -> _uiState.value.copy(newPasswordError = null)
             ChangePasswordField.REPEAT_PASSWORD -> _uiState.value.copy(repeatPasswordError = null)
         }
