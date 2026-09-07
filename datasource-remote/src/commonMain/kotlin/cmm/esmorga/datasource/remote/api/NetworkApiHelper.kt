@@ -61,7 +61,8 @@ class NetworkApiHelper {
                     }
 
                     sendWithoutRequest { request ->
-                        request.url.encodedPath.endsWith("account/events")
+                        request.url.encodedPath.endsWith("account/events") ||
+                            request.url.encodedPath.endsWith("account/password")
                     }
                 }
             }

@@ -34,6 +34,7 @@ import org.jetbrains.compose.resources.painterResource
 fun EsmorgaTextField(
     value: String,
     onValueChange: (String) -> Unit,
+    title: String,
     placeholder: String,
     modifier: Modifier = Modifier,
     singleLine: Boolean = true,
@@ -45,7 +46,7 @@ fun EsmorgaTextField(
 ) {
     var passwordVisible by remember { mutableStateOf(false) }
     Column {
-        EsmorgaText(text = placeholder, style = EsmorgaTextStyle.BODY_1)
+        EsmorgaText(text = title, style = EsmorgaTextStyle.BODY_1)
         Spacer(modifier = Modifier.height(8.dp))
         OutlinedTextField(
             value = value,

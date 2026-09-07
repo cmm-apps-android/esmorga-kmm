@@ -6,6 +6,7 @@ import cmm.esmorga.domain.result.EsmorgaException
 import cmm.esmorga.domain.result.Source
 import cmm.esmorga.data.mock.UserDataMock
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
@@ -56,5 +57,17 @@ class UserRepositoryImplTest {
         val sut = UserRepositoryImpl(localDS, remoteDS)
 
         sut.login("validEmail", "validPassword")
+    }
+
+    @Test
+    fun `given logged user when logout then local datasource is cleared`() = runTest {
+        val localDS = mockk<UserDatasource>(relaxed = true)
+        val remoteDS = mockk<UserDatasource>(relaxed = true)
+        val sut = UserRepositoryImpl(localDS, remoteDS)
+
+        val result = sut.logout()
+
+        coVerify(exactly = 1) { localDS.logout() }
+        Assert.assertEquals(Unit, result.data)
     }
 }

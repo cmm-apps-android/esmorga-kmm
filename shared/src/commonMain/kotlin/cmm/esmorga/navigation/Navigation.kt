@@ -20,5 +20,12 @@ sealed class Navigation {
     data object RegistrationScreen : Navigation()
 
     @Serializable
+    data object ChangePasswordScreen : Navigation()
+
+    @Serializable
     data class FullScreenError(val esmorgaErrorScreenArguments: String) : Navigation()
+}
+
+object NavigationKeys {
+    const val PASSWORD_CHANGE_SUCCESS = "password_change_success"
 }

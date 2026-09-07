@@ -109,30 +109,33 @@ fun EventDetailsView(uiState: EventDetailsUiState, onNavigateClicked: () -> Unit
                     .fillMaxWidth()
                     .aspectRatio(16 / 9f)
             )
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(24.dp))
             EsmorgaText(
                 text = uiState.title,
                 style = EsmorgaTextStyle.HEADING_1,
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
+            Spacer(modifier = Modifier.height(12.dp))
             EsmorgaText(text = uiState.subtitle, style = EsmorgaTextStyle.BODY_1_ACCENT, modifier = Modifier.padding(horizontal = 16.dp))
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(32.dp))
             EsmorgaText(
                 text = stringResource(Res.string.event_details_description),
                 style = EsmorgaTextStyle.HEADING_2,
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
+            Spacer(modifier = Modifier.height(12.dp))
             EsmorgaText(
                 text = uiState.description,
                 style = EsmorgaTextStyle.BODY_1,
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(32.dp))
             EsmorgaText(
                 text = stringResource(Res.string.event_details_location),
                 style = EsmorgaTextStyle.HEADING_2,
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
+            Spacer(modifier = Modifier.height(12.dp))
             EsmorgaText(
                 text = uiState.locationName,
                 style = EsmorgaTextStyle.BODY_1,

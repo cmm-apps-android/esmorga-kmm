@@ -8,3 +8,6 @@ expect fun screenContentInsets(): WindowInsets
 
 @Composable
 expect fun screenTopBarInsets(): WindowInsets
+
+@Composable
+expect fun screenBottomBarInsets(): WindowInsets

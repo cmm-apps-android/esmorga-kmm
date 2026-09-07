@@ -23,9 +23,10 @@ fun EsmorgaFullScreenError(
     title: String,
     subtitle: String? = null,
     buttonText: String,
-    buttonAction: () -> Unit
+    buttonAction: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = modifier.fillMaxSize()) {
         Column(
             modifier = Modifier.align(Alignment.Center),
             horizontalAlignment = Alignment.CenterHorizontally

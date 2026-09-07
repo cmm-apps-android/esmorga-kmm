@@ -7,4 +7,6 @@ interface UserRepository {
     suspend fun login(email: String, password: String): Success<User>
     suspend fun register(name: String, lastName: String, email: String, password: String): Success<User>
     suspend fun getUser(): Success<User>
+    suspend fun logout(): Success<Unit>
+    suspend fun changePassword(currentPassword: String, newPassword: String): Success<Unit>
 }
