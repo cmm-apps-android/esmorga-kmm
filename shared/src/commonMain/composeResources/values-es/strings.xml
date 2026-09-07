@@ -61,5 +61,6 @@
     <string name="field_title_last_name">Apellido</string>
     <string name="placeholder_last_name">Ingresa tu apellido</string>
     <string name="field_title_repeat_password">Repetir contraseña</string>
+    <string name="password_change_success_snackbar">Contraseña actualizada correctamente.</string>
 
 </resources>

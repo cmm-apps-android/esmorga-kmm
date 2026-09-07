@@ -22,6 +22,6 @@ enum class ChangePasswordErrorRes {
 }
 
 sealed class ChangePasswordEffect {
-    data object NavigateToLogin : ChangePasswordEffect()
+    data object NavigateToHome : ChangePasswordEffect()
     data class ShowFullScreenError(val esmorgaErrorScreenArguments: String = "") : ChangePasswordEffect()
 }

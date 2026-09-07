@@ -1,6 +1,7 @@
 package cmm.esmorga.datasource.remote.api
 
 import cmm.esmorga.datasource.remote.event.model.EventListWrapperRemoteModel
+import cmm.esmorga.datasource.remote.user.model.AccessTokenRemoteModel
 import cmm.esmorga.datasource.remote.user.model.ChangePasswordBodyRemoteModel
 import cmm.esmorga.datasource.remote.user.model.UserRemoteModel
 import io.ktor.client.HttpClient
@@ -42,11 +43,12 @@ class EsmorgaApi(private val httpClient: HttpClient) {
         return response.body()
     }
 
-    suspend fun changePassword(body: ChangePasswordBodyRemoteModel) {
-        httpClient.put("account/password") {
+    suspend fun changePassword(body: ChangePasswordBodyRemoteModel): AccessTokenRemoteModel {
+        val response = httpClient.put("account/password") {
             contentType(ContentType.Application.Json)
             setBody(body)
         }
+        return response.body()
     }
 
 }

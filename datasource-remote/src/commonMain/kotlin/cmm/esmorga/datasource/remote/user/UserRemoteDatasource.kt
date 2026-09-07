@@ -1,7 +1,9 @@
 package cmm.esmorga.datasource.remote.user
 
 import cmm.esmorga.datasource.remote.user.mapper.toUserDataModel
+import cmm.esmorga.datasource.remote.user.mapper.toTokenDataModel
 import cmm.esmorga.data.user.datasource.UserDatasource
+import cmm.esmorga.data.user.model.TokenDataModel
 import cmm.esmorga.data.user.model.UserDataModel
 import cmm.esmorga.datasource.remote.api.EsmorgaApi
 import cmm.esmorga.datasource.remote.api.ExceptionHandler
@@ -33,14 +35,14 @@ class UserRemoteDatasourceImpl(private val api: EsmorgaApi) : UserDatasource {
         }
     }
 
-    override suspend fun changePassword(currentPassword: String, newPassword: String) {
+    override suspend fun changePassword(currentPassword: String, newPassword: String): TokenDataModel {
         try {
-            api.changePassword(
+            return api.changePassword(
                 ChangePasswordBodyRemoteModel(
                     currentPassword = currentPassword,
                     newPassword = newPassword
                 )
-            )
+            ).toTokenDataModel()
         } catch (e: Exception) {
             throw ExceptionHandler.manageApiException(e)
         }

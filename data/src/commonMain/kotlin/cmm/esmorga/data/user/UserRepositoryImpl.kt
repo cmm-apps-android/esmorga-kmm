@@ -39,7 +39,15 @@ class UserRepositoryImpl(private val localDs: UserDatasource, private val remote
     }
 
     override suspend fun changePassword(currentPassword: String, newPassword: String): Success<Unit> {
-        remoteDs.changePassword(currentPassword = currentPassword, newPassword = newPassword)
+        val refreshedToken = remoteDs.changePassword(currentPassword = currentPassword, newPassword = newPassword)
+        val savedUser = localDs.getUser()
+        localDs.saveUser(
+            savedUser.copy(
+                dataAccessToken = refreshedToken.dataAccessToken,
+                dataRefreshToken = refreshedToken.dataRefreshToken,
+                dataExpiresAt = refreshedToken.dataExpiresAt
+            )
+        )
         return Success(Unit)
     }
 }

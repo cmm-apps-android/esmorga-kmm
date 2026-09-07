@@ -64,7 +64,7 @@ fun ChangePasswordScreen(
     LaunchedEffect(Unit) {
         cvm.effect.collect { effect ->
             when (effect) {
-                ChangePasswordEffect.NavigateToLogin -> onChangePasswordSuccess()
+                ChangePasswordEffect.NavigateToHome -> onChangePasswordSuccess()
                 is ChangePasswordEffect.ShowFullScreenError -> onChangePasswordError(effect.esmorgaErrorScreenArguments)
             }
         }

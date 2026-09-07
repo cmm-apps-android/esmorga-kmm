@@ -1,5 +1,6 @@
 package cmm.esmorga.data.user.datasource
 
+import cmm.esmorga.data.user.model.TokenDataModel
 import cmm.esmorga.data.user.model.UserDataModel
 import cmm.esmorga.domain.result.ErrorCodes
 import cmm.esmorga.domain.result.EsmorgaException
@@ -23,7 +24,7 @@ interface UserDatasource {
         throw EsmorgaException(message = "Unsupported operation", source = Source.UNSUPPORTED, code = ErrorCodes.UNSUPPORTED_OPERATION)
     }
 
-    suspend fun changePassword(currentPassword: String, newPassword: String) {
+    suspend fun changePassword(currentPassword: String, newPassword: String): TokenDataModel {
         throw EsmorgaException(message = "Unsupported operation", source = Source.UNSUPPORTED, code = ErrorCodes.UNSUPPORTED_OPERATION)
     }
 }

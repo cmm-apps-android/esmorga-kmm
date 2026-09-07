@@ -1,9 +1,7 @@
 package cmm.esmorga.viewmodel.changepassword
 
 import androidx.lifecycle.viewModelScope
-import cmm.esmorga.domain.result.EsmorgaException
 import cmm.esmorga.domain.user.ChangePasswordUseCase
-import cmm.esmorga.domain.user.LogOutUseCase
 import cmm.esmorga.domain.user.model.User.Companion.PASSWORD_REGEX
 import cmm.esmorga.viewmodel.BaseViewModel
 import kotlinx.coroutines.channels.BufferOverflow
@@ -16,8 +14,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class ChangePasswordViewModel(
-    private val changePasswordUseCase: ChangePasswordUseCase,
-    private val logOutUseCase: LogOutUseCase
+    private val changePasswordUseCase: ChangePasswordUseCase
 ) : BaseViewModel() {
 
     private val _uiState = MutableStateFlow(ChangePasswordUiState())
@@ -77,9 +74,7 @@ class ChangePasswordViewModel(
             _uiState.value = _uiState.value.copy(loading = true)
             val result = changePasswordUseCase(currentPassword.trim(), newPassword.trim())
             result.onSuccess {
-                // Even if local cleanup fails, force a fresh login flow after password change.
-                logOutUseCase()
-                _effect.tryEmit(ChangePasswordEffect.NavigateToLogin)
+                _effect.tryEmit(ChangePasswordEffect.NavigateToHome)
             }.onFailure {
                 _uiState.value = _uiState.value.copy(loading = false)
                 _effect.tryEmit(ChangePasswordEffect.ShowFullScreenError())

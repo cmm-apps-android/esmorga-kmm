@@ -61,5 +61,6 @@
     <string name="field_title_last_name">Last name</string>
     <string name="placeholder_last_name">Input your last name</string>
     <string name="field_title_repeat_password">Repeat password</string>
+    <string name="password_change_success_snackbar">Password updated successfully.</string>
 
 </resources>
