@@ -15,7 +15,6 @@ object EventDetailsUiMapper {
         locationName = this.location.name,
         locationLat = this.location.lat,
         locationLng = this.location.long,
-        tags = this.tags,
         maxCapacity = this.maxCapacity,
         joinDeadline = this.joinDeadline,
         currentAttendeeCount = this.currentAttendeeCount,

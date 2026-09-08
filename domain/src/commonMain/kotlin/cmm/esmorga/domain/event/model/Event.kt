@@ -14,7 +14,6 @@ data class Event(
     val type: EventType,
     val imageUrl: String? = null,
     val location: EventLocation,
-    val tags: List<String> = emptyList(),
     val maxCapacity: Int? = null,
     val joinDeadline: Instant? = null,
     val currentAttendeeCount: Int = 0,

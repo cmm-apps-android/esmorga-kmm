@@ -39,7 +39,6 @@ fun EventRemoteModel.toEventDataModel(): EventDataModel {
         dataType = parsedType,
         dataImageUrl = this.remoteImageUrl,
         dataLocation = this.remoteLocation.toEventLocationDataModel(),
-        dataTags = this.remoteTags ?: emptyList(),
         dataMaxCapacity = this.remoteMaxCapacity,
         dataJoinDeadline = parsedJoinDeadline,
         dataCurrentAttendeeCount = this.remoteCurrentAttendeeCount,

@@ -54,6 +54,7 @@ fun EventDetailsScreen(
     eventId: String,
     onBackPressed: () -> Unit,
     onNavigateToLocation: (lat: Double, lng: Double) -> Unit,
+    onNavigateToLogin: () -> Unit,
     edvm: EventDetailsViewModel = koinViewModel(parameters = { parametersOf(eventId) })
 ) {
     val uiState: EventDetailsUiState by edvm.uiState.collectAsStateWithLifecycle()
@@ -62,6 +63,7 @@ fun EventDetailsScreen(
             when (eff) {
                 is EventDetailsEffect.NavigateToLocation -> onNavigateToLocation(eff.lat, eff.lng)
                 is EventDetailsEffect.NavigateBack -> onBackPressed()
+                is EventDetailsEffect.NavigateToLogin -> onNavigateToLogin()
             }
         }
     }
@@ -69,6 +71,7 @@ fun EventDetailsScreen(
         EventDetailsView(
             uiState = uiState,
             onNavigateClicked = { edvm.onNavigateClick() },
+            onJoinLeaveClicked = { edvm.onJoinLeaveClick() },
             onBackPressed = { edvm.onBackPressed() }
         )
     }
@@ -76,7 +79,7 @@ fun EventDetailsScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EventDetailsView(uiState: EventDetailsUiState, onNavigateClicked: () -> Unit, onBackPressed: () -> Unit) {
+fun EventDetailsView(uiState: EventDetailsUiState, onNavigateClicked: () -> Unit, onJoinLeaveClicked: () -> Unit, onBackPressed: () -> Unit) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         contentWindowInsets = screenContentInsets(),
@@ -147,8 +150,9 @@ fun EventDetailsView(uiState: EventDetailsUiState, onNavigateClicked: () -> Unit
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
             if (uiState.navigateButton) {
+                Spacer(modifier = Modifier.height(32.dp))
                 EsmorgaButton(
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 32.dp),
+                    modifier = Modifier.padding(horizontal = 16.dp),
                     text = stringResource(Res.string.navigate),
                     primary = false
                 ) {
@@ -156,6 +160,25 @@ fun EventDetailsView(uiState: EventDetailsUiState, onNavigateClicked: () -> Unit
                 }
             }
 
+            // Join/Leave Event Button
+            val isButtonEnabled = !uiState.isAuthenticated ||
+                (!uiState.isDeadlinePassed && (!uiState.isEventFull || uiState.userJoined))
+
+            val buttonText = joinEventButtonText(
+                isAuthenticated = uiState.isAuthenticated,
+                userJoined = uiState.userJoined,
+                eventFull = uiState.isEventFull,
+                isDeadlinePassed = uiState.isDeadlinePassed
+            )
+
+            EsmorgaButton(
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 32.dp),
+                text = buttonText,
+                primary = true,
+                isEnabled = isButtonEnabled,
+                isLoading = uiState.isLoading,
+                onClick = { onJoinLeaveClicked() }
+            )
 
         }
     }
@@ -163,7 +186,7 @@ fun EventDetailsView(uiState: EventDetailsUiState, onNavigateClicked: () -> Unit
 
 
 @Composable
-private fun JoinEventButtonText(
+private fun joinEventButtonText(
     isAuthenticated: Boolean,
     userJoined: Boolean,
     eventFull: Boolean,

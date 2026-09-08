@@ -113,6 +113,9 @@ fun App() {
                         onBackPressed = { navController.popBackStack() },
                         onNavigateToLocation = { lat, lng ->
                             uriHandler.openUri(buildMapUri(lat = lat, lng = lng))
+                        },
+                        onNavigateToLogin = {
+                            navController.navigate(Navigation.LoginScreen)
                         }
                     )
                 }

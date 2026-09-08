@@ -29,7 +29,7 @@ val sharedKoinModules = listOf(
 val viewModelModule = module {
     viewModelOf(::EventListViewModel)
     viewModel { (eventId: String) ->
-        EventDetailsViewModel(get(), eventId)
+        EventDetailsViewModel(get(), get(), get(), get(), eventId)
     }
     viewModelOf(::WelcomeViewModel)
     viewModelOf(::LoginViewModel)

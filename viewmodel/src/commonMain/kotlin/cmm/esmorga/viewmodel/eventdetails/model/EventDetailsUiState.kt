@@ -1,5 +1,6 @@
 package cmm.esmorga.viewmodel.eventdetails.model
 
+import kotlin.time.Clock
 import kotlin.time.Instant
 
 data class EventDetailsUiState(
@@ -16,12 +17,22 @@ data class EventDetailsUiState(
     val joinDeadline: Instant? = null,
     val currentAttendeeCount: Int = 0,
     val userJoined: Boolean = false,
+    val isAuthenticated: Boolean = false,
+    val isLoading: Boolean = false,
     val navigateButton: Boolean = locationLat != null && locationLng != null,
-)
+) {
+    val isEventFull: Boolean
+        get() = maxCapacity != null && currentAttendeeCount >= maxCapacity
+
+    val isDeadlinePassed: Boolean
+        get() = joinDeadline != null && joinDeadline < Clock.System.now()
+}
 
 sealed class EventDetailsEffect {
     data object NavigateBack : EventDetailsEffect()
 
     data class NavigateToLocation(val lat: Double, val lng: Double) : EventDetailsEffect()
+
+    data object NavigateToLogin : EventDetailsEffect()
 
 }

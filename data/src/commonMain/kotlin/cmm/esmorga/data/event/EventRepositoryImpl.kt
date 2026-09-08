@@ -47,12 +47,28 @@ class EventRepositoryImpl(
 
     override suspend fun joinEvent(eventId: String): Success<Unit> {
         remoteEventDs.joinEvent(eventId)
+        // Update local cache - mark event as joined
+        updateEventJoinedState(eventId, joined = true)
         return Success(Unit)
     }
 
     override suspend fun leaveEvent(eventId: String): Success<Unit> {
         remoteEventDs.leaveEvent(eventId)
+        // Update local cache - mark event as not joined
+        updateEventJoinedState(eventId, joined = false)
         return Success(Unit)
+    }
+
+    private suspend fun updateEventJoinedState(eventId: String, joined: Boolean) {
+        try {
+            val currentEvents = localEventDs.getEvents()
+            val updatedEvents = currentEvents.map { event ->
+                if (event.dataId == eventId) event.copy(dataUserJoined = joined) else event
+            }
+            localEventDs.cacheEvents(updatedEvents)
+        } catch (_: Exception) {
+            // Silently fail cache update, the important part (API call) succeeded
+        }
     }
 
     override suspend fun getEventDetails(eventId: String): Success<Event> {
