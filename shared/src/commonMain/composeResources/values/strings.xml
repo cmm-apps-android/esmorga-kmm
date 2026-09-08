@@ -62,5 +62,10 @@
     <string name="placeholder_last_name">Input your last name</string>
     <string name="field_title_repeat_password">Repeat password</string>
     <string name="password_change_success_snackbar">Password updated successfully.</string>
+    <string name="button_login_to_join">Sign in to sign up</string>
+    <string name="button_leave_event">Leave Event</string>
+    <string name="button_deadline_passed">Too late</string>
+    <string name="button_join_event_disabled">Full</string>
+    <string name="button_join_event">Join Event</string>
 
 </resources>

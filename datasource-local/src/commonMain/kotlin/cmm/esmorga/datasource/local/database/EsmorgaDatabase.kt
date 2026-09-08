@@ -17,7 +17,7 @@ import kotlinx.coroutines.IO
     entities = [
         EventLocalModel::class,
         UserLocalModel::class
-    ], version = 2, exportSchema = true
+    ], version = 3, exportSchema = true
 )
 @TypeConverters(ZonedDateTimeConverter::class)
 @ConstructedBy(EsmorgaDatabaseConstructor::class)

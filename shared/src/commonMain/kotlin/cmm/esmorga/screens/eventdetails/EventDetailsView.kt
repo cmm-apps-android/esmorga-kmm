@@ -26,6 +26,11 @@ import cmm.esmorga.designsystem.EsmorgaText
 import cmm.esmorga.designsystem.EsmorgaTextStyle
 import cmm.esmorga.shared.generated.resources.Res
 import cmm.esmorga.shared.generated.resources.back_icon_description
+import cmm.esmorga.shared.generated.resources.button_deadline_passed
+import cmm.esmorga.shared.generated.resources.button_join_event
+import cmm.esmorga.shared.generated.resources.button_join_event_disabled
+import cmm.esmorga.shared.generated.resources.button_leave_event
+import cmm.esmorga.shared.generated.resources.button_login_to_join
 import cmm.esmorga.shared.generated.resources.event_details_description
 import cmm.esmorga.shared.generated.resources.event_details_location
 import cmm.esmorga.shared.generated.resources.event_image_content_description
@@ -150,6 +155,28 @@ fun EventDetailsView(uiState: EventDetailsUiState, onNavigateClicked: () -> Unit
                     onNavigateClicked()
                 }
             }
+
+
         }
     }
 }
+
+
+@Composable
+private fun JoinEventButtonText(
+    isAuthenticated: Boolean,
+    userJoined: Boolean,
+    eventFull: Boolean,
+    isDeadlinePassed: Boolean
+): String {
+    return when {
+        !isAuthenticated -> stringResource(Res.string.button_login_to_join)
+        userJoined -> stringResource(Res.string.button_leave_event)
+        isDeadlinePassed -> stringResource(Res.string.button_deadline_passed)
+        !userJoined && eventFull -> stringResource(Res.string.button_join_event_disabled)
+        else -> stringResource(Res.string.button_join_event)
+    }
+}
+
+
+

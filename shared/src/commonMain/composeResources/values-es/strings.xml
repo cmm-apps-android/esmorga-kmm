@@ -62,5 +62,10 @@
     <string name="placeholder_last_name">Ingresa tu apellido</string>
     <string name="field_title_repeat_password">Repetir contraseña</string>
     <string name="password_change_success_snackbar">Contraseña actualizada correctamente.</string>
+    <string name="button_login_to_join">Identifícate para apuntarte</string>
+    <string name="button_leave_event">Rajarse</string>
+    <string name="button_deadline_passed">Demasiado tarde</string>
+    <string name="button_join_event_disabled">LLeno</string>
+    <string name="button_join_event">Apuntarse</string>
 
 </resources>

@@ -34,11 +34,23 @@ class EventRepositoryImpl(private val localDs: EventDatasource, private val remo
     }
 
     override suspend fun getMyEvents(forceRefresh: Boolean): Success<List<Event>> {
+        val localList = localDs.getMyEvents()
+
+        if (forceRefresh.not() && localList.isNotEmpty() && CacheHelper.shouldReturnCache(localList[0].dataCreationTime)) {
+            return Success(localList.toEventList())
+        }
+
         try {
             val remoteList = remoteDs.getMyEvents()
+            localDs.cacheMyEvents(remoteList)
+
             return Success(remoteList.toEventList())
         } catch (esmorgaEx: EsmorgaException) {
-            throw esmorgaEx
+            if (esmorgaEx.code == ErrorCodes.NO_CONNECTION) {
+                return Success(localList.toEventList(), ErrorCodes.NO_CONNECTION)
+            } else {
+                throw esmorgaEx
+            }
         }
     }
 
