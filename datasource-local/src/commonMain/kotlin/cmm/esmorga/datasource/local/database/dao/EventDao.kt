@@ -13,17 +13,12 @@ interface EventDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertEvent(event: List<EventLocalModel>)
 
-    @Query("SELECT * FROM EventLocalModel WHERE localIsMyEvent = 0")
+    @Query("SELECT * FROM EventLocalModel")
     suspend fun getEvents(): List<EventLocalModel>
-
-    @Query("SELECT * FROM EventLocalModel WHERE localIsMyEvent = 1")
-    suspend fun getMyEvents(): List<EventLocalModel>
 
     @Query("DELETE FROM EventLocalModel")
     suspend fun deleteAll()
 
-    @Query("DELETE FROM EventLocalModel WHERE localIsMyEvent = 1")
-    suspend fun deleteAllMyEvents()
 
     @Query( "SELECT * FROM EventLocalModel WHERE localId = :eventId")
     suspend fun getEventById(eventId: String): EventLocalModel

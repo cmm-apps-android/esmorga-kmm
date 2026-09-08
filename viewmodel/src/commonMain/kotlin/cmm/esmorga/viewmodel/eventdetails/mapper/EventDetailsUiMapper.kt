@@ -19,5 +19,6 @@ object EventDetailsUiMapper {
         maxCapacity = this.maxCapacity,
         joinDeadline = this.joinDeadline,
         currentAttendeeCount = this.currentAttendeeCount,
+        userJoined = this.userJoined,
     )
 }

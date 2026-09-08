@@ -43,6 +43,7 @@ fun EventRemoteModel.toEventDataModel(): EventDataModel {
         dataMaxCapacity = this.remoteMaxCapacity,
         dataJoinDeadline = parsedJoinDeadline,
         dataCurrentAttendeeCount = this.remoteCurrentAttendeeCount,
+        dataUserJoined = this.remoteUserJoined,
     )
 }
 

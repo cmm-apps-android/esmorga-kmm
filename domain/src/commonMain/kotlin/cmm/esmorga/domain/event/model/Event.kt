@@ -18,6 +18,7 @@ data class Event(
     val maxCapacity: Int? = null,
     val joinDeadline: Instant? = null,
     val currentAttendeeCount: Int = 0,
+    val userJoined: Boolean = false,
 )
 
 data class EventLocation(

@@ -17,6 +17,7 @@ data class EventDataModel(
     val dataMaxCapacity: Int? = null,
     val dataJoinDeadline: Instant? = null,
     val dataCurrentAttendeeCount: Int = 0,
+    val dataUserJoined: Boolean = false,
     val dataCreationTime: Long = Clock.System.now().toEpochMilliseconds(),
 )
 

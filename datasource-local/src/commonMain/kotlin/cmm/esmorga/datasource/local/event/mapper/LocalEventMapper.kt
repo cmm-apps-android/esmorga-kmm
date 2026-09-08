@@ -29,13 +29,14 @@ fun EventLocalModel.toEventDataModel(): EventDataModel {
         dataMaxCapacity = this.localMaxCapacity,
         dataJoinDeadline = this.localJoinDeadline?.let { Instant.parse(it) },
         dataCurrentAttendeeCount = this.localCurrentAttendeeCount,
+        dataUserJoined = this.localUserJoined,
         dataCreationTime = localCreationTime
     )
 }
 
 fun List<EventLocalModel>.toEventDataModelList(): List<EventDataModel> = this.map { erm -> erm.toEventDataModel() }
 
-fun EventDataModel.toEventLocalModel(isMyEvent: Boolean = false): EventLocalModel {
+fun EventDataModel.toEventLocalModel(): EventLocalModel {
     return EventLocalModel(
         localId = this.dataId,
         localName = this.dataName,
@@ -50,9 +51,9 @@ fun EventDataModel.toEventLocalModel(isMyEvent: Boolean = false): EventLocalMode
         localMaxCapacity = this.dataMaxCapacity,
         localJoinDeadline = this.dataJoinDeadline?.toString(),
         localCurrentAttendeeCount = this.dataCurrentAttendeeCount,
-        localIsMyEvent = isMyEvent,
+        localUserJoined = this.dataUserJoined,
         localCreationTime = dataCreationTime
     )
 }
 
-fun List<EventDataModel>.toEventLocalModelList(isMyEvent: Boolean = false): List<EventLocalModel> = this.map { elm -> elm.toEventLocalModel(isMyEvent) }
+fun List<EventDataModel>.toEventLocalModelList(): List<EventLocalModel> = this.map { elm -> elm.toEventLocalModel() }

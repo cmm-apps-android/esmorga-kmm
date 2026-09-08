@@ -23,8 +23,6 @@ interface EventDatasource {
 
     suspend fun cacheEvents(events: List<EventDataModel>) = Unit
 
-    suspend fun cacheMyEvents(events: List<EventDataModel>) = Unit
-
     suspend fun getEventById(eventId: String): EventDataModel {
         throw EsmorgaException(message = "Unsupported operation", source = Source.UNSUPPORTED, code = ErrorCodes.UNSUPPORTED_OPERATION)
     }

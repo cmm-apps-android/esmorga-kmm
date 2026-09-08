@@ -21,7 +21,8 @@ data class EventRemoteModel(
     @SerialName("tags") val remoteTags: List<String>?,
     @SerialName("maxCapacity") val remoteMaxCapacity: Int? = null,
     @SerialName("joinDeadline") val remoteJoinDeadline: String,
-    @SerialName("currentAttendeeCount") val remoteCurrentAttendeeCount: Int
+    @SerialName("currentAttendeeCount") val remoteCurrentAttendeeCount: Int,
+    @SerialName("userJoined") val remoteUserJoined: Boolean = false
 )
 
 @Serializable

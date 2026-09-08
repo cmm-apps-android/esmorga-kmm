@@ -18,6 +18,6 @@ data class EventLocalModel(
     val localMaxCapacity: Int? = null,
     val localJoinDeadline: String? = null,
     val localCurrentAttendeeCount: Int = 0,
-    val localIsMyEvent: Boolean = false,
+    val localUserJoined: Boolean = false,
     val localCreationTime: Long
 )

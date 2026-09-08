@@ -15,6 +15,7 @@ data class EventDetailsUiState(
     val maxCapacity: Int? = null,
     val joinDeadline: Instant? = null,
     val currentAttendeeCount: Int = 0,
+    val userJoined: Boolean = false,
     val navigateButton: Boolean = locationLat != null && locationLng != null,
 )
 
