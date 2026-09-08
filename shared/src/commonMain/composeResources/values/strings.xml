@@ -67,5 +67,6 @@
     <string name="button_deadline_passed">Too late</string>
     <string name="button_join_event_disabled">Full</string>
     <string name="button_join_event">Join Event</string>
+    <string name="snackbar_event_full">The event has already reached its maximum capacity.</string>
 
 </resources>

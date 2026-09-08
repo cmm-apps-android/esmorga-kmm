@@ -4,6 +4,8 @@ import androidx.lifecycle.viewModelScope
 import cmm.esmorga.domain.event.GetEventDetailsUseCase
 import cmm.esmorga.domain.event.JoinEventUseCase
 import cmm.esmorga.domain.event.LeaveEventUseCase
+import cmm.esmorga.domain.result.ErrorCodes
+import cmm.esmorga.domain.result.EsmorgaException
 import cmm.esmorga.domain.user.GetSavedUserUseCase
 import cmm.esmorga.viewmodel.BaseViewModel
 import cmm.esmorga.viewmodel.eventdetails.mapper.EventDetailsUiMapper.toEventUiDetails
@@ -16,6 +18,7 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class EventDetailsViewModel(
@@ -28,34 +31,22 @@ class EventDetailsViewModel(
     private val _uiState = MutableStateFlow(EventDetailsUiState())
     val uiState: StateFlow<EventDetailsUiState> = _uiState.asStateFlow()
 
-    private val _effect: MutableSharedFlow<EventDetailsEffect> = MutableSharedFlow(extraBufferCapacity = 2, onBufferOverflow = BufferOverflow.DROP_OLDEST)
+    private val _effect: MutableSharedFlow<EventDetailsEffect> = MutableSharedFlow(extraBufferCapacity = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
     val effect: SharedFlow<EventDetailsEffect> = _effect.asSharedFlow()
 
     init {
-        checkAuthenticationAndLoadDetails()
+        loadEventDetails()
     }
-
-    private fun checkAuthenticationAndLoadDetails() {
-        viewModelScope.launch {
-            val result = getSavedUserUseCase()
-            result.onSuccess { _ ->
-                _uiState.value = _uiState.value.copy(isAuthenticated = true)
-            }.onFailure {
-                _uiState.value = _uiState.value.copy(isAuthenticated = false)
-            }
-            loadEventDetails()
-        }
-    }
-
+    
     private fun loadEventDetails() {
         viewModelScope.launch {
             val result = getEventDetailsUseCase(eventId)
+            val userResult = getSavedUserUseCase()
             result.onSuccess {
                 _uiState.value = it.data.toEventUiDetails().copy(
-                    isAuthenticated = _uiState.value.isAuthenticated
+                    isAuthenticated = userResult.getOrNull()?.data != null
                 )
             }
-            _uiState.value = _uiState.value.copy(isLoading = false)
         }
     }
 
@@ -82,20 +73,19 @@ class EventDetailsViewModel(
                 return@launch
             }
 
-            _uiState.value = _uiState.value.copy(isLoading = true)
-
-            val result = if (currentState.userJoined) {
-                leaveEventUseCase(eventId)
-            } else {
-                joinEventUseCase(eventId)
-            }
+            _uiState.update { it.copy(isLoading = true) }
+            val result = if (currentState.userJoined) leaveEventUseCase(eventId) else joinEventUseCase(eventId)
+            _uiState.update { it.copy(isLoading = false) }
 
             if (result.isSuccess) {
-                // Reload event details to get updated state from cache
                 loadEventDetails()
             } else {
-                _uiState.value = _uiState.value.copy(isLoading = false)
-                // Could emit error effect if needed
+                val error = result.exceptionOrNull()
+                if (error is EsmorgaException && error.code == ErrorCodes.EVENT_FULL) {
+                    _effect.tryEmit(EventDetailsEffect.ShowEventFullSnackbar)
+                } else {
+                    _effect.tryEmit(EventDetailsEffect.NavigateToError)
+                }
             }
         }
     }

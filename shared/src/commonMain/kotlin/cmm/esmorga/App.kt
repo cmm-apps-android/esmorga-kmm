@@ -116,6 +116,9 @@ fun App() {
                         },
                         onNavigateToLogin = {
                             navController.navigate(Navigation.LoginScreen)
+                        },
+                        onNavigateToError = {
+                            navController.navigate(Navigation.FullScreenError())
                         }
                     )
                 }

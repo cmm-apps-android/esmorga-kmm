@@ -26,6 +26,9 @@ data class EventDetailsUiState(
 
     val isDeadlinePassed: Boolean
         get() = joinDeadline != null && joinDeadline < Clock.System.now()
+
+    val isJoinLeaveButtonEnabled: Boolean
+        get() = !isAuthenticated || (!isDeadlinePassed && (!isEventFull || userJoined))
 }
 
 sealed class EventDetailsEffect {
@@ -35,4 +38,7 @@ sealed class EventDetailsEffect {
 
     data object NavigateToLogin : EventDetailsEffect()
 
+    data object ShowEventFullSnackbar : EventDetailsEffect()
+
+    data object NavigateToError : EventDetailsEffect()
 }

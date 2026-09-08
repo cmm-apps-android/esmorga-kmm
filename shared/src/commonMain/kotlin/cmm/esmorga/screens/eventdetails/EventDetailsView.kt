@@ -13,10 +13,14 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
@@ -37,6 +41,7 @@ import cmm.esmorga.shared.generated.resources.event_image_content_description
 import cmm.esmorga.shared.generated.resources.ic_arrow_back
 import cmm.esmorga.shared.generated.resources.img_event_list_empty
 import cmm.esmorga.shared.generated.resources.navigate
+import cmm.esmorga.shared.generated.resources.snackbar_event_full
 import cmm.esmorga.utils.screenContentInsets
 import cmm.esmorga.utils.screenTopBarInsets
 import cmm.esmorga.view.theme.EsmorgaTheme
@@ -44,6 +49,7 @@ import cmm.esmorga.viewmodel.eventdetails.EventDetailsViewModel
 import cmm.esmorga.viewmodel.eventdetails.model.EventDetailsEffect
 import cmm.esmorga.viewmodel.eventdetails.model.EventDetailsUiState
 import coil3.compose.AsyncImage
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -55,21 +61,30 @@ fun EventDetailsScreen(
     onBackPressed: () -> Unit,
     onNavigateToLocation: (lat: Double, lng: Double) -> Unit,
     onNavigateToLogin: () -> Unit,
+    onNavigateToError: () -> Unit,
     edvm: EventDetailsViewModel = koinViewModel(parameters = { parametersOf(eventId) })
 ) {
     val uiState: EventDetailsUiState by edvm.uiState.collectAsStateWithLifecycle()
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
+    val eventFullMessage = stringResource(Res.string.snackbar_event_full)
     LaunchedEffect(Unit) {
         edvm.effect.collect { eff ->
             when (eff) {
                 is EventDetailsEffect.NavigateToLocation -> onNavigateToLocation(eff.lat, eff.lng)
                 is EventDetailsEffect.NavigateBack -> onBackPressed()
                 is EventDetailsEffect.NavigateToLogin -> onNavigateToLogin()
+                is EventDetailsEffect.NavigateToError -> onNavigateToError()
+                is EventDetailsEffect.ShowEventFullSnackbar -> scope.launch {
+                    snackbarHostState.showSnackbar(eventFullMessage)
+                }
             }
         }
     }
     EsmorgaTheme {
         EventDetailsView(
             uiState = uiState,
+            snackbarHostState = snackbarHostState,
             onNavigateClicked = { edvm.onNavigateClick() },
             onJoinLeaveClicked = { edvm.onJoinLeaveClick() },
             onBackPressed = { edvm.onBackPressed() }
@@ -79,10 +94,17 @@ fun EventDetailsScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EventDetailsView(uiState: EventDetailsUiState, onNavigateClicked: () -> Unit, onJoinLeaveClicked: () -> Unit, onBackPressed: () -> Unit) {
+fun EventDetailsView(
+    uiState: EventDetailsUiState,
+    snackbarHostState: SnackbarHostState,
+    onNavigateClicked: () -> Unit,
+    onJoinLeaveClicked: () -> Unit,
+    onBackPressed: () -> Unit
+) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         contentWindowInsets = screenContentInsets(),
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             TopAppBar(
                 title = {},
@@ -154,49 +176,31 @@ fun EventDetailsView(uiState: EventDetailsUiState, onNavigateClicked: () -> Unit
                 EsmorgaButton(
                     modifier = Modifier.padding(horizontal = 16.dp),
                     text = stringResource(Res.string.navigate),
-                    primary = false
-                ) {
-                    onNavigateClicked()
-                }
+                    primary = false,
+                    onClick = onNavigateClicked
+                )
             }
-
-            // Join/Leave Event Button
-            val isButtonEnabled = !uiState.isAuthenticated ||
-                (!uiState.isDeadlinePassed && (!uiState.isEventFull || uiState.userJoined))
-
-            val buttonText = joinEventButtonText(
-                isAuthenticated = uiState.isAuthenticated,
-                userJoined = uiState.userJoined,
-                eventFull = uiState.isEventFull,
-                isDeadlinePassed = uiState.isDeadlinePassed
-            )
 
             EsmorgaButton(
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 32.dp),
-                text = buttonText,
+                text = joinButtonLabel(uiState),
                 primary = true,
-                isEnabled = isButtonEnabled,
+                isEnabled = uiState.isJoinLeaveButtonEnabled,
                 isLoading = uiState.isLoading,
-                onClick = { onJoinLeaveClicked() }
+                onClick = onJoinLeaveClicked
             )
-
         }
     }
 }
 
 
 @Composable
-private fun joinEventButtonText(
-    isAuthenticated: Boolean,
-    userJoined: Boolean,
-    eventFull: Boolean,
-    isDeadlinePassed: Boolean
-): String {
-    return when {
+private fun joinButtonLabel(uiState: EventDetailsUiState): String = with(uiState) {
+    when {
         !isAuthenticated -> stringResource(Res.string.button_login_to_join)
         userJoined -> stringResource(Res.string.button_leave_event)
         isDeadlinePassed -> stringResource(Res.string.button_deadline_passed)
-        !userJoined && eventFull -> stringResource(Res.string.button_join_event_disabled)
+        isEventFull -> stringResource(Res.string.button_join_event_disabled)
         else -> stringResource(Res.string.button_join_event)
     }
 }

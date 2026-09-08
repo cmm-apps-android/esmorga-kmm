@@ -13,10 +13,10 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun EsmorgaErrorScreen(
-    esmorgaErrorScreenArguments: String,
+    esmorgaErrorScreenArguments: String? = null,
     onButtonPressed: () -> Unit
 ) {
-    val title = esmorgaErrorScreenArguments.ifBlank { stringResource(Res.string.default_error_title) }
+    val title = esmorgaErrorScreenArguments.takeUnless { it.isNullOrBlank() } ?: stringResource(Res.string.default_error_title)
     Scaffold(
         contentWindowInsets = screenContentInsets()
     ) { innerPadding ->
