@@ -22,12 +22,16 @@ class EventLocalDatasourceImpl(private val eventDao: EventDao) : EventDatasource
     }
 
     override suspend fun cacheEvents(events: List<EventDataModel>) {
-        eventDao.deleteAll()
+        clearEvents()
         eventDao.insertEvent(events.toEventLocalModelList())
     }
 
     override suspend fun getEventById(eventId: String): EventDataModel {
         return eventDao.getEventById(eventId).toEventDataModel()
+    }
+
+    override suspend fun clearEvents() {
+        eventDao.deleteAll()
     }
 
 }
