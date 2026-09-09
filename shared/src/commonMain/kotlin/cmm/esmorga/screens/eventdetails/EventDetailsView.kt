@@ -171,8 +171,8 @@ fun EventDetailsView(
                 style = EsmorgaTextStyle.BODY_1,
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
+            Spacer(modifier = Modifier.height(32.dp))
             if (uiState.navigateButton) {
-                Spacer(modifier = Modifier.height(32.dp))
                 EsmorgaButton(
                     modifier = Modifier.padding(horizontal = 16.dp),
                     text = stringResource(Res.string.navigate),
@@ -180,15 +180,16 @@ fun EventDetailsView(
                     onClick = onNavigateClicked
                 )
             }
-
+            Spacer(modifier = Modifier.height(16.dp))
             EsmorgaButton(
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 32.dp),
+                modifier = Modifier.padding(horizontal = 16.dp),
                 text = joinButtonLabel(uiState),
                 primary = true,
                 isEnabled = uiState.isJoinLeaveButtonEnabled,
                 isLoading = uiState.isLoading,
                 onClick = onJoinLeaveClicked
             )
+            Spacer(modifier = Modifier.height(32.dp))
         }
     }
 }

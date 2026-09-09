@@ -20,14 +20,15 @@ fun EsmorgaButton(
     oneLine: Boolean = false,
     onClick: () -> Unit
 ) {
+    val containerColor = if (primary) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondary
     Button(
         shape = RoundedCornerShape(5.dp),
         modifier = modifier
             .fillMaxWidth(),
         colors = ButtonDefaults.buttonColors().copy(
             contentColor = if (primary) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSecondary,
-            containerColor = if (primary) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondary,
-            disabledContainerColor = MaterialTheme.colorScheme.surfaceVariant
+            containerColor = containerColor,
+            disabledContainerColor = containerColor.copy(alpha = 0.5f)
         ),
         enabled = isEnabled && !isLoading,
         onClick = {
