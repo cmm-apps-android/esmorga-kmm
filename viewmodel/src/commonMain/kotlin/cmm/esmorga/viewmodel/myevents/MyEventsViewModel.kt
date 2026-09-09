@@ -5,7 +5,7 @@ import cmm.esmorga.domain.event.GetMyEventListUseCase
 import cmm.esmorga.domain.result.ErrorCodes
 import cmm.esmorga.domain.result.EsmorgaException
 import cmm.esmorga.domain.user.GetSavedUserUseCase
-import cmm.esmorga.viewmodel.eventlist.mapper.EventListUiMapper.toEventUiList
+import cmm.esmorga.viewmodel.explore.mapper.EventListUiMapper.toEventUiList
 import cmm.esmorga.viewmodel.myevents.model.MyEventsEffect
 import cmm.esmorga.viewmodel.myevents.model.MyEventsUiState
 import cmm.esmorga.viewmodel.BaseViewModel

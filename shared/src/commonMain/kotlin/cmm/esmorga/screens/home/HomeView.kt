@@ -31,7 +31,7 @@ import androidx.navigation.NavBackStackEntry
 import cmm.esmorga.designsystem.EsmorgaText
 import cmm.esmorga.designsystem.EsmorgaTextStyle
 import cmm.esmorga.navigation.NavigationKeys
-import cmm.esmorga.screens.eventlist.EventListScreen
+import cmm.esmorga.screens.explore.ExploreScreen
 import cmm.esmorga.screens.myevents.MyEventsScreen
 import cmm.esmorga.screens.profile.ProfileScreen
 import cmm.esmorga.shared.generated.resources.Res
@@ -147,7 +147,7 @@ fun HomeScreen(
             modifier = Modifier.padding(innerPadding)
         ) { tab ->
             when (tab) {
-                HomeTab.Explore -> EventListScreen(
+                HomeTab.Explore -> ExploreScreen(
                     onEventClick = onEventClick,
                     snackbarHostState = snackbarHostState
                 )

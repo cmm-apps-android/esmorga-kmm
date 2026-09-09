@@ -13,7 +13,7 @@ import cmm.esmorga.navigation.NavigationKeys
 import cmm.esmorga.screens.changepassword.ChangePasswordScreen
 import cmm.esmorga.screens.errors.EsmorgaErrorScreen
 import cmm.esmorga.screens.eventdetails.EventDetailsScreen
-import cmm.esmorga.screens.eventlist.EventListScreen
+import cmm.esmorga.screens.explore.ExploreScreen
 import cmm.esmorga.screens.home.HomeScreen
 import cmm.esmorga.screens.login.LoginScreen
 import cmm.esmorga.screens.registration.RegistrationScreen
@@ -101,7 +101,7 @@ fun App() {
                     )
                 }
                 composable<Navigation.EventListScreen> {
-                    EventListScreen(
+                    ExploreScreen(
                         onEventClick = { eventId ->
                             navController.navigate(Navigation.EventDetailScreen(eventId))
                         }

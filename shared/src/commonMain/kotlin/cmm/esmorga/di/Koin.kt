@@ -5,7 +5,7 @@ import cmm.esmorga.datasource.local.di.LocalDIModule
 import cmm.esmorga.datasource.remote.di.RemoteDIModule
 import cmm.esmorga.domain.di.DomainDIModule
 import cmm.esmorga.viewmodel.eventdetails.EventDetailsViewModel
-import cmm.esmorga.viewmodel.eventlist.EventListViewModel
+import cmm.esmorga.viewmodel.explore.ExploreViewModel
 import cmm.esmorga.viewmodel.changepassword.ChangePasswordViewModel
 import cmm.esmorga.viewmodel.login.LoginViewModel
 import cmm.esmorga.viewmodel.myevents.MyEventsViewModel
@@ -27,7 +27,7 @@ val sharedKoinModules = listOf(
 
 
 val viewModelModule = module {
-    viewModelOf(::EventListViewModel)
+    viewModelOf(::ExploreViewModel)
     viewModel { (eventId: String) ->
         EventDetailsViewModel(get(), get(), get(), get(), eventId)
     }

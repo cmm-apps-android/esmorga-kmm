@@ -1,7 +1,7 @@
 package cmm.esmorga.viewmodel.eventdetails.mapper
 
 import cmm.esmorga.domain.event.model.Event
-import cmm.esmorga.viewmodel.eventlist.mapper.EventListUiMapper.formatDate
+import cmm.esmorga.viewmodel.explore.mapper.EventListUiMapper.formatDate
 import cmm.esmorga.viewmodel.eventdetails.model.EventDetailsUiState
 
 object EventDetailsUiMapper {

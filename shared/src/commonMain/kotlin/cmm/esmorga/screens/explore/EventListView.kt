@@ -1,4 +1,4 @@
-package cmm.esmorga.screens.eventlist
+package cmm.esmorga.screens.explore
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
@@ -36,22 +36,22 @@ import cmm.esmorga.shared.generated.resources.event_list_loading
 import cmm.esmorga.shared.generated.resources.img_event_list_empty
 import cmm.esmorga.shared.generated.resources.no_internet_snackbar
 import cmm.esmorga.view.theme.EsmorgaTheme
-import cmm.esmorga.viewmodel.eventlist.EventListViewModel
-import cmm.esmorga.viewmodel.eventlist.model.EventListEffect
-import cmm.esmorga.viewmodel.eventlist.model.EventListUiModel
-import cmm.esmorga.viewmodel.eventlist.model.EventListUiState
+import cmm.esmorga.viewmodel.explore.ExploreViewModel
+import cmm.esmorga.viewmodel.explore.model.EventListEffect
+import cmm.esmorga.viewmodel.explore.model.EventListUiModel
+import cmm.esmorga.viewmodel.explore.model.ExploreUiState
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun EventListScreen(
-    elvm: EventListViewModel = koinViewModel(),
+fun ExploreScreen(
+    elvm: ExploreViewModel = koinViewModel(),
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
     onEventClick: (eventId: String) -> Unit
 ) {
-    val uiState: EventListUiState by elvm.uiState.collectAsStateWithLifecycle()
+    val uiState: ExploreUiState by elvm.uiState.collectAsStateWithLifecycle()
 
     val message = stringResource(Res.string.no_internet_snackbar)
     val localCoroutineScope = rememberCoroutineScope()
@@ -80,7 +80,7 @@ fun EventListScreen(
 
 @Composable
 private fun EventListView(
-    uiState: EventListUiState,
+    uiState: ExploreUiState,
     onRetryClick: () -> Unit,
     onEventClick: (eventId: String) -> Unit
 ) {

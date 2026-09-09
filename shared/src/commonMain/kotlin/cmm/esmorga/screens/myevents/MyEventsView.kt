@@ -35,7 +35,7 @@ import cmm.esmorga.shared.generated.resources.img_event_list_empty
 import cmm.esmorga.shared.generated.resources.login_button
 import cmm.esmorga.shared.generated.resources.screen_my_events_empty_text
 import cmm.esmorga.shared.generated.resources.unauthenticated_error_message
-import cmm.esmorga.viewmodel.eventlist.model.EventListUiModel
+import cmm.esmorga.viewmodel.explore.model.EventListUiModel
 import cmm.esmorga.viewmodel.myevents.MyEventsViewModel
 import cmm.esmorga.viewmodel.myevents.model.MyEventsEffect
 import cmm.esmorga.viewmodel.myevents.model.MyEventsUiState
