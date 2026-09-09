@@ -68,5 +68,8 @@
     <string name="button_join_event_disabled">LLeno</string>
     <string name="button_join_event">Apuntarse</string>
     <string name="snackbar_event_full">El evento ya ha alcanzado el aforo máximo.</string>
+    <string name="inline_error_email">Formato no válido</string>
+    <string name="inline_error_password">Contraseña inválida</string>
+    <string name="inline_error_empty_field">Campo requerido</string>
 
 </resources>

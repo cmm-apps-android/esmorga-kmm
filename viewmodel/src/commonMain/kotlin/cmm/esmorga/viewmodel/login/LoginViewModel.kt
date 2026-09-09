@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class LoginViewModel(private val performLoginUseCase: PerformLoginUseCase) : BaseViewModel() {
@@ -24,16 +25,16 @@ class LoginViewModel(private val performLoginUseCase: PerformLoginUseCase) : Bas
     val effect: SharedFlow<LoginEffect> = _effect.asSharedFlow()
 
     fun onLoginClicked(email: String, password: String) {
-        validateEmail(email, false)
-        validatePass(password, false)
+        validateField(email, EMAIL_REGEX, ValidationError.INVALID_EMAIL, false)
+        validateField(password, PASSWORD_REGEX, ValidationError.INVALID_PASSWORD, false)
         if (!_uiState.value.hasAnyError()) {
             viewModelScope.launch {
-                _uiState.value = LoginUiState(loading = true)
+                _uiState.update { it.copy(loading = true) }
                 val result = performLoginUseCase(email.trim(), password.trim())
                 result.onSuccess {
                     _effect.tryEmit(LoginEffect.NavigateToEventList)
                 }.onFailure { error ->
-                    _uiState.value = _uiState.value.copy(loading = false)
+                    _uiState.update { it.copy(loading = false) }
                     if (error is EsmorgaException && error.code == ErrorCodes.NO_CONNECTION) {
                         _effect.tryEmit(LoginEffect.ShowNoNetworkSnackbar)
                     } else {
@@ -48,35 +49,31 @@ class LoginViewModel(private val performLoginUseCase: PerformLoginUseCase) : Bas
         _effect.tryEmit(LoginEffect.NavigateToRegistration)
     }
 
-    fun validateEmail(email: String, acceptsEmpty: Boolean = true) {
-        _uiState.value = _uiState.value.copy(emailError = getFieldErrorText(email, LoginViewHelper.getEmailErrorText(), acceptsEmpty, email.matches(EMAIL_REGEX.toRegex())))
-    }
-
-    fun validatePass(pass: String, acceptsEmpty: Boolean = true) {
-        _uiState.value =
-            _uiState.value.copy(passwordError = getFieldErrorText(pass, LoginViewHelper.getPasswordErrorText(), acceptsEmpty, pass.matches(PASSWORD_REGEX.toRegex())))
-    }
-
-    private fun getFieldErrorText(
+    fun validateField(
         value: String,
-        errorTextProvider: String,
-        acceptsEmpty: Boolean,
-        nonEmptyCondition: Boolean
-    ): String? {
-        val isBlank = value.isBlank()
-        val isValid = value.isEmpty() || nonEmptyCondition
-
-        return when {
-            (!acceptsEmpty && isBlank) || !isValid -> errorTextProvider
-            else -> null
+        regex: String,
+        invalidError: ValidationError,
+        allowEmpty: Boolean = true
+    ) {
+        val error = when {
+            value.isEmpty() && !allowEmpty -> ValidationError.EMPTY
+            value.isNotEmpty() && !value.matches(regex.toRegex()) -> invalidError
+            else -> ValidationError.NONE
+        }
+        _uiState.update { state ->
+            when (invalidError) {
+                ValidationError.INVALID_EMAIL -> state.copy(emailError = error)
+                ValidationError.INVALID_PASSWORD -> state.copy(passwordError = error)
+                else -> state
+            }
         }
     }
 
     fun onEmailChanged() {
-        _uiState.value = _uiState.value.copy(emailError = null)
+        _uiState.update { it.copy(emailError = ValidationError.NONE) }
     }
 
     fun onPassChanged() {
-        _uiState.value = _uiState.value.copy(passwordError = null)
+        _uiState.update { it.copy(passwordError = ValidationError.NONE) }
     }
 }
