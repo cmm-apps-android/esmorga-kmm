@@ -1,7 +1,9 @@
 package cmm.esmorga
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -23,7 +25,7 @@ import cmm.esmorga.view.theme.EsmorgaTheme
 @Composable
 fun App() {
     EsmorgaTheme {
-        Surface {
+        Surface(modifier = Modifier.fillMaxSize()) {
             val navController: NavHostController = rememberNavController()
             val uriHandler = LocalUriHandler.current
             NavHost(

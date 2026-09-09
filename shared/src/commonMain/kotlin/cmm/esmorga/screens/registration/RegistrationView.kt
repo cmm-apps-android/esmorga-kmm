@@ -1,8 +1,6 @@
 package cmm.esmorga.screens.registration
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,7 +21,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.text.input.ImeAction
@@ -47,11 +44,6 @@ import cmm.esmorga.shared.generated.resources.placeholder_email
 import cmm.esmorga.shared.generated.resources.placeholder_last_name
 import cmm.esmorga.shared.generated.resources.placeholder_name
 import cmm.esmorga.shared.generated.resources.placeholder_password
-import cmm.esmorga.shared.generated.resources.registration_confirm_password_placeholder
-import cmm.esmorga.shared.generated.resources.registration_email_placeholder
-import cmm.esmorga.shared.generated.resources.registration_last_name_placeholder
-import cmm.esmorga.shared.generated.resources.registration_name_placeholder
-import cmm.esmorga.shared.generated.resources.registration_password_placeholder
 import cmm.esmorga.shared.generated.resources.registration_screen_title
 import cmm.esmorga.shared.generated.resources.registration_submit_button
 import cmm.esmorga.utils.screenContentInsets

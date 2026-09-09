@@ -41,8 +41,6 @@ import cmm.esmorga.shared.generated.resources.ic_arrow_back
 import cmm.esmorga.shared.generated.resources.img_login_header
 import cmm.esmorga.shared.generated.resources.login_button
 import cmm.esmorga.shared.generated.resources.login_screen_create_account_button
-import cmm.esmorga.shared.generated.resources.login_screen_email
-import cmm.esmorga.shared.generated.resources.login_screen_password
 import cmm.esmorga.shared.generated.resources.login_screen_title
 import cmm.esmorga.shared.generated.resources.no_internet_snackbar
 import cmm.esmorga.shared.generated.resources.placeholder_email
