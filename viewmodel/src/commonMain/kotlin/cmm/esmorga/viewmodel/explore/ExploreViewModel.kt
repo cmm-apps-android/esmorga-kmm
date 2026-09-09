@@ -29,25 +29,27 @@ class ExploreViewModel(private val getEventListUseCase: GetEventListUseCase) : B
         loadEvents()
     }
 
-    fun loadEvents() {
-        _uiState.value = ExploreUiState(loading = true)
+    fun loadEvents(forceRefresh: Boolean = false) {
+        _uiState.value = _uiState.value.copy(loading = true, error = null)
         viewModelScope.launch {
-            val result = getEventListUseCase()
+            val result = getEventListUseCase(forceRefresh = forceRefresh)
 
             result.onSuccess { success ->
                 if (success.hasError() && success.nonBlockingError == ErrorCodes.NO_CONNECTION) {
                     _effect.tryEmit(EventListEffect.ShowNoNetworkPrompt)
                 }
-                _uiState.value = ExploreUiState(
+                _uiState.value = _uiState.value.copy(
                     eventList = success.data.toEventUiList(),
-                    error = if (success.hasError() && success.nonBlockingError == ErrorCodes.NO_CONNECTION && success.data.isEmpty()) "No Connection" else null
+                    error = if (success.hasError() && success.nonBlockingError == ErrorCodes.NO_CONNECTION && success.data.isEmpty()) "No Connection" else null,
+                    loading = false
                 )
             }.onFailure { error ->
-                if (error is EsmorgaException) {
-                    _uiState.value = ExploreUiState(error = "${error.source} error: ${error.message}")
+                val errorMsg = if (error is EsmorgaException) {
+                    "${error.source} error: ${error.message}"
                 } else {
-                    _uiState.value = ExploreUiState(error = "Unknown error: ${error.message}")
+                    "Unknown error: ${error.message}"
                 }
+                _uiState.value = _uiState.value.copy(loading = false, error = errorMsg)
             }
         }
     }

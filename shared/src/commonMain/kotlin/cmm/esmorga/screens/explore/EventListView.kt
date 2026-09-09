@@ -8,8 +8,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -72,37 +76,46 @@ fun ExploreScreen(
     EsmorgaTheme {
         EventListView(
             uiState = uiState,
+            onRefresh = { elvm.loadEvents(forceRefresh = true) },
             onRetryClick = { elvm.loadEvents() },
             onEventClick = { elvm.onEventClick(it) }
         )
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun EventListView(
     uiState: ExploreUiState,
+    onRefresh: () -> Unit,
     onRetryClick: () -> Unit,
     onEventClick: (eventId: String) -> Unit
 ) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 16.dp)
+    PullToRefreshBox(
+        isRefreshing = uiState.loading && uiState.eventList.isNotEmpty(),
+        onRefresh = onRefresh,
+        modifier = Modifier.fillMaxSize()
     ) {
-        if (uiState.loading) {
-            EventListLoading()
-        } else {
-            if (uiState.error.isNullOrBlank().not()) {
-                EsmorgaFullScreenError(
-                    title = stringResource(Res.string.event_list_error_title),
-                    subtitle = stringResource(Res.string.event_list_error_subtitle),
-                    buttonText = stringResource(Res.string.event_list_error_button),
-                    buttonAction = onRetryClick
-                )
-            } else if (uiState.eventList.isEmpty()) {
-                EventListEmpty()
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp)
+        ) {
+            if (uiState.loading && uiState.eventList.isEmpty()) {
+                EventListLoading()
             } else {
-                EventList(uiState.eventList, onEventClick)
+                if (uiState.error.isNullOrBlank().not()) {
+                    EsmorgaFullScreenError(
+                        title = stringResource(Res.string.event_list_error_title),
+                        subtitle = stringResource(Res.string.event_list_error_subtitle),
+                        buttonText = stringResource(Res.string.event_list_error_button),
+                        buttonAction = onRetryClick
+                    )
+                } else if (uiState.eventList.isEmpty() && !uiState.loading) {
+                    EventListEmpty()
+                } else {
+                    EventList(uiState.eventList, onEventClick)
+                }
             }
         }
     }
@@ -118,7 +131,11 @@ private fun EventListLoading() {
 
 @Composable
 private fun EventListEmpty() {
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+    ) {
         Image(
             painter = painterResource(Res.drawable.img_event_list_empty),
             contentDescription = stringResource(Res.string.event_list_empty_text),
