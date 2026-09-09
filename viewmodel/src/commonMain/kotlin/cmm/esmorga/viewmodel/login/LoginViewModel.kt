@@ -38,7 +38,7 @@ class LoginViewModel(private val performLoginUseCase: PerformLoginUseCase) : Bas
                     if (error is EsmorgaException && error.code == ErrorCodes.NO_CONNECTION) {
                         _effect.tryEmit(LoginEffect.ShowNoNetworkSnackbar)
                     } else {
-                        _effect.tryEmit(LoginEffect.ShowFullScreenError())
+                        _effect.tryEmit(LoginEffect.ShowFullScreenError)
                     }
                 }
             }

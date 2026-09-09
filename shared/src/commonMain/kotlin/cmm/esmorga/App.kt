@@ -57,8 +57,8 @@ fun App() {
                                 popUpTo(Navigation.HomeScreen) { inclusive = true }
                             }
                         },
-                        onLoginError = { error ->
-                            navController.navigate(Navigation.FullScreenError(esmorgaErrorScreenArguments = error))
+                        onLoginError = {
+                            navController.navigate(Navigation.FullScreenError())
                         },
                         onBackClicked = {
                             navController.popBackStack()
@@ -72,8 +72,8 @@ fun App() {
                                 popUpTo(Navigation.HomeScreen) { inclusive = true }
                             }
                         },
-                        onRegistrationError = { error ->
-                            navController.navigate(Navigation.FullScreenError(esmorgaErrorScreenArguments = error))
+                        onRegistrationError = {
+                            navController.navigate(Navigation.FullScreenError())
                         },
                         onBackClicked = {
                             navController.popBackStack()
@@ -89,8 +89,8 @@ fun App() {
                             navController.getBackStackEntry<Navigation.HomeScreen>().savedStateHandle[NavigationKeys.PASSWORD_CHANGE_SUCCESS] = true
                             navController.popBackStack(Navigation.HomeScreen, inclusive = false)
                         },
-                        onChangePasswordError = { error ->
-                            navController.navigate(Navigation.FullScreenError(esmorgaErrorScreenArguments = error))
+                        onChangePasswordError = {
+                            navController.navigate(Navigation.FullScreenError())
                         }
                     )
                 }

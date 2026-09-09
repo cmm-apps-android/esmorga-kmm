@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import cmm.esmorga.designsystem.EsmorgaFullScreenError
 import cmm.esmorga.shared.generated.resources.Res
 import cmm.esmorga.shared.generated.resources.default_error_button
@@ -21,7 +22,7 @@ fun EsmorgaErrorScreen(
         contentWindowInsets = screenContentInsets()
     ) { innerPadding ->
         EsmorgaFullScreenError(
-            modifier = Modifier.padding(innerPadding),
+            modifier = Modifier.padding(innerPadding).padding(16.dp),
             title = title,
             buttonText = stringResource(Res.string.default_error_button),
             buttonAction = onButtonPressed

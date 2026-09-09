@@ -1,9 +1,5 @@
 package cmm.esmorga.viewmodel.registration
 
-import cmm.esmorga.viewmodel.registration.RegistrationViewHelper.getEsmorgaErrorScreenArguments
-import org.koin.core.component.KoinComponent
-
-
 enum class RegistrationValidationError {
     NONE,
     EMPTY,
@@ -33,17 +29,5 @@ data class RegistrationUiState(
 sealed class RegistrationEffect {
     data object ShowNoNetworkSnackbar : RegistrationEffect()
     data object NavigateToEventList : RegistrationEffect()
-    data class ShowFullScreenError(val esmorgaErrorScreenArguments: String = getEsmorgaErrorScreenArguments()) : RegistrationEffect()
-}
-
-object RegistrationViewHelper : KoinComponent {
-    fun getEsmorgaErrorScreenArguments() = ""
-
-    fun getNameErrorText() = "registration_name_last_name_invalid"
-    fun getLastNameErrorText() = "registration_name_last_name_invalid"
-    fun getEmailErrorText() = "registration_email_invalid"
-    fun getEmailAlreadyInUseErrorText() = "registration_email_already_used"
-    fun getPasswordErrorText() = "registration_password_invalid"
-    fun getRepeatPasswordErrorText() = "registration_password_mismatch_error"
-    fun getEmptyFieldErrorText() = "registration_empty_field"
+    data object ShowFullScreenError : RegistrationEffect()
 }

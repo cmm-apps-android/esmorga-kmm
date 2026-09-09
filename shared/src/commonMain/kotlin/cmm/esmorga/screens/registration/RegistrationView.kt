@@ -75,7 +75,7 @@ import org.koin.compose.viewmodel.koinViewModel
 fun RegistrationScreen(
     rvm: RegistrationViewModel = koinViewModel(),
     onRegistrationSuccess: () -> Unit,
-    onRegistrationError: (String) -> Unit,
+    onRegistrationError: () -> Unit,
     onBackClicked: () -> Unit
 ) {
     val uiState: RegistrationUiState by rvm.uiState.collectAsStateWithLifecycle()
@@ -86,7 +86,7 @@ fun RegistrationScreen(
         rvm.effect.collect { eff ->
             when (eff) {
                 is RegistrationEffect.ShowNoNetworkSnackbar -> localCoroutineScope.launch { snackbarHostState.showSnackbar(message = message) }
-                is RegistrationEffect.ShowFullScreenError -> onRegistrationError(eff.esmorgaErrorScreenArguments)
+                is RegistrationEffect.ShowFullScreenError -> onRegistrationError()
                 is RegistrationEffect.NavigateToEventList -> onRegistrationSuccess()
             }
         }

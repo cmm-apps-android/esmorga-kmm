@@ -19,5 +19,5 @@ sealed class LoginEffect {
     data object NavigateToRegistration : LoginEffect()
     data object ShowNoNetworkSnackbar : LoginEffect()
     data object NavigateToEventList : LoginEffect()
-    data class ShowFullScreenError(val error: String = "Error") : LoginEffect()
+    object ShowFullScreenError : LoginEffect()
 }

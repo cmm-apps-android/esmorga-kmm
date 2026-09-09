@@ -57,7 +57,7 @@ fun ChangePasswordScreen(
     cvm: ChangePasswordViewModel = koinViewModel(),
     onBackClicked: () -> Unit,
     onChangePasswordSuccess: () -> Unit,
-    onChangePasswordError: (String) -> Unit
+    onChangePasswordError: () -> Unit
 ) {
     val uiState: ChangePasswordUiState by cvm.uiState.collectAsStateWithLifecycle()
 
@@ -65,7 +65,7 @@ fun ChangePasswordScreen(
         cvm.effect.collect { effect ->
             when (effect) {
                 ChangePasswordEffect.NavigateToHome -> onChangePasswordSuccess()
-                is ChangePasswordEffect.ShowFullScreenError -> onChangePasswordError(effect.esmorgaErrorScreenArguments)
+                is ChangePasswordEffect.ShowFullScreenError -> onChangePasswordError()
             }
         }
     }

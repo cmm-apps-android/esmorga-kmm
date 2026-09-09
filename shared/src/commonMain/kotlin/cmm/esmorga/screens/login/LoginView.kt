@@ -68,7 +68,7 @@ fun LoginScreen(
     lvm: LoginViewModel = koinViewModel(),
     onRegisterClicked: () -> Unit,
     onLoginSuccess: () -> Unit,
-    onLoginError: (String) -> Unit,
+    onLoginError: () -> Unit,
     onBackClicked: () -> Unit
 ) {
     val uiState: LoginUiState by lvm.uiState.collectAsStateWithLifecycle()
@@ -80,7 +80,7 @@ fun LoginScreen(
             when (eff) {
                 is LoginEffect.ShowNoNetworkSnackbar -> localCoroutineScope.launch { snackbarHostState.showSnackbar(message = message) }
                 is LoginEffect.NavigateToRegistration -> onRegisterClicked()
-                is LoginEffect.ShowFullScreenError -> onLoginError(eff.error)
+                is LoginEffect.ShowFullScreenError -> onLoginError()
                 is LoginEffect.NavigateToEventList -> onLoginSuccess()
             }
         }
