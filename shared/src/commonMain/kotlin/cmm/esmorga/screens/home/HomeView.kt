@@ -28,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavBackStackEntry
+import cmm.esmorga.designsystem.EsmorgaSnackbarHost
 import cmm.esmorga.designsystem.EsmorgaText
 import cmm.esmorga.designsystem.EsmorgaTextStyle
 import cmm.esmorga.navigation.NavigationKeys
@@ -129,17 +130,7 @@ fun HomeScreen(
             }
         },
         snackbarHost = {
-            SnackbarHost(snackbarHostState) { data ->
-                MaterialTheme(typography = typography.copy(
-                    bodyMedium = typography.bodyMedium.copy(color = colorScheme.inverseOnSurface)
-                )) {
-                    Snackbar(
-                        snackbarData = data,
-                        containerColor = colorScheme.inverseSurface,
-                        contentColor = colorScheme.inverseOnSurface
-                    )
-                }
-            }
+            EsmorgaSnackbarHost(snackbarHostState)
         }
     ) { innerPadding ->
         Crossfade(

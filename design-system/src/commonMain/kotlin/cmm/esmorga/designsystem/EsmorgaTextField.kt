@@ -65,15 +65,6 @@ fun EsmorgaTextField(
                 focusedBorderColor = MaterialTheme.colorScheme.secondary,
                 unfocusedBorderColor = MaterialTheme.colorScheme.secondary
             ),
-            supportingText = {
-                if (errorText != null) {
-                    EsmorgaText(
-                        text = errorText,
-                        style = EsmorgaTextStyle.CAPTION,
-                        modifier = Modifier.padding(top = 4.dp)
-                    )
-                }
-            },
             modifier = modifier.fillMaxWidth(),
             shape = RoundedCornerShape(12),
             trailingIcon = {
@@ -86,5 +77,12 @@ fun EsmorgaTextField(
             },
             keyboardActions = KeyboardActions(onDone = { onDonePressed() })
         )
+        if (errorText != null) {
+            Spacer(modifier = Modifier.height(4.dp))
+            EsmorgaText(
+                text = errorText,
+                style = EsmorgaTextStyle.CAPTION
+            )
+        }
     }
 }

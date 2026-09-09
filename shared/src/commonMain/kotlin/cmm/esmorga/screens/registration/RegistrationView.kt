@@ -27,9 +27,13 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cmm.esmorga.designsystem.EsmorgaButton
+import cmm.esmorga.designsystem.EsmorgaSnackbarHost
 import cmm.esmorga.designsystem.EsmorgaText
 import cmm.esmorga.designsystem.EsmorgaTextField
 import cmm.esmorga.designsystem.EsmorgaTextStyle
+import cmm.esmorga.domain.user.model.User.Companion.EMAIL_REGEX
+import cmm.esmorga.domain.user.model.User.Companion.NAME_REGEX
+import cmm.esmorga.domain.user.model.User.Companion.PASSWORD_REGEX
 import cmm.esmorga.shared.generated.resources.Res
 import cmm.esmorga.shared.generated.resources.back_icon_description
 import cmm.esmorga.shared.generated.resources.field_title_email
@@ -38,6 +42,13 @@ import cmm.esmorga.shared.generated.resources.field_title_name
 import cmm.esmorga.shared.generated.resources.field_title_password
 import cmm.esmorga.shared.generated.resources.field_title_repeat_password
 import cmm.esmorga.shared.generated.resources.ic_arrow_back
+import cmm.esmorga.shared.generated.resources.inline_error_email
+import cmm.esmorga.shared.generated.resources.inline_error_email_already_used
+import cmm.esmorga.shared.generated.resources.inline_error_empty_field
+import cmm.esmorga.shared.generated.resources.inline_error_last_name
+import cmm.esmorga.shared.generated.resources.inline_error_name
+import cmm.esmorga.shared.generated.resources.inline_error_password_invalid
+import cmm.esmorga.shared.generated.resources.inline_error_password_mismatch
 import cmm.esmorga.shared.generated.resources.no_internet_snackbar
 import cmm.esmorga.shared.generated.resources.placeholder_confirm_password
 import cmm.esmorga.shared.generated.resources.placeholder_email
@@ -52,6 +63,7 @@ import cmm.esmorga.view.theme.EsmorgaTheme
 import cmm.esmorga.viewmodel.registration.RegistrationEffect
 import cmm.esmorga.viewmodel.registration.RegistrationField
 import cmm.esmorga.viewmodel.registration.RegistrationUiState
+import cmm.esmorga.viewmodel.registration.RegistrationValidationError
 import cmm.esmorga.viewmodel.registration.RegistrationViewModel
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
@@ -86,9 +98,31 @@ fun RegistrationScreen(
             snackbarHostState = snackbarHostState,
             onBackClicked = onBackClicked,
             onRegisterClicked = { name, lastName, email, password, repeatedPassword -> rvm.onRegisterClicked(name, lastName, email, password, repeatedPassword) },
-            validateField = { field, value, comparisonValue -> rvm.validateField(field, value, comparisonValue) },
+            validateField = { field, value, comparisonValue ->
+                when (field) {
+                    RegistrationField.NAME -> rvm.validateField(field, value, NAME_REGEX, RegistrationValidationError.INVALID_NAME)
+                    RegistrationField.LAST_NAME -> rvm.validateField(field, value, NAME_REGEX, RegistrationValidationError.INVALID_LAST_NAME)
+                    RegistrationField.EMAIL -> rvm.validateField(field, value, EMAIL_REGEX, RegistrationValidationError.INVALID_EMAIL)
+                    RegistrationField.PASS -> rvm.validateField(field, value, PASSWORD_REGEX, RegistrationValidationError.INVALID_PASSWORD)
+                    RegistrationField.REPEAT_PASS -> rvm.validateField(field, value, comparisonValue = comparisonValue)
+                }
+            },
             onFieldChanged = { field -> rvm.onFieldChanged(field) }
         )
+    }
+}
+
+@Composable
+private fun getErrorMessage(error: RegistrationValidationError): String? {
+    return when (error) {
+        RegistrationValidationError.EMPTY -> stringResource(Res.string.inline_error_empty_field)
+        RegistrationValidationError.INVALID_NAME -> stringResource(Res.string.inline_error_name)
+        RegistrationValidationError.INVALID_LAST_NAME -> stringResource(Res.string.inline_error_last_name)
+        RegistrationValidationError.INVALID_EMAIL -> stringResource(Res.string.inline_error_email)
+        RegistrationValidationError.EMAIL_ALREADY_IN_USE -> stringResource(Res.string.inline_error_email_already_used)
+        RegistrationValidationError.INVALID_PASSWORD -> stringResource(Res.string.inline_error_password_invalid)
+        RegistrationValidationError.PASSWORD_MISMATCH -> stringResource(Res.string.inline_error_password_mismatch)
+        RegistrationValidationError.NONE -> null
     }
 }
 
@@ -108,7 +142,7 @@ fun RegistrationView(
     var password by remember { mutableStateOf("") }
     var repeatedPassword by remember { mutableStateOf("") }
     Scaffold(
-        snackbarHost = { SnackbarHost(snackbarHostState) },
+        snackbarHost = { EsmorgaSnackbarHost(snackbarHostState) },
         contentWindowInsets = screenContentInsets(),
         topBar = {
             TopAppBar(
@@ -145,7 +179,7 @@ fun RegistrationView(
                     name = it
                     onFieldChanged(RegistrationField.NAME)
                 },
-                errorText = uiState.nameError,
+                errorText = getErrorMessage(uiState.nameError),
                 title = stringResource(Res.string.field_title_name),
                 placeholder = stringResource(Res.string.placeholder_name),
                 modifier = Modifier.onFocusChanged { focusState ->
@@ -155,6 +189,7 @@ fun RegistrationView(
                 },
                 imeAction = ImeAction.Next
             )
+            Spacer(modifier = Modifier.height(16.dp))
             EsmorgaTextField(
                 value = lastName,
                 isEnabled = !uiState.loading,
@@ -162,7 +197,7 @@ fun RegistrationView(
                     lastName = it
                     onFieldChanged(RegistrationField.LAST_NAME)
                 },
-                errorText = uiState.lastNameError,
+                errorText = getErrorMessage(uiState.lastNameError),
                 title = stringResource(Res.string.field_title_last_name),
                 placeholder = stringResource(Res.string.placeholder_last_name),
                 modifier = Modifier.onFocusChanged { focusState ->
@@ -172,6 +207,7 @@ fun RegistrationView(
                 },
                 imeAction = ImeAction.Next
             )
+            Spacer(modifier = Modifier.height(16.dp))
             EsmorgaTextField(
                 value = email,
                 isEnabled = !uiState.loading,
@@ -179,7 +215,7 @@ fun RegistrationView(
                     email = it
                     onFieldChanged(RegistrationField.EMAIL)
                 },
-                errorText = uiState.emailError,
+                errorText = getErrorMessage(uiState.emailError),
                 title = stringResource(Res.string.field_title_email),
                 placeholder = stringResource(Res.string.placeholder_email),
                 modifier = Modifier.onFocusChanged { focusState ->
@@ -189,6 +225,7 @@ fun RegistrationView(
                 },
                 imeAction = ImeAction.Next
             )
+            Spacer(modifier = Modifier.height(16.dp))
             EsmorgaTextField(
                 value = password,
                 isEnabled = !uiState.loading,
@@ -196,7 +233,7 @@ fun RegistrationView(
                     password = it
                     onFieldChanged(RegistrationField.PASS)
                 },
-                errorText = uiState.passError,
+                errorText = getErrorMessage(uiState.passError),
                 isPassword = true,
                 title = stringResource(Res.string.field_title_password),
                 placeholder = stringResource(Res.string.placeholder_password),
@@ -207,6 +244,7 @@ fun RegistrationView(
                 },
                 imeAction = ImeAction.Next,
             )
+            Spacer(modifier = Modifier.height(16.dp))
             EsmorgaTextField(
                 value = repeatedPassword,
                 isEnabled = !uiState.loading,
@@ -214,13 +252,13 @@ fun RegistrationView(
                     repeatedPassword = it
                     onFieldChanged(RegistrationField.REPEAT_PASS)
                 },
-                errorText = uiState.repeatPassError,
+                errorText = getErrorMessage(uiState.repeatPassError),
                 isPassword = true,
                 title = stringResource(Res.string.field_title_repeat_password),
                 placeholder = stringResource(Res.string.placeholder_confirm_password),
                 modifier = Modifier.onFocusChanged { focusState ->
                     if (!focusState.isFocused) {
-                        validateField(RegistrationField.REPEAT_PASS, password, repeatedPassword)
+                        validateField(RegistrationField.REPEAT_PASS, repeatedPassword, password)
                     }
                 },
                 imeAction = ImeAction.Done,
@@ -228,7 +266,7 @@ fun RegistrationView(
                     onRegisterClicked(name, lastName, email, password, repeatedPassword)
                 },
             )
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(32.dp))
             EsmorgaButton(text = stringResource(Res.string.registration_submit_button), isEnabled = !uiState.loading, primary = true) {
                 onRegisterClicked(name, lastName, email, password, repeatedPassword)
             }

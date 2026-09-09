@@ -18,7 +18,7 @@
     <string name="registration_email_invalid">Invalid format, only letters, numbers, and _ - are accepted</string>
     <string name="registration_email_already_used">Email already in use</string>
     <string name="registration_password_invalid">Min 8 chars, must include at least 1 digit, 1 letter and 1 symbol</string>
-    <string name="registration_password_mismatch_error">passwords do not match, try again!</string>
+    <string name="registration_password_mismatch_error">Passwords do not match, try again!</string>
     <string name="back_icon_description">Back icon</string>
     <string name="default_error_title">Something failed, please try again</string>
     <string name="default_error_button">Retry</string>
@@ -71,5 +71,13 @@
     <string name="inline_error_email">Invalid email</string>
     <string name="inline_error_password">Invalid password</string>
     <string name="inline_error_empty_field">Required field</string>
+    <string name="inline_error_last_name">Only letters, spaces and \&apos; - are accepted</string>
+    <string name="inline_error_location_required">You must enter a location (max %1$d letters)</string>
+    <string name="inline_error_event_date_deadline_exceeded">The deadline cannot be after the event start time</string>
+    <string name="inline_error_max_capacity_invalid">The capacity must be between 1 and 5000</string>
+    <string name="inline_error_name">Only letters, spaces and \&apos; - are accepted</string>
+    <string name="inline_error_password_invalid">Min 8 chars, must include at least 1 digit, 1 letter and 1 symbol</string>
+    <string name="inline_error_password_mismatch">Passwords do not match, try again!</string>
+    <string name="inline_error_email_already_used">Email already in use</string>
 
 </resources>

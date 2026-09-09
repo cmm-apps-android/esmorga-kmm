@@ -26,6 +26,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cmm.esmorga.designsystem.EsmorgaButton
+import cmm.esmorga.designsystem.EsmorgaSnackbarHost
 import cmm.esmorga.designsystem.EsmorgaText
 import cmm.esmorga.designsystem.EsmorgaTextStyle
 import cmm.esmorga.shared.generated.resources.Res
@@ -104,7 +105,7 @@ fun EventDetailsView(
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         contentWindowInsets = screenContentInsets(),
-        snackbarHost = { SnackbarHost(snackbarHostState) },
+        snackbarHost = { EsmorgaSnackbarHost(snackbarHostState) },
         topBar = {
             TopAppBar(
                 title = {},

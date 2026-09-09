@@ -30,6 +30,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cmm.esmorga.designsystem.EsmorgaButton
+import cmm.esmorga.designsystem.EsmorgaSnackbarHost
 import cmm.esmorga.designsystem.EsmorgaText
 import cmm.esmorga.designsystem.EsmorgaTextField
 import cmm.esmorga.designsystem.EsmorgaTextStyle
@@ -126,7 +127,7 @@ fun LoginView(
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     Scaffold(
-        snackbarHost = { SnackbarHost(snackbarHostState) },
+        snackbarHost = { EsmorgaSnackbarHost(snackbarHostState) },
         contentWindowInsets = screenContentInsets(),
         topBar = {
             TopAppBar(
@@ -181,6 +182,7 @@ fun LoginView(
                     },
                     imeAction = ImeAction.Next
                 )
+                Spacer(modifier = Modifier.height(16.dp))
                 EsmorgaTextField(
                     value = password,
                     isEnabled = !uiState.loading,
@@ -202,10 +204,12 @@ fun LoginView(
                         onLoginClicked(email, password)
                     }
                 )
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(32.dp))
                 EsmorgaButton(text = stringResource(Res.string.login_button), isLoading = uiState.loading) {
                     onLoginClicked(email, password)
                 }
+                Spacer(modifier = Modifier.height(16.dp))
+
                 EsmorgaButton(text = stringResource(Res.string.login_screen_create_account_button), isEnabled = !uiState.loading, primary = false) {
                     onRegisterClicked()
                 }
