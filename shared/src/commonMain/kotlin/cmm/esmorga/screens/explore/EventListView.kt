@@ -26,7 +26,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cmm.esmorga.designsystem.EsmorgaEventCard
-import cmm.esmorga.designsystem.EsmorgaFullScreenError
+import cmm.esmorga.designsystem.ErrorScreen
 import cmm.esmorga.designsystem.EsmorgaLinearLoader
 import cmm.esmorga.designsystem.EsmorgaText
 import cmm.esmorga.designsystem.EsmorgaTextStyle
@@ -105,7 +105,7 @@ private fun EventListView(
                 EventListLoading()
             } else {
                 if (uiState.error.isNullOrBlank().not()) {
-                    EsmorgaFullScreenError(
+                    ErrorScreen(
                         title = stringResource(Res.string.event_list_error_title),
                         subtitle = stringResource(Res.string.event_list_error_subtitle),
                         buttonText = stringResource(Res.string.event_list_error_button),

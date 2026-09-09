@@ -20,7 +20,7 @@ import org.jetbrains.compose.resources.painterResource
 
 
 @Composable
-fun EsmorgaFullScreenError(
+fun ErrorScreen(
     title: String,
     subtitle: String? = null,
     buttonText: String,

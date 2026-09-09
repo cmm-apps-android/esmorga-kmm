@@ -13,7 +13,7 @@ import androidx.navigation.toRoute
 import cmm.esmorga.navigation.Navigation
 import cmm.esmorga.navigation.NavigationKeys
 import cmm.esmorga.screens.changepassword.ChangePasswordScreen
-import cmm.esmorga.screens.errors.EsmorgaErrorScreen
+import cmm.esmorga.screens.errors.EsmorgaFullScreenError
 import cmm.esmorga.screens.eventdetails.EventDetailsScreen
 import cmm.esmorga.screens.explore.ExploreScreen
 import cmm.esmorga.screens.home.HomeScreen
@@ -95,7 +95,7 @@ fun App() {
                     )
                 }
                 composable<Navigation.FullScreenError> { backStackEntry ->
-                    EsmorgaErrorScreen(
+                    EsmorgaFullScreenError(
                         esmorgaErrorScreenArguments = backStackEntry.toRoute<Navigation.FullScreenError>().esmorgaErrorScreenArguments,
                         onButtonPressed = {
                             navController.popBackStack()
