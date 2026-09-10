@@ -1,6 +1,6 @@
 package cmm.esmorga.viewmodel.myevents.model
 
-import cmm.esmorga.viewmodel.eventlist.model.EventListUiModel
+import cmm.esmorga.viewmodel.explore.model.EventListUiModel
 
 
 data class MyEventsUiState(

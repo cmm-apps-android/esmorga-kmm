@@ -12,14 +12,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import cmm.esmorga.design_system.generated.resources.Res
-import cmm.esmorga.design_system.generated.resources.ic_error
+import cmm.esmorga.design_system.generated.resources.ic_cancel
 import org.jetbrains.compose.resources.painterResource
 
 
 @Composable
-fun EsmorgaFullScreenError(
+fun ErrorScreen(
     title: String,
     subtitle: String? = null,
     buttonText: String,
@@ -32,15 +33,16 @@ fun EsmorgaFullScreenError(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(
-                painter = painterResource(Res.drawable.ic_error),
+                painter = painterResource(Res.drawable.ic_cancel),
                 contentDescription = "Error",
-                modifier = Modifier.size(128.dp),
+                modifier = Modifier.size(100.dp),
                 colorFilter = ColorFilter.tint(colorScheme.primary)
             )
-            EsmorgaText(text = title, style = EsmorgaTextStyle.HEADING_1)
+            Spacer(modifier = Modifier.size(16.dp))
+            EsmorgaText(text = title, style = EsmorgaTextStyle.HEADING_1, textAlign = TextAlign.Center)
             Spacer(modifier = Modifier.size(8.dp))
             subtitle?.let {
-                EsmorgaText(text = subtitle, style = EsmorgaTextStyle.BODY_1)
+                EsmorgaText(text = subtitle, style = EsmorgaTextStyle.BODY_1, textAlign = TextAlign.Center)
             }
         }
         EsmorgaButton(

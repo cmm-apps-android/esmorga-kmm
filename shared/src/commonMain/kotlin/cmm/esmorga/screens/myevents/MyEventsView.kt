@@ -20,7 +20,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cmm.esmorga.designsystem.EsmorgaEventCard
-import cmm.esmorga.designsystem.EsmorgaFullScreenError
+import cmm.esmorga.designsystem.ErrorScreen
 import cmm.esmorga.designsystem.EsmorgaLinearLoader
 import cmm.esmorga.designsystem.EsmorgaText
 import cmm.esmorga.designsystem.EsmorgaTextStyle
@@ -35,7 +35,7 @@ import cmm.esmorga.shared.generated.resources.img_event_list_empty
 import cmm.esmorga.shared.generated.resources.login_button
 import cmm.esmorga.shared.generated.resources.screen_my_events_empty_text
 import cmm.esmorga.shared.generated.resources.unauthenticated_error_message
-import cmm.esmorga.viewmodel.eventlist.model.EventListUiModel
+import cmm.esmorga.viewmodel.explore.model.EventListUiModel
 import cmm.esmorga.viewmodel.myevents.MyEventsViewModel
 import cmm.esmorga.viewmodel.myevents.model.MyEventsEffect
 import cmm.esmorga.viewmodel.myevents.model.MyEventsUiState
@@ -92,7 +92,7 @@ private fun MyEventsView(
             uiState.loading -> MyEventListLoading()
             uiState.isLoggedIn -> {
                 if (uiState.error != null) {
-                    EsmorgaFullScreenError(
+                    ErrorScreen(
                         title = stringResource(Res.string.event_list_error_title),
                         subtitle = stringResource(Res.string.event_list_error_subtitle),
                         buttonText = stringResource(Res.string.event_list_error_button),

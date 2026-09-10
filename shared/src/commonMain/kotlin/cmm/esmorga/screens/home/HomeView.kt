@@ -5,15 +5,12 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Snackbar
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -28,10 +25,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavBackStackEntry
+import cmm.esmorga.designsystem.EsmorgaSnackbarHost
 import cmm.esmorga.designsystem.EsmorgaText
 import cmm.esmorga.designsystem.EsmorgaTextStyle
 import cmm.esmorga.navigation.NavigationKeys
-import cmm.esmorga.screens.eventlist.EventListScreen
+import cmm.esmorga.screens.explore.ExploreScreen
 import cmm.esmorga.screens.myevents.MyEventsScreen
 import cmm.esmorga.screens.profile.ProfileScreen
 import cmm.esmorga.shared.generated.resources.Res
@@ -129,17 +127,7 @@ fun HomeScreen(
             }
         },
         snackbarHost = {
-            SnackbarHost(snackbarHostState) { data ->
-                MaterialTheme(typography = typography.copy(
-                    bodyMedium = typography.bodyMedium.copy(color = colorScheme.inverseOnSurface)
-                )) {
-                    Snackbar(
-                        snackbarData = data,
-                        containerColor = colorScheme.inverseSurface,
-                        contentColor = colorScheme.inverseOnSurface
-                    )
-                }
-            }
+            EsmorgaSnackbarHost(snackbarHostState)
         }
     ) { innerPadding ->
         Crossfade(
@@ -147,7 +135,7 @@ fun HomeScreen(
             modifier = Modifier.padding(innerPadding)
         ) { tab ->
             when (tab) {
-                HomeTab.Explore -> EventListScreen(
+                HomeTab.Explore -> ExploreScreen(
                     onEventClick = onEventClick,
                     snackbarHostState = snackbarHostState
                 )

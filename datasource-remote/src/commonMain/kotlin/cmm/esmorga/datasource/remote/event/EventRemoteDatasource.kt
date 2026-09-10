@@ -26,4 +26,20 @@ class EventRemoteDatasourceImpl(private val eventApi: EsmorgaApi) : EventDatasou
             throw manageApiException(e)
         }
     }
+
+    override suspend fun joinEvent(eventId: String) {
+        try {
+            eventApi.joinEvent(eventId)
+        } catch (e: Throwable) {
+            throw manageApiException(e)
+        }
+    }
+
+    override suspend fun leaveEvent(eventId: String) {
+        try {
+            eventApi.leaveEvent(eventId)
+        } catch (e: Throwable) {
+            throw manageApiException(e)
+        }
+    }
 }

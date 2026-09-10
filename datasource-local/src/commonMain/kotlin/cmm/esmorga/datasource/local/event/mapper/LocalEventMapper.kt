@@ -13,7 +13,7 @@ import kotlin.time.Instant
 fun EventLocalModel.toEventDataModel(): EventDataModel {
     val parsedType = try {
         EventType.valueOf(this.localType)
-    } catch (e: Exception) {
+    } catch (_: Exception) {
         throw EsmorgaException(message = "Error parsing type [${this.localType.uppercase()}] in EventRemoteModel", source = Source.LOCAL, code = ErrorCodes.PARSE_ERROR)
     }
 
@@ -25,6 +25,10 @@ fun EventLocalModel.toEventDataModel(): EventDataModel {
         dataType = parsedType,
         dataImageUrl = this.localImageUrl,
         dataLocation = EventLocationDataModel(this.localLocationName, this.localLocationLat, this.localLocationLong),
+        dataMaxCapacity = this.localMaxCapacity,
+        dataJoinDeadline = this.localJoinDeadline?.let { Instant.parse(it) },
+        dataCurrentAttendeeCount = this.localCurrentAttendeeCount,
+        dataUserJoined = this.localUserJoined,
         dataCreationTime = localCreationTime
     )
 }
@@ -42,6 +46,10 @@ fun EventDataModel.toEventLocalModel(): EventLocalModel {
         localLocationName = this.dataLocation.name,
         localLocationLat = this.dataLocation.lat,
         localLocationLong = this.dataLocation.long,
+        localMaxCapacity = this.dataMaxCapacity,
+        localJoinDeadline = this.dataJoinDeadline?.toString(),
+        localCurrentAttendeeCount = this.dataCurrentAttendeeCount,
+        localUserJoined = this.dataUserJoined,
         localCreationTime = dataCreationTime
     )
 }

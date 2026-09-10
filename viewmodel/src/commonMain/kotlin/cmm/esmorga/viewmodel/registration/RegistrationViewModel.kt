@@ -8,13 +8,6 @@ import cmm.esmorga.domain.user.model.User.Companion.EMAIL_REGEX
 import cmm.esmorga.domain.user.model.User.Companion.NAME_REGEX
 import cmm.esmorga.domain.user.model.User.Companion.PASSWORD_REGEX
 import cmm.esmorga.viewmodel.BaseViewModel
-import cmm.esmorga.viewmodel.registration.RegistrationViewHelper.getEmailAlreadyInUseErrorText
-import cmm.esmorga.viewmodel.registration.RegistrationViewHelper.getEmailErrorText
-import cmm.esmorga.viewmodel.registration.RegistrationViewHelper.getEmptyFieldErrorText
-import cmm.esmorga.viewmodel.registration.RegistrationViewHelper.getLastNameErrorText
-import cmm.esmorga.viewmodel.registration.RegistrationViewHelper.getNameErrorText
-import cmm.esmorga.viewmodel.registration.RegistrationViewHelper.getPasswordErrorText
-import cmm.esmorga.viewmodel.registration.RegistrationViewHelper.getRepeatPasswordErrorText
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,6 +15,7 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 
@@ -34,71 +28,65 @@ class RegistrationViewModel(private val performRegistrationUserCase: PerformRegi
     val effect: SharedFlow<RegistrationEffect> = _effect.asSharedFlow()
 
     fun onRegisterClicked(name: String, lastName: String, email: String, password: String, repeatedPassword: String) {
-        validateField(field = RegistrationField.NAME, value = name, acceptsEmpty = false)
-        validateField(field = RegistrationField.LAST_NAME, value = lastName, acceptsEmpty = false)
-        validateField(field = RegistrationField.EMAIL, value = email, acceptsEmpty = false)
-        validateField(field = RegistrationField.PASS, value = password, acceptsEmpty = false)
-        validateField(field = RegistrationField.REPEAT_PASS, value = repeatedPassword, comparisonField = password, acceptsEmpty = false)
+        validateField(RegistrationField.NAME, name, NAME_REGEX, RegistrationValidationError.INVALID_NAME, false)
+        validateField(RegistrationField.LAST_NAME, lastName, NAME_REGEX, RegistrationValidationError.INVALID_LAST_NAME, false)
+        validateField(RegistrationField.EMAIL, email, EMAIL_REGEX, RegistrationValidationError.INVALID_EMAIL, false)
+        validateField(RegistrationField.PASS, password, PASSWORD_REGEX, RegistrationValidationError.INVALID_PASSWORD, false)
+        validateField(RegistrationField.REPEAT_PASS, repeatedPassword, comparisonValue = password, acceptsEmpty = false)
+
         if (!_uiState.value.hasAnyError()) {
             viewModelScope.launch {
-                _uiState.value = RegistrationUiState(loading = true)
+                _uiState.update { it.copy(loading = true) }
                 val result = performRegistrationUserCase(name.trim(), lastName.trim(), email.trim(), password.trim())
                 result.onSuccess {
                     _effect.tryEmit(RegistrationEffect.NavigateToEventList)
                 }.onFailure { error ->
-                    _uiState.value = _uiState.value.copy(loading = false)
+                    _uiState.update { it.copy(loading = false) }
                     when {
                         error is EsmorgaException && error.code == ErrorCodes.NO_CONNECTION -> _effect.tryEmit(RegistrationEffect.ShowNoNetworkSnackbar)
-                        error is EsmorgaException && error.code == 409 -> _uiState.value = RegistrationUiState(nameError = getEmailAlreadyInUseErrorText())
-                        else -> _effect.tryEmit(RegistrationEffect.ShowFullScreenError())
+                        error is EsmorgaException && error.code == 409 -> _uiState.update { it.copy(emailError = RegistrationValidationError.EMAIL_ALREADY_IN_USE) }
+                        else -> _effect.tryEmit(RegistrationEffect.ShowFullScreenError)
                     }
                 }
             }
         }
     }
 
-    fun validateField(field: RegistrationField, value: String, comparisonField: String? = null, acceptsEmpty: Boolean = true) {
-        when (field) {
-            RegistrationField.NAME -> _uiState.value =
-                _uiState.value.copy(nameError = getFieldErrorText(value, getNameErrorText(), acceptsEmpty, value.matches(NAME_REGEX.toRegex())))
-
-            RegistrationField.LAST_NAME -> _uiState.value =
-                _uiState.value.copy(lastNameError = getFieldErrorText(value, getLastNameErrorText(), acceptsEmpty, value.matches(NAME_REGEX.toRegex())))
-
-            RegistrationField.EMAIL -> _uiState.value =
-                _uiState.value.copy(emailError = getFieldErrorText(value, getEmailErrorText(), acceptsEmpty, value.matches(EMAIL_REGEX.toRegex())))
-
-            RegistrationField.PASS -> _uiState.value =
-                _uiState.value.copy(passError = getFieldErrorText(value, getPasswordErrorText(), acceptsEmpty, value.matches(PASSWORD_REGEX.toRegex())))
-
-            RegistrationField.REPEAT_PASS -> _uiState.value =
-                _uiState.value.copy(repeatPassError = getFieldErrorText(value, getRepeatPasswordErrorText(), acceptsEmpty, value == comparisonField))
-        }
-    }
-
-    private fun getFieldErrorText(
+    fun validateField(
+        field: RegistrationField,
         value: String,
-        errorTextProvider: String,
-        acceptsEmpty: Boolean,
-        nonEmptyCondition: Boolean
-    ): String? {
-        val isBlank = value.isBlank()
-        val isValid = value.isEmpty() || nonEmptyCondition
+        regex: String? = null,
+        invalidError: RegistrationValidationError? = null,
+        acceptsEmpty: Boolean = true,
+        comparisonValue: String? = null
+    ) {
+        val error = when {
+            value.isEmpty() && !acceptsEmpty -> RegistrationValidationError.EMPTY
+            field == RegistrationField.REPEAT_PASS && value != comparisonValue -> RegistrationValidationError.PASSWORD_MISMATCH
+            regex != null && value.isNotEmpty() && !value.matches(regex.toRegex()) -> invalidError ?: RegistrationValidationError.NONE
+            else -> RegistrationValidationError.NONE
+        }
 
-        return when {
-            !acceptsEmpty && isBlank -> getEmptyFieldErrorText()
-            !isValid -> errorTextProvider
-            else -> null
+        _uiState.update { state ->
+            when (field) {
+                RegistrationField.NAME -> state.copy(nameError = error)
+                RegistrationField.LAST_NAME -> state.copy(lastNameError = error)
+                RegistrationField.EMAIL -> state.copy(emailError = error)
+                RegistrationField.PASS -> state.copy(passError = error)
+                RegistrationField.REPEAT_PASS -> state.copy(repeatPassError = error)
+            }
         }
     }
 
     fun onFieldChanged(field: RegistrationField) {
-        when (field) {
-            RegistrationField.NAME -> _uiState.value = _uiState.value.copy(nameError = null)
-            RegistrationField.LAST_NAME -> _uiState.value = _uiState.value.copy(lastNameError = null)
-            RegistrationField.EMAIL -> _uiState.value = _uiState.value.copy(emailError = null)
-            RegistrationField.PASS -> _uiState.value = _uiState.value.copy(passError = null)
-            RegistrationField.REPEAT_PASS -> _uiState.value = _uiState.value.copy(repeatPassError = null)
+        _uiState.update { state ->
+            when (field) {
+                RegistrationField.NAME -> state.copy(nameError = RegistrationValidationError.NONE)
+                RegistrationField.LAST_NAME -> state.copy(lastNameError = RegistrationValidationError.NONE)
+                RegistrationField.EMAIL -> state.copy(emailError = RegistrationValidationError.NONE)
+                RegistrationField.PASS -> state.copy(passError = RegistrationValidationError.NONE)
+                RegistrationField.REPEAT_PASS -> state.copy(repeatPassError = RegistrationValidationError.NONE)
+            }
         }
     }
 

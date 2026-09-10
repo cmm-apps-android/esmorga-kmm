@@ -6,6 +6,7 @@ import cmm.esmorga.datasource.remote.user.model.ChangePasswordBodyRemoteModel
 import cmm.esmorga.datasource.remote.user.model.UserRemoteModel
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
+import io.ktor.client.request.delete
 import io.ktor.client.request.get
 import io.ktor.client.request.post
 import io.ktor.client.request.put
@@ -33,6 +34,20 @@ class EsmorgaApi(private val httpClient: HttpClient) {
     suspend fun getMyEvents(): EventListWrapperRemoteModel {
         val response = httpClient.get("account/events")
         return response.body()
+    }
+
+    suspend fun joinEvent(eventId: String) {
+        httpClient.post("account/events") {
+            contentType(ContentType.Application.Json)
+            setBody(mapOf("eventId" to eventId))
+        }
+    }
+
+    suspend fun leaveEvent(eventId: String) {
+        httpClient.delete("account/events") {
+            contentType(ContentType.Application.Json)
+            setBody(mapOf("eventId" to eventId))
+        }
     }
 
     suspend fun register(body: Map<String, String>): UserRemoteModel {

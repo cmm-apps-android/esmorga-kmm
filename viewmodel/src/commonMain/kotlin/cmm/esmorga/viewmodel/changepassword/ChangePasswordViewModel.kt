@@ -81,7 +81,7 @@ class ChangePasswordViewModel(
                 _effect.tryEmit(ChangePasswordEffect.NavigateToHome)
             }.onFailure {
                 _uiState.value = _uiState.value.copy(loading = false)
-                _effect.tryEmit(ChangePasswordEffect.ShowFullScreenError())
+                _effect.tryEmit(ChangePasswordEffect.ShowFullScreenError)
             }
         }
     }

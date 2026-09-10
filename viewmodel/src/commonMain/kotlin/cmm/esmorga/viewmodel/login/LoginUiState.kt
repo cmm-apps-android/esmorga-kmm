@@ -1,24 +1,23 @@
 package cmm.esmorga.viewmodel.login
 
-import org.koin.core.component.KoinComponent
+enum class ValidationError {
+    NONE,
+    EMPTY,
+    INVALID_EMAIL,
+    INVALID_PASSWORD
+}
 
 data class LoginUiState(
     val loading: Boolean = false,
-    val emailError: String? = null,
-    val passwordError: String? = null
+    val emailError: ValidationError = ValidationError.NONE,
+    val passwordError: ValidationError = ValidationError.NONE
 ) {
-    fun hasAnyError() = emailError != null || passwordError != null
+    fun hasAnyError() = emailError != ValidationError.NONE || passwordError != ValidationError.NONE
 }
 
 sealed class LoginEffect {
     data object NavigateToRegistration : LoginEffect()
     data object ShowNoNetworkSnackbar : LoginEffect()
     data object NavigateToEventList : LoginEffect()
-    data class ShowFullScreenError(val error: String = "Error") : LoginEffect()
-}
-
-object LoginViewHelper : KoinComponent {
-    fun getEsmorgaErrorScreenArguments() = "title"
-    fun getEmailErrorText() = "error"
-    fun getPasswordErrorText() = "error"
+    object ShowFullScreenError : LoginEffect()
 }

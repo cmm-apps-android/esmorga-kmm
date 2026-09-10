@@ -62,5 +62,22 @@
     <string name="placeholder_last_name">Ingresa tu apellido</string>
     <string name="field_title_repeat_password">Repetir contraseña</string>
     <string name="password_change_success_snackbar">Contraseña actualizada correctamente.</string>
+    <string name="button_login_to_join">Identifícate para apuntarte</string>
+    <string name="button_leave_event">Rajarse</string>
+    <string name="button_deadline_passed">Demasiado tarde</string>
+    <string name="button_join_event_disabled">LLeno</string>
+    <string name="button_join_event">Apuntarse</string>
+    <string name="snackbar_event_full">El evento ya ha alcanzado el aforo máximo.</string>
+    <string name="inline_error_email">Formato no válido</string>
+    <string name="inline_error_password">Contraseña inválida</string>
+    <string name="inline_error_empty_field">Campo requerido</string>
+    <string name="inline_error_last_name">Sólo letras, espacios y \' -  están disponibles</string>
+    <string name="inline_error_location_required">Debes introducir una localización (max %1$d letras)</string>
+    <string name="inline_error_event_date_deadline_exceeded">La fecha límite no puede ser posterior a la hora de inicio del evento</string>
+    <string name="inline_error_max_capacity_invalid">La capacidad tiene que ser entre 1 y 5000</string>
+    <string name="inline_error_name">Sólo letras, espacios y \' -  están disponibles</string>
+    <string name="inline_error_password_invalid">Mínimo 8 caracteres, debe incluir al menos 1 dígito, 1 letra y 1 símbolo</string>
+    <string name="inline_error_password_mismatch">¡Las contraseñas no coinciden, inténtalo de nuevo!</string>
+    <string name="inline_error_email_already_used">Email ya ha sido usado</string>
 
 </resources>

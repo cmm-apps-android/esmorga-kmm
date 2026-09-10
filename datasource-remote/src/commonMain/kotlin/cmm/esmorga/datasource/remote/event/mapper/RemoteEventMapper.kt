@@ -15,14 +15,20 @@ import kotlin.time.Instant
 fun EventRemoteModel.toEventDataModel(): EventDataModel {
     val parsedDate = try {
         Instant.parse(remoteDate)
-    } catch (e: Exception) {
+    } catch (_: Exception) {
         throw ParseException("Error parsing date in EventRemoteModel")
     }
 
     val parsedType = try {
         EventType.valueOf(this.remoteType.uppercase())
-    } catch (e: Exception) {
+    } catch (_: Exception) {
         throw EsmorgaException(message = "Error parsing type [${this.remoteType.uppercase()}] in EventRemoteModel", source = Source.REMOTE, code = ErrorCodes.PARSE_ERROR)
+    }
+
+    val parsedJoinDeadline = try {
+        Instant.parse(remoteJoinDeadline)
+    } catch (_: Exception) {
+        throw ParseException("Error parsing joinDeadline in EventRemoteModel")
     }
 
     return EventDataModel(
@@ -33,6 +39,10 @@ fun EventRemoteModel.toEventDataModel(): EventDataModel {
         dataType = parsedType,
         dataImageUrl = this.remoteImageUrl,
         dataLocation = this.remoteLocation.toEventLocationDataModel(),
+        dataMaxCapacity = this.remoteMaxCapacity,
+        dataJoinDeadline = parsedJoinDeadline,
+        dataCurrentAttendeeCount = this.remoteCurrentAttendeeCount,
+        dataUserJoined = this.remoteUserJoined,
     )
 }
 
