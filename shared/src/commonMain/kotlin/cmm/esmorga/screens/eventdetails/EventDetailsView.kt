@@ -72,6 +72,7 @@ fun EventDetailsScreen(
     eventId: String,
     onBackPressed: () -> Unit,
     onNavigateToLocation: (lat: Double, lng: Double) -> Unit,
+    onNavigateToAttendees: (eventId: String) -> Unit,
     onNavigateToLogin: () -> Unit,
     onNavigateToError: () -> Unit,
     edvm: EventDetailsViewModel = koinViewModel(parameters = { parametersOf(eventId) })
@@ -84,6 +85,7 @@ fun EventDetailsScreen(
         edvm.effect.collect { eff ->
             when (eff) {
                 is EventDetailsEffect.NavigateToLocation -> onNavigateToLocation(eff.lat, eff.lng)
+                is EventDetailsEffect.NavigateToAttendees -> onNavigateToAttendees(eff.eventId)
                 is EventDetailsEffect.NavigateBack -> onBackPressed()
                 is EventDetailsEffect.NavigateToLogin -> onNavigateToLogin()
                 is EventDetailsEffect.NavigateToError -> onNavigateToError()
@@ -98,6 +100,7 @@ fun EventDetailsScreen(
             uiState = uiState,
             snackbarHostState = snackbarHostState,
             onNavigateClicked = { edvm.onNavigateClick() },
+            onViewAttendeesClicked = { edvm.onViewAttendeesClick() },
             onJoinLeaveClicked = { edvm.onJoinLeaveClick() },
             onBackPressed = { edvm.onBackPressed() }
         )
@@ -110,6 +113,7 @@ fun EventDetailsView(
     uiState: EventDetailsUiState,
     snackbarHostState: SnackbarHostState,
     onNavigateClicked: () -> Unit,
+    onViewAttendeesClicked: () -> Unit,
     onJoinLeaveClicked: () -> Unit,
     onBackPressed: () -> Unit
 ) {
@@ -159,19 +163,20 @@ fun EventDetailsView(
             )
             Spacer(modifier = Modifier.height(12.dp))
             EsmorgaText(text = uiState.subtitle, style = EsmorgaTextStyle.BODY_1_ACCENT, modifier = Modifier.padding(horizontal = 16.dp))
-            Spacer(modifier = Modifier.height(20.dp))
             uiState.maxCapacity?.let { maxCapacity ->
+                Spacer(modifier = Modifier.height(20.dp))
                 EventAttendeesLabel(
                     currentAttendeeCount = uiState.currentAttendeeCount,
                     maxCapacity = maxCapacity,
                     isAuthenticated = uiState.isAuthenticated,
+                    onViewAttendeesClicked = onViewAttendeesClicked,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp)
                 )
-                Spacer(modifier = Modifier.height(20.dp))
             }
             uiState.joinDeadline?.let { joinDeadline ->
+                Spacer(modifier = Modifier.height(16.dp))
                 EsmorgaText(
                     text = stringResource(
                         Res.string.screen_event_details_join_deadline,
@@ -181,8 +186,8 @@ fun EventDetailsView(
                     color = DarkClaret,
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
-                Spacer(modifier = Modifier.height(20.dp))
             }
+            Spacer(modifier = Modifier.height(32.dp))
             EsmorgaText(
                 text = stringResource(Res.string.event_details_description),
                 style = EsmorgaTextStyle.HEADING_2,
@@ -234,6 +239,7 @@ private fun EventAttendeesLabel(
     currentAttendeeCount: Int,
     maxCapacity: Int,
     isAuthenticated: Boolean,
+    onViewAttendeesClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -263,7 +269,8 @@ private fun EventAttendeesLabel(
                 text = stringResource(Res.string.button_view_attendees),
                 style = EsmorgaTextStyle.CAPTION,
                 color = MaterialTheme.colorScheme.onSurface,
-                textDecoration = TextDecoration.Underline
+                textDecoration = TextDecoration.Underline,
+                modifier = Modifier.clickable { onViewAttendeesClicked() }
             )
         }
     }

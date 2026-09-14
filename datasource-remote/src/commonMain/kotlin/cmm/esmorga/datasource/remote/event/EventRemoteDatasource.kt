@@ -42,4 +42,12 @@ class EventRemoteDatasourceImpl(private val eventApi: EsmorgaApi) : EventDatasou
             throw manageApiException(e)
         }
     }
+
+    override suspend fun getEventAttendees(eventId: String): List<String> {
+        return try {
+            eventApi.getEventAttendees(eventId).remoteEventAttendeeList
+        } catch (e: Throwable) {
+            throw manageApiException(e)
+        }
+    }
 }

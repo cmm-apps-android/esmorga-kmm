@@ -4,6 +4,8 @@ import cmm.esmorga.screens.eventdetails.EventDetailsView
 import cmm.esmorga.view.theme.EsmorgaTheme
 import cmm.esmorga.view.screenshot.BaseScreenshotTest
 import cmm.esmorga.viewmodel.eventdetails.model.EventDetailsUiState
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.runtime.remember
 import org.junit.Test
 
 class EventDetailsScreenshotTest : BaseScreenshotTest() {
@@ -32,7 +34,10 @@ class EventDetailsScreenshotTest : BaseScreenshotTest() {
                         locationLat = lat,
                         locationLng = lng
                     ),
+                    snackbarHostState = remember { SnackbarHostState() },
                     onNavigateClicked = {},
+                    onViewAttendeesClicked = {},
+                    onJoinLeaveClicked = {},
                     onBackPressed = {}
                 )
             }

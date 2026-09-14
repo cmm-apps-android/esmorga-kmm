@@ -10,4 +10,5 @@ interface EventRepository {
     suspend fun joinEvent(eventId: String): Success<Unit>
     suspend fun leaveEvent(eventId: String): Success<Unit>
     suspend fun getEventDetails(eventId: String): Success<Event>
+    suspend fun getEventAttendees(eventId: String): Success<List<String>>
 }

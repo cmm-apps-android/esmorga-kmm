@@ -75,6 +75,9 @@ class EventRepositoryImpl(
         return Success(localEventDs.getEventById(eventId).toEvent())
     }
 
+    override suspend fun getEventAttendees(eventId: String): Success<List<String>> {
+        return Success(remoteEventDs.getEventAttendees(eventId))
+    }
 
     private suspend fun getEventsFromRemote(): List<EventDataModel> = coroutineScope {
         val user = runCatching { localUserDs.getUser() }.getOrNull()

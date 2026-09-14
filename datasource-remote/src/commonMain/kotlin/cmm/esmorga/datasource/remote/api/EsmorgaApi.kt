@@ -1,5 +1,6 @@
 package cmm.esmorga.datasource.remote.api
 
+import cmm.esmorga.datasource.remote.event.model.EventAttendeeWrapperRemoteModel
 import cmm.esmorga.datasource.remote.event.model.EventListWrapperRemoteModel
 import cmm.esmorga.datasource.remote.user.model.AccessTokenRemoteModel
 import cmm.esmorga.datasource.remote.user.model.ChangePasswordBodyRemoteModel
@@ -63,6 +64,11 @@ class EsmorgaApi(private val httpClient: HttpClient) {
             contentType(ContentType.Application.Json)
             setBody(body)
         }
+        return response.body()
+    }
+
+    suspend fun getEventAttendees(eventId: String): EventAttendeeWrapperRemoteModel {
+        val response = httpClient.get("events/$eventId/users")
         return response.body()
     }
 

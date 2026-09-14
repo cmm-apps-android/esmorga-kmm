@@ -36,6 +36,8 @@ sealed class EventDetailsEffect {
 
     data class NavigateToLocation(val lat: Double, val lng: Double) : EventDetailsEffect()
 
+    data class NavigateToAttendees(val eventId: String) : EventDetailsEffect()
+
     data object NavigateToLogin : EventDetailsEffect()
 
     data object ShowEventFullSnackbar : EventDetailsEffect()

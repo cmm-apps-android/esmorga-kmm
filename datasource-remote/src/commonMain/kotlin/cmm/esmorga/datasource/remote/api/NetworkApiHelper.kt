@@ -61,8 +61,10 @@ class NetworkApiHelper {
                     }
 
                     sendWithoutRequest { request ->
-                        request.url.encodedPath.endsWith("account/events") ||
-                            request.url.encodedPath.endsWith("account/password")
+                        val path = request.url.encodedPath
+                        path.endsWith("account/events") ||
+                            path.endsWith("account/password") ||
+                            (path.contains("events/") && path.endsWith("/users"))
                     }
                 }
             }

@@ -14,6 +14,9 @@ sealed class Navigation {
     data class EventDetailScreen(val eventId: String) : Navigation()
 
     @Serializable
+    data class EventAttendeesScreen(val eventId: String) : Navigation()
+
+    @Serializable
     data object LoginScreen : Navigation()
 
     @Serializable

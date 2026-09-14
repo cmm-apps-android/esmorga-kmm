@@ -4,6 +4,7 @@ import cmm.esmorga.data.di.DataDIModule
 import cmm.esmorga.datasource.local.di.LocalDIModule
 import cmm.esmorga.datasource.remote.di.RemoteDIModule
 import cmm.esmorga.domain.di.DomainDIModule
+import cmm.esmorga.viewmodel.eventattendees.EventAttendeesViewModel
 import cmm.esmorga.viewmodel.eventdetails.EventDetailsViewModel
 import cmm.esmorga.viewmodel.explore.ExploreViewModel
 import cmm.esmorga.viewmodel.changepassword.ChangePasswordViewModel
@@ -30,6 +31,9 @@ val viewModelModule = module {
     viewModelOf(::ExploreViewModel)
     viewModel { (eventId: String) ->
         EventDetailsViewModel(get(), get(), get(), get(), eventId)
+    }
+    viewModel { (eventId: String) ->
+        EventAttendeesViewModel(get(), eventId)
     }
     viewModelOf(::WelcomeViewModel)
     viewModelOf(::LoginViewModel)

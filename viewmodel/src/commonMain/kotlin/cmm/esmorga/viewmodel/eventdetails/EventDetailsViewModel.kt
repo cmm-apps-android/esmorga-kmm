@@ -63,6 +63,10 @@ class EventDetailsViewModel(
         _effect.tryEmit(EventDetailsEffect.NavigateBack)
     }
 
+    fun onViewAttendeesClick() {
+        _effect.tryEmit(EventDetailsEffect.NavigateToAttendees(eventId))
+    }
+
     fun onJoinLeaveClick() {
         viewModelScope.launch {
             val currentState = _uiState.value
