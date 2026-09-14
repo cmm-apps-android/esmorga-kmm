@@ -81,4 +81,6 @@
     <string name="inline_error_email_already_used">Email ya ha sido usado</string>
     <string name="screen_event_details_capacity">%1$d/%2$d asistentes</string>
     <string name="button_view_attendees">Ver asistentes</string>
+    <string name="screen_event_details_join_deadline">Join before %1$s</string>
+
 </resources>

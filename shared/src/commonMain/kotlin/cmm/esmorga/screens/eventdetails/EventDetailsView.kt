@@ -48,6 +48,7 @@ import cmm.esmorga.shared.generated.resources.ic_arrow_back
 import cmm.esmorga.shared.generated.resources.img_event_list_empty
 import cmm.esmorga.shared.generated.resources.navigate
 import cmm.esmorga.shared.generated.resources.screen_event_details_capacity
+import cmm.esmorga.shared.generated.resources.screen_event_details_join_deadline
 import cmm.esmorga.shared.generated.resources.snackbar_event_full
 import cmm.esmorga.utils.screenContentInsets
 import cmm.esmorga.utils.screenTopBarInsets
@@ -56,6 +57,7 @@ import cmm.esmorga.view.theme.EsmorgaTheme
 import cmm.esmorga.viewmodel.eventdetails.EventDetailsViewModel
 import cmm.esmorga.viewmodel.eventdetails.model.EventDetailsEffect
 import cmm.esmorga.viewmodel.eventdetails.model.EventDetailsUiState
+import cmm.esmorga.viewmodel.explore.mapper.EventListUiMapper.formatDate
 import cmm.esmorga.design_system.generated.resources.Res as DsRes
 import cmm.esmorga.design_system.generated.resources.group
 import coil3.compose.AsyncImage
@@ -157,8 +159,8 @@ fun EventDetailsView(
             )
             Spacer(modifier = Modifier.height(12.dp))
             EsmorgaText(text = uiState.subtitle, style = EsmorgaTextStyle.BODY_1_ACCENT, modifier = Modifier.padding(horizontal = 16.dp))
+            Spacer(modifier = Modifier.height(20.dp))
             uiState.maxCapacity?.let { maxCapacity ->
-                Spacer(modifier = Modifier.height(20.dp))
                 EventAttendeesLabel(
                     currentAttendeeCount = uiState.currentAttendeeCount,
                     maxCapacity = maxCapacity,
@@ -169,7 +171,18 @@ fun EventDetailsView(
                 )
                 Spacer(modifier = Modifier.height(20.dp))
             }
-            Spacer(modifier = Modifier.height(12.dp))
+            uiState.joinDeadline?.let { joinDeadline ->
+                EsmorgaText(
+                    text = stringResource(
+                        Res.string.screen_event_details_join_deadline,
+                        formatDate(joinDeadline)
+                    ),
+                    style = EsmorgaTextStyle.BUTTON_PRIMARY,
+                    color = DarkClaret,
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
+                Spacer(modifier = Modifier.height(20.dp))
+            }
             EsmorgaText(
                 text = stringResource(Res.string.event_details_description),
                 style = EsmorgaTextStyle.HEADING_2,
