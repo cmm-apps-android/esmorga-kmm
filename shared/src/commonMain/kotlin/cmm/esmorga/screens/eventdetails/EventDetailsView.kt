@@ -26,6 +26,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cmm.esmorga.designsystem.EsmorgaButton
@@ -34,6 +35,7 @@ import cmm.esmorga.designsystem.EsmorgaText
 import cmm.esmorga.designsystem.EsmorgaTextStyle
 import cmm.esmorga.shared.generated.resources.Res
 import cmm.esmorga.shared.generated.resources.back_icon_description
+import cmm.esmorga.shared.generated.resources.button_view_attendees
 import cmm.esmorga.shared.generated.resources.button_deadline_passed
 import cmm.esmorga.shared.generated.resources.button_join_event
 import cmm.esmorga.shared.generated.resources.button_join_event_disabled
@@ -49,6 +51,7 @@ import cmm.esmorga.shared.generated.resources.screen_event_details_capacity
 import cmm.esmorga.shared.generated.resources.snackbar_event_full
 import cmm.esmorga.utils.screenContentInsets
 import cmm.esmorga.utils.screenTopBarInsets
+import cmm.esmorga.view.theme.DarkClaret
 import cmm.esmorga.view.theme.EsmorgaTheme
 import cmm.esmorga.viewmodel.eventdetails.EventDetailsViewModel
 import cmm.esmorga.viewmodel.eventdetails.model.EventDetailsEffect
@@ -159,6 +162,7 @@ fun EventDetailsView(
                 EventAttendeesLabel(
                     currentAttendeeCount = uiState.currentAttendeeCount,
                     maxCapacity = maxCapacity,
+                    isAuthenticated = uiState.isAuthenticated,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp)
@@ -216,26 +220,39 @@ fun EventDetailsView(
 private fun EventAttendeesLabel(
     currentAttendeeCount: Int,
     maxCapacity: Int,
+    isAuthenticated: Boolean,
     modifier: Modifier = Modifier
 ) {
     Row(
         modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(5.dp)
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Icon(
-            painter = painterResource(DsRes.drawable.group),
-            contentDescription = null,
-            tint = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.size(width = 15.dp, height = 11.dp)
-        )
-        EsmorgaText(
-            text = stringResource(
-                Res.string.screen_event_details_capacity,
-                currentAttendeeCount,
-                maxCapacity
-            ),
-            style = EsmorgaTextStyle.CAPTION
-        )
+        Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
+            Icon(
+                painter = painterResource(DsRes.drawable.group),
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.size(width = 15.dp, height = 15.dp)
+            )
+            EsmorgaText(
+                text = stringResource(
+                    Res.string.screen_event_details_capacity,
+                    currentAttendeeCount,
+                    maxCapacity
+                ),
+                style = EsmorgaTextStyle.CAPTION,
+                color = DarkClaret
+            )
+        }
+
+        if (currentAttendeeCount > 0 && isAuthenticated) {
+            EsmorgaText(
+                text = stringResource(Res.string.button_view_attendees),
+                style = EsmorgaTextStyle.CAPTION,
+                color = MaterialTheme.colorScheme.onSurface,
+                textDecoration = TextDecoration.Underline
+            )
+        }
     }
 }
 
