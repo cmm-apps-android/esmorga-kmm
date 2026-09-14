@@ -1,19 +1,22 @@
 package cmm.esmorga.screens.eventdetails
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -42,6 +45,7 @@ import cmm.esmorga.shared.generated.resources.event_image_content_description
 import cmm.esmorga.shared.generated.resources.ic_arrow_back
 import cmm.esmorga.shared.generated.resources.img_event_list_empty
 import cmm.esmorga.shared.generated.resources.navigate
+import cmm.esmorga.shared.generated.resources.screen_event_details_capacity
 import cmm.esmorga.shared.generated.resources.snackbar_event_full
 import cmm.esmorga.utils.screenContentInsets
 import cmm.esmorga.utils.screenTopBarInsets
@@ -49,6 +53,8 @@ import cmm.esmorga.view.theme.EsmorgaTheme
 import cmm.esmorga.viewmodel.eventdetails.EventDetailsViewModel
 import cmm.esmorga.viewmodel.eventdetails.model.EventDetailsEffect
 import cmm.esmorga.viewmodel.eventdetails.model.EventDetailsUiState
+import cmm.esmorga.design_system.generated.resources.Res as DsRes
+import cmm.esmorga.design_system.generated.resources.group
 import coil3.compose.AsyncImage
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
@@ -148,7 +154,18 @@ fun EventDetailsView(
             )
             Spacer(modifier = Modifier.height(12.dp))
             EsmorgaText(text = uiState.subtitle, style = EsmorgaTextStyle.BODY_1_ACCENT, modifier = Modifier.padding(horizontal = 16.dp))
-            Spacer(modifier = Modifier.height(32.dp))
+            uiState.maxCapacity?.let { maxCapacity ->
+                Spacer(modifier = Modifier.height(20.dp))
+                EventAttendeesLabel(
+                    currentAttendeeCount = uiState.currentAttendeeCount,
+                    maxCapacity = maxCapacity,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
+                )
+                Spacer(modifier = Modifier.height(20.dp))
+            }
+            Spacer(modifier = Modifier.height(12.dp))
             EsmorgaText(
                 text = stringResource(Res.string.event_details_description),
                 style = EsmorgaTextStyle.HEADING_2,
@@ -195,6 +212,32 @@ fun EventDetailsView(
     }
 }
 
+@Composable
+private fun EventAttendeesLabel(
+    currentAttendeeCount: Int,
+    maxCapacity: Int,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(5.dp)
+    ) {
+        Icon(
+            painter = painterResource(DsRes.drawable.group),
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.size(width = 15.dp, height = 11.dp)
+        )
+        EsmorgaText(
+            text = stringResource(
+                Res.string.screen_event_details_capacity,
+                currentAttendeeCount,
+                maxCapacity
+            ),
+            style = EsmorgaTextStyle.CAPTION
+        )
+    }
+}
 
 @Composable
 private fun joinButtonLabel(uiState: EventDetailsUiState): String = with(uiState) {
