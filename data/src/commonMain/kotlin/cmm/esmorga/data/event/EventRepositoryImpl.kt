@@ -2,10 +2,13 @@ package cmm.esmorga.data.event
 
 import cmm.esmorga.data.CacheHelper
 import cmm.esmorga.data.event.datasource.EventDatasource
+import cmm.esmorga.data.event.mapper.toAttendeeList
 import cmm.esmorga.data.event.mapper.toEvent
 import cmm.esmorga.data.event.mapper.toEventList
+import cmm.esmorga.data.event.model.AttendeeDataModel
 import cmm.esmorga.data.event.model.EventDataModel
 import cmm.esmorga.data.user.datasource.UserDatasource
+import cmm.esmorga.domain.event.model.Attendee
 import cmm.esmorga.domain.event.model.Event
 import cmm.esmorga.domain.event.repository.EventRepository
 import cmm.esmorga.domain.result.ErrorCodes
@@ -75,8 +78,27 @@ class EventRepositoryImpl(
         return Success(localEventDs.getEventById(eventId).toEvent())
     }
 
-    override suspend fun getEventAttendees(eventId: String): Success<List<String>> {
-        return Success(remoteEventDs.getEventAttendees(eventId))
+    override suspend fun getEventAttendees(eventId: String): Success<List<Attendee>> {
+        val remoteAttendees = remoteEventDs.getEventAttendees(eventId)
+        val paidAttendees = try {
+            localEventDs.getPaidAttendeesNames(eventId).toSet()
+        } catch (_: Exception) {
+            emptySet()
+        }
+
+        val attendeeList = remoteAttendees.map { name ->
+            AttendeeDataModel(
+                dataName = name,
+                dataAlreadyPaid = name in paidAttendees
+            )
+        }
+
+        return Success(attendeeList.toAttendeeList())
+    }
+
+    override suspend fun saveAttendeePayment(eventId: String, userName: String, paid: Boolean): Success<Unit> {
+        localEventDs.saveAttendeePayment(eventId, userName, paid)
+        return Success(Unit)
     }
 
     private suspend fun getEventsFromRemote(): List<EventDataModel> = coroutineScope {

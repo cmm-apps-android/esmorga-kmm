@@ -2,6 +2,7 @@ package cmm.esmorga.viewmodel.eventattendees
 
 import androidx.lifecycle.viewModelScope
 import cmm.esmorga.domain.event.GetEventAttendeesUseCase
+import cmm.esmorga.domain.event.SaveAttendeePaymentUseCase
 import cmm.esmorga.viewmodel.BaseViewModel
 import cmm.esmorga.viewmodel.eventattendees.model.EventAttendeesUiState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,6 +13,7 @@ import kotlinx.coroutines.launch
 
 class EventAttendeesViewModel(
     private val getEventAttendeesUseCase: GetEventAttendeesUseCase,
+    private val saveAttendeePaymentUseCase: SaveAttendeePaymentUseCase,
     private val eventId: String
 ) : BaseViewModel() {
 
@@ -41,7 +43,15 @@ class EventAttendeesViewModel(
     }
 
     fun onAttendeeChecked(position: Int, checked: Boolean) {
-
+        val attendee = _uiState.value.attendees.getOrNull(position) ?: return
+        viewModelScope.launch {
+            saveAttendeePaymentUseCase(eventId, attendee.name, checked)
+            _uiState.update { state ->
+                val updatedAttendees = state.attendees.mapIndexed { index, item ->
+                    if (index == position) item.copy(alreadyPaid = checked) else item
+                }
+                state.copy(attendees = updatedAttendees)
+            }
+        }
     }
 }
-

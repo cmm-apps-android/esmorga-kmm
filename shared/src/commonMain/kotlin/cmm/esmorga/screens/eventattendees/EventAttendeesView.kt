@@ -25,6 +25,7 @@ import cmm.esmorga.designsystem.EsmorgaHorizontalDivider
 import cmm.esmorga.designsystem.EsmorgaLinearLoader
 import cmm.esmorga.designsystem.EsmorgaText
 import cmm.esmorga.designsystem.EsmorgaTextStyle
+import cmm.esmorga.domain.event.model.Attendee
 import cmm.esmorga.screens.errors.EsmorgaFullScreenError
 import cmm.esmorga.shared.generated.resources.Res
 import cmm.esmorga.shared.generated.resources.back_icon_description
@@ -131,7 +132,7 @@ private fun EventAttendeesLoading() {
 }
 
 @Composable
-private fun EventAttendeesList(attendees: List<String>, onAttendeeChecked: (Int, Boolean) -> Unit) {
+private fun EventAttendeesList(attendees: List<Attendee>, onAttendeeChecked: (Int, Boolean) -> Unit) {
     LazyColumn(modifier = Modifier.fillMaxSize()) {
         item {
             Row(
@@ -158,9 +159,9 @@ private fun EventAttendeesList(attendees: List<String>, onAttendeeChecked: (Int,
 
         itemsIndexed(attendees) { index, attendee ->
             EsmorgaCheckboxRow(
-                text = "${index + 1}. $attendee",
+                text = "${index + 1}. ${attendee.name}",
                 shouldShowChecked = true,
-                checked = false,
+                checked = attendee.alreadyPaid,
                 onCheckedChanged = { onAttendeeChecked(index, it) }
             )
         }

@@ -5,6 +5,7 @@ import cmm.esmorga.data.event.datasource.EventDatasource
 import cmm.esmorga.data.user.datasource.UserDatasource
 import cmm.esmorga.datasource.local.database.EsmorgaDatabase
 import cmm.esmorga.datasource.local.database.EsmorgaDatabaseHelper
+import cmm.esmorga.datasource.local.database.dao.AttendeeDao
 import cmm.esmorga.datasource.local.database.dao.EventDao
 import cmm.esmorga.datasource.local.database.dao.UserDao
 import cmm.esmorga.datasource.local.event.EventLocalDatasourceImpl
@@ -19,10 +20,11 @@ object LocalDIModule {
             EsmorgaDatabaseHelper.getDatabase()
         }
         single<EventDao> { get<EsmorgaDatabase>().eventDao() }
-        factory<EventDatasource>(named(DataDIModule.LOCAL_DATASOURCE_INSTANCE_NAME)) { EventLocalDatasourceImpl(get()) }
+        single<AttendeeDao> { get<EsmorgaDatabase>().attendeeDao() }
+        factory<EventDatasource>(named(DataDIModule.LOCAL_DATASOURCE_INSTANCE_NAME)) { EventLocalDatasourceImpl(get(), get()) }
 
         single<UserDao> { get<EsmorgaDatabase>().userDao() }
-        factory<UserDatasource>(named(DataDIModule.LOCAL_DATASOURCE_INSTANCE_NAME)) { UserLocalDatasourceImpl(get(), get()) }
+        factory<UserDatasource>(named(DataDIModule.LOCAL_DATASOURCE_INSTANCE_NAME)) { UserLocalDatasourceImpl(get(), get(), get()) }
     }
 
 }

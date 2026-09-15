@@ -1,10 +1,10 @@
 package cmm.esmorga.data.event.datasource
 
+import cmm.esmorga.data.event.model.AttendeeDataModel
 import cmm.esmorga.data.event.model.EventDataModel
 import cmm.esmorga.domain.result.ErrorCodes
 import cmm.esmorga.domain.result.EsmorgaException
 import cmm.esmorga.domain.result.Source
-
 
 interface EventDatasource {
     suspend fun getEvents(): List<EventDataModel>
@@ -32,6 +32,18 @@ interface EventDatasource {
     }
 
     suspend fun getEventAttendees(eventId: String): List<String> {
+        throw EsmorgaException(message = "Unsupported operation", source = Source.UNSUPPORTED, code = ErrorCodes.UNSUPPORTED_OPERATION)
+    }
+
+    suspend fun getPaidAttendeesNames(eventId: String): List<String> {
+        throw EsmorgaException(message = "Unsupported operation", source = Source.UNSUPPORTED, code = ErrorCodes.UNSUPPORTED_OPERATION)
+    }
+
+    suspend fun saveAttendeePayment(eventId: String, userName: String, paid: Boolean) {
+        throw EsmorgaException(message = "Unsupported operation", source = Source.UNSUPPORTED, code = ErrorCodes.UNSUPPORTED_OPERATION)
+    }
+
+    suspend fun clearAttendeesPayments() {
         throw EsmorgaException(message = "Unsupported operation", source = Source.UNSUPPORTED, code = ErrorCodes.UNSUPPORTED_OPERATION)
     }
 }
