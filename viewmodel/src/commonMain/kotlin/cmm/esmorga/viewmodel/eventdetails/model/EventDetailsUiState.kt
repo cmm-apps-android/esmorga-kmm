@@ -42,5 +42,9 @@ sealed class EventDetailsEffect {
 
     data object ShowEventFullSnackbar : EventDetailsEffect()
 
+    data object ShowEventJoinedSnackbar : EventDetailsEffect()
+
+    data object ShowEventLeftSnackbar : EventDetailsEffect()
+
     data object NavigateToError : EventDetailsEffect()
 }

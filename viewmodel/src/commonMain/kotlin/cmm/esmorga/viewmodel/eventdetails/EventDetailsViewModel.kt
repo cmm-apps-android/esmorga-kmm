@@ -82,6 +82,11 @@ class EventDetailsViewModel(
             _uiState.update { it.copy(isLoading = false) }
 
             if (result.isSuccess) {
+                if (currentState.userJoined) {
+                    _effect.tryEmit(EventDetailsEffect.ShowEventLeftSnackbar)
+                } else {
+                    _effect.tryEmit(EventDetailsEffect.ShowEventJoinedSnackbar)
+                }
                 loadEventDetails()
             } else {
                 val error = result.exceptionOrNull()

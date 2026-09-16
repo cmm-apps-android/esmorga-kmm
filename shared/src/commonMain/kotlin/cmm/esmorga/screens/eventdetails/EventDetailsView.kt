@@ -60,6 +60,8 @@ import cmm.esmorga.viewmodel.eventdetails.model.EventDetailsUiState
 import cmm.esmorga.viewmodel.explore.mapper.EventListUiMapper.formatDate
 import cmm.esmorga.design_system.generated.resources.Res as DsRes
 import cmm.esmorga.design_system.generated.resources.group
+import cmm.esmorga.shared.generated.resources.snackbar_event_joined
+import cmm.esmorga.shared.generated.resources.snackbar_event_left
 import coil3.compose.AsyncImage
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
@@ -80,7 +82,10 @@ fun EventDetailsScreen(
     val uiState: EventDetailsUiState by edvm.uiState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
-    val eventFullMessage = stringResource(Res.string.snackbar_event_full)
+    val joinEventSuccessMessage = stringResource(Res.string.snackbar_event_joined)
+    val leaveEventSuccessMessage = stringResource(Res.string.snackbar_event_left)
+    val eventFullErrorMessage = stringResource(Res.string.snackbar_event_full)
+    
     LaunchedEffect(Unit) {
         edvm.effect.collect { eff ->
             when (eff) {
@@ -90,7 +95,13 @@ fun EventDetailsScreen(
                 is EventDetailsEffect.NavigateToLogin -> onNavigateToLogin()
                 is EventDetailsEffect.NavigateToError -> onNavigateToError()
                 is EventDetailsEffect.ShowEventFullSnackbar -> scope.launch {
-                    snackbarHostState.showSnackbar(eventFullMessage)
+                    snackbarHostState.showSnackbar(eventFullErrorMessage)
+                }
+                is EventDetailsEffect.ShowEventJoinedSnackbar -> scope.launch {
+                    snackbarHostState.showSnackbar(joinEventSuccessMessage)
+                }
+                is EventDetailsEffect.ShowEventLeftSnackbar -> scope.launch {
+                    snackbarHostState.showSnackbar(leaveEventSuccessMessage)
                 }
             }
         }

@@ -86,5 +86,7 @@
     <string name="body_loader">Cargando…</string>
     <string name="title_name">Nombre</string>
     <string name="title_payment_status">Pago</string>
+    <string name="snackbar_event_joined">Bravo! You have joined the event!</string>
+    <string name="snackbar_event_left">Buuuuu! Rajao!</string>
 
 </resources>
