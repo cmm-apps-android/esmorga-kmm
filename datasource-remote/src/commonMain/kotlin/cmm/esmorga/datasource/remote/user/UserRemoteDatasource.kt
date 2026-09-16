@@ -6,14 +6,18 @@ import cmm.esmorga.data.user.datasource.UserDatasource
 import cmm.esmorga.data.user.model.TokenDataModel
 import cmm.esmorga.data.user.model.UserDataModel
 import cmm.esmorga.datasource.remote.api.EsmorgaApi
+import cmm.esmorga.datasource.remote.api.EsmorgaPublicApi
 import cmm.esmorga.datasource.remote.api.ExceptionHandler
 import cmm.esmorga.datasource.remote.user.model.ChangePasswordBodyRemoteModel
 
-class UserRemoteDatasourceImpl(private val api: EsmorgaApi) : UserDatasource {
+class UserRemoteDatasourceImpl(
+    private val publicApi: EsmorgaPublicApi,
+    private val authenticatedApi: EsmorgaApi
+) : UserDatasource {
     override suspend fun login(email: String, password: String): Result<UserDataModel> {
         try {
             val loginBody = mapOf("email" to email, "password" to password)
-            val user = api.login(loginBody)
+            val user = publicApi.login(loginBody)
             return Result.success(user.toUserDataModel())
         } catch (e: Throwable) {
             throw ExceptionHandler.manageApiException(e)
@@ -28,7 +32,7 @@ class UserRemoteDatasourceImpl(private val api: EsmorgaApi) : UserDatasource {
                 "email" to email,
                 "password" to password
             )
-            val user = api.register(registerBody)
+            val user = publicApi.register(registerBody)
             return user.toUserDataModel()
         } catch (e: Exception) {
             throw ExceptionHandler.manageApiException(e)
@@ -37,7 +41,7 @@ class UserRemoteDatasourceImpl(private val api: EsmorgaApi) : UserDatasource {
 
     override suspend fun changePassword(currentPassword: String, newPassword: String): TokenDataModel {
         try {
-            return api.changePassword(
+            return authenticatedApi.changePassword(
                 ChangePasswordBodyRemoteModel(
                     currentPassword = currentPassword,
                     newPassword = newPassword

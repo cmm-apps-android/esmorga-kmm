@@ -13,16 +13,28 @@ import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
-import io.ktor.http.encodedPath
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import kotlin.time.Clock
 
 class NetworkApiHelper {
 
-    fun provideApi(baseUrl: String, userLocalDs: UserDatasource): HttpClient = provideHttpClient(baseUrl, userLocalDs)
+    fun providePublicApi(baseUrl: String): HttpClient {
+        return HttpClient {
+            install(ContentNegotiation) {
+                json(Json { 
+                    prettyPrint = true
+                    isLenient = true
+                    ignoreUnknownKeys = true 
+                })
+            }
+            defaultRequest {
+                url(baseUrl)
+            }
+        }
+    }
 
-    private fun provideHttpClient(baseUrl: String, userLocalDs: UserDatasource): HttpClient {
+    fun provideAuthenticatedApi(baseUrl: String, userLocalDs: UserDatasource): HttpClient {
         val refreshClient = HttpClient {
             install(ContentNegotiation) {
                 json(Json { ignoreUnknownKeys = true })
@@ -58,13 +70,6 @@ class NetworkApiHelper {
 
                     refreshTokens {
                         performTokenRefresh(refreshClient, userLocalDs)
-                    }
-
-                    sendWithoutRequest { request ->
-                        val path = request.url.encodedPath
-                        path.endsWith("account/events") ||
-                            path.endsWith("account/password") ||
-                            (path.contains("events/") && path.endsWith("/users"))
                     }
                 }
             }
