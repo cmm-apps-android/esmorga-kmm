@@ -3,7 +3,7 @@ data class ExploreUiState(
     val isLoading: Boolean = false,
     val isRefreshing: Boolean = false,
     val eventList: List<EventListUiModel> = emptyList(),
-    val error: String? = null
+    val error: Boolean = false
 )
 
 data class EventListUiModel(

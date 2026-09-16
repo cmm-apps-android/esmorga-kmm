@@ -109,7 +109,7 @@ private fun EventListView(
         ) {
             when {
                 uiState.isLoading -> EventListLoading()
-                uiState.error.isNullOrBlank().not() -> ErrorScreen(
+                uiState.error -> ErrorScreen(
                     title = stringResource(Res.string.event_list_error_title),
                     subtitle = stringResource(Res.string.event_list_error_subtitle),
                     buttonText = stringResource(Res.string.event_list_error_button),
