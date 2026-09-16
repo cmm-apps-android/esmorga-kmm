@@ -25,14 +25,10 @@ class ExploreViewModel(private val getEventListUseCase: GetEventListUseCase) : B
     private val _effect: MutableSharedFlow<EventListEffect> = MutableSharedFlow(extraBufferCapacity = 2, onBufferOverflow = BufferOverflow.DROP_OLDEST)
     val effect: SharedFlow<EventListEffect> = _effect.asSharedFlow()
 
-    init {
-        loadEvents()
-    }
-
-    fun loadEvents(forceRefresh: Boolean = false) {
-        _uiState.value = _uiState.value.copy(loading = true, error = null)
+    fun loadEvents(refresh: Boolean = false) {
+        _uiState.value = _uiState.value.copy(isLoading = !refresh, isRefreshing = refresh, error = null)
         viewModelScope.launch {
-            val result = getEventListUseCase(forceRefresh = forceRefresh)
+            val result = getEventListUseCase(forceRefresh = refresh)
 
             result.onSuccess { success ->
                 if (success.hasError() && success.nonBlockingError == ErrorCodes.NO_CONNECTION) {
@@ -41,7 +37,8 @@ class ExploreViewModel(private val getEventListUseCase: GetEventListUseCase) : B
                 _uiState.value = _uiState.value.copy(
                     eventList = success.data.toEventUiList(),
                     error = if (success.hasError() && success.nonBlockingError == ErrorCodes.NO_CONNECTION && success.data.isEmpty()) "No Connection" else null,
-                    loading = false
+                    isLoading = false,
+                    isRefreshing = false
                 )
             }.onFailure { error ->
                 val errorMsg = if (error is EsmorgaException) {
@@ -49,7 +46,7 @@ class ExploreViewModel(private val getEventListUseCase: GetEventListUseCase) : B
                 } else {
                     "Unknown error: ${error.message}"
                 }
-                _uiState.value = _uiState.value.copy(loading = false, error = errorMsg)
+                _uiState.value = _uiState.value.copy(isLoading = false, isRefreshing = false, error = errorMsg)
             }
         }
     }

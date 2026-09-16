@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -60,6 +62,7 @@ fun ExploreScreen(
     val message = stringResource(Res.string.no_internet_snackbar)
     val localCoroutineScope = rememberCoroutineScope()
     LaunchedEffect(Unit) {
+        elvm.loadEvents()
         elvm.effect.collect { eff ->
             when (eff) {
                 is EventListEffect.ShowNoNetworkPrompt -> {
@@ -76,7 +79,7 @@ fun ExploreScreen(
     EsmorgaTheme {
         EventListView(
             uiState = uiState,
-            onRefresh = { elvm.loadEvents(forceRefresh = true) },
+            onRefresh = { elvm.loadEvents(refresh = true) },
             onRetryClick = { elvm.loadEvents() },
             onEventClick = { elvm.onEventClick(it) }
         )
@@ -91,31 +94,30 @@ private fun EventListView(
     onRetryClick: () -> Unit,
     onEventClick: (eventId: String) -> Unit
 ) {
+    val scrollState = rememberLazyListState()
+
     PullToRefreshBox(
-        isRefreshing = uiState.loading && uiState.eventList.isNotEmpty(),
+        isRefreshing = uiState.isRefreshing,
         onRefresh = onRefresh,
         modifier = Modifier.fillMaxSize()
     ) {
+
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(horizontal = 16.dp)
         ) {
-            if (uiState.loading && uiState.eventList.isEmpty()) {
-                EventListLoading()
-            } else {
-                if (uiState.error.isNullOrBlank().not()) {
-                    ErrorScreen(
-                        title = stringResource(Res.string.event_list_error_title),
-                        subtitle = stringResource(Res.string.event_list_error_subtitle),
-                        buttonText = stringResource(Res.string.event_list_error_button),
-                        buttonAction = onRetryClick
-                    )
-                } else if (uiState.eventList.isEmpty() && !uiState.loading) {
-                    EventListEmpty()
-                } else {
-                    EventList(uiState.eventList, onEventClick)
-                }
+            when {
+                uiState.isLoading -> EventListLoading()
+                uiState.error.isNullOrBlank().not() -> ErrorScreen(
+                    title = stringResource(Res.string.event_list_error_title),
+                    subtitle = stringResource(Res.string.event_list_error_subtitle),
+                    buttonText = stringResource(Res.string.event_list_error_button),
+                    buttonAction = onRetryClick
+                )
+
+                uiState.eventList.isEmpty() -> EventListEmpty()
+                else -> EventList(uiState.eventList, scrollState, onEventClick)
             }
         }
     }
@@ -156,9 +158,16 @@ private fun EventListEmpty() {
 }
 
 @Composable
-private fun EventList(events: List<EventListUiModel>, onEventClick: (eventId: String) -> Unit) {
-    LazyColumn {
-        items(events.size) { pos ->
+private fun EventList(
+    events: List<EventListUiModel>,
+    scrollState: LazyListState,
+    onEventClick: (eventId: String) -> Unit
+) {
+    LazyColumn(state = scrollState) {
+        items(
+            count = events.size,
+            key = { pos -> events[pos].id }
+        ) { pos ->
             val event = events[pos]
 
             EsmorgaEventCard(

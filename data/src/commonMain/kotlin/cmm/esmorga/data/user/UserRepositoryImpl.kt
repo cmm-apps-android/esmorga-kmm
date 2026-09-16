@@ -17,6 +17,7 @@ class UserRepositoryImpl(
             val userDataModel = userResult.getOrThrow()
             localDs.saveUser(userDataModel)
             localEventDs.clearEvents() // Clear local events when user logs in
+            localEventDs.clearAttendeesPayments()
             return Success(userDataModel.toUser())
         } catch (e: Exception) {
             throw e
@@ -27,6 +28,7 @@ class UserRepositoryImpl(
         val userDataModel = remoteDs.register(name, lastName, email, password)
         localDs.saveUser(userDataModel)
         localEventDs.clearEvents() // Clear local events when user logs in
+        localEventDs.clearAttendeesPayments()
         return Success(userDataModel.toUser())
     }
 
