@@ -39,6 +39,10 @@ class EventLocalDatasourceImpl(
         eventDao.deleteAll()
     }
 
+    override suspend fun resetUserEvents() {
+        eventDao.insertEvent(eventDao.getEvents().map { it.copy(localUserJoined = false) })
+    }
+
     override suspend fun getPaidAttendeesNames(eventId: String): List<String> {
         return attendeeDao.getPaidAttendeesNamesByEvent(eventId)
     }

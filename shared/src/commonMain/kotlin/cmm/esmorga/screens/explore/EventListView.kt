@@ -62,7 +62,6 @@ fun ExploreScreen(
     val message = stringResource(Res.string.no_internet_snackbar)
     val localCoroutineScope = rememberCoroutineScope()
     LaunchedEffect(Unit) {
-        elvm.loadEvents()
         elvm.effect.collect { eff ->
             when (eff) {
                 is EventListEffect.ShowNoNetworkPrompt -> {
@@ -94,10 +93,9 @@ private fun EventListView(
     onRetryClick: () -> Unit,
     onEventClick: (eventId: String) -> Unit
 ) {
-    val scrollState = rememberLazyListState()
 
     PullToRefreshBox(
-        isRefreshing = uiState.isRefreshing,
+        isRefreshing = uiState.isLoading && uiState.eventList.isNotEmpty(),
         onRefresh = onRefresh,
         modifier = Modifier.fillMaxSize()
     ) {
@@ -108,16 +106,15 @@ private fun EventListView(
                 .padding(horizontal = 16.dp)
         ) {
             when {
-                uiState.isLoading -> EventListLoading()
                 uiState.error -> ErrorScreen(
                     title = stringResource(Res.string.event_list_error_title),
                     subtitle = stringResource(Res.string.event_list_error_subtitle),
                     buttonText = stringResource(Res.string.event_list_error_button),
                     buttonAction = onRetryClick
                 )
-
+                uiState.isLoading && uiState.eventList.isEmpty() -> EventListLoading()
                 uiState.eventList.isEmpty() -> EventListEmpty()
-                else -> EventList(uiState.eventList, scrollState, onEventClick)
+                else -> EventList(uiState.eventList, onEventClick)
             }
         }
     }
@@ -160,10 +157,9 @@ private fun EventListEmpty() {
 @Composable
 private fun EventList(
     events: List<EventListUiModel>,
-    scrollState: LazyListState,
     onEventClick: (eventId: String) -> Unit
 ) {
-    LazyColumn(state = scrollState) {
+    LazyColumn {
         items(
             count = events.size,
             key = { pos -> events[pos].id }

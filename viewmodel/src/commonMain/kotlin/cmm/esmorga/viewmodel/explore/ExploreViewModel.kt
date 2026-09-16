@@ -3,9 +3,8 @@ package cmm.esmorga.viewmodel.explore
 import androidx.lifecycle.viewModelScope
 import cmm.esmorga.domain.event.GetEventListUseCase
 import cmm.esmorga.domain.result.ErrorCodes
-import cmm.esmorga.domain.result.EsmorgaException
-import cmm.esmorga.viewmodel.explore.mapper.EventListUiMapper.toEventUiList
 import cmm.esmorga.viewmodel.BaseViewModel
+import cmm.esmorga.viewmodel.explore.mapper.EventListUiMapper.toEventUiList
 import cmm.esmorga.viewmodel.explore.model.EventListEffect
 import cmm.esmorga.viewmodel.explore.model.ExploreUiState
 import kotlinx.coroutines.channels.BufferOverflow
@@ -25,8 +24,12 @@ class ExploreViewModel(private val getEventListUseCase: GetEventListUseCase) : B
     private val _effect: MutableSharedFlow<EventListEffect> = MutableSharedFlow(extraBufferCapacity = 2, onBufferOverflow = BufferOverflow.DROP_OLDEST)
     val effect: SharedFlow<EventListEffect> = _effect.asSharedFlow()
 
+    init {
+        loadEvents()
+    }
+
     fun loadEvents(refresh: Boolean = false) {
-        _uiState.value = _uiState.value.copy(isLoading = !refresh, isRefreshing = refresh, error = false)
+        _uiState.value = _uiState.value.copy(isLoading = true, error = false)
         viewModelScope.launch {
             val result = getEventListUseCase(forceRefresh = refresh)
 
@@ -36,11 +39,10 @@ class ExploreViewModel(private val getEventListUseCase: GetEventListUseCase) : B
                 }
                 _uiState.value = _uiState.value.copy(
                     eventList = success.data.toEventUiList(),
-                    isLoading = false,
-                    isRefreshing = false
+                    isLoading = false
                 )
             }.onFailure { _ ->
-                _uiState.value = _uiState.value.copy(isLoading = false, isRefreshing = false, error = true)
+                _uiState.value = _uiState.value.copy(isLoading = false, error = true)
             }
         }
     }

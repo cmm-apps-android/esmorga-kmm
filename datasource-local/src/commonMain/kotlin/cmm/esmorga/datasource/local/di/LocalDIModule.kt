@@ -24,7 +24,7 @@ object LocalDIModule {
         factory<EventDatasource>(named(DataDIModule.LOCAL_DATASOURCE_INSTANCE_NAME)) { EventLocalDatasourceImpl(get(), get()) }
 
         single<UserDao> { get<EsmorgaDatabase>().userDao() }
-        factory<UserDatasource>(named(DataDIModule.LOCAL_DATASOURCE_INSTANCE_NAME)) { UserLocalDatasourceImpl(get(), get(), get()) }
+        factory<UserDatasource>(named(DataDIModule.LOCAL_DATASOURCE_INSTANCE_NAME)) { UserLocalDatasourceImpl(get()) }
     }
 
 }
