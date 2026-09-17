@@ -69,7 +69,7 @@ fun EsmorgaTextField(
             shape = RoundedCornerShape(12),
             trailingIcon = {
                 if (isPassword) {
-                    val image = if (passwordVisible) painterResource(Res.drawable.ic_visibility_off) else painterResource(Res.drawable.ic_visibility)
+                    val image = if (passwordVisible) painterResource(Res.drawable.ic_visibility) else painterResource(Res.drawable.ic_visibility_off)
                     IconButton(onClick = { passwordVisible = !passwordVisible }) {
                         Icon(painter = image, contentDescription = "toggle password visibility")
                     }
