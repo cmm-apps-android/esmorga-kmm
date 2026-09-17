@@ -31,6 +31,10 @@ class EventLocalDatasourceImpl(
         eventDao.insertEvent(events.toEventLocalModelList())
     }
 
+    override suspend fun updateEventJoinedState(eventId: String, joined: Boolean, countChange: Int) {
+        eventDao.updateEventJoinedState(eventId, joined, countChange)
+    }
+
     override suspend fun getEventById(eventId: String): EventDataModel {
         return eventDao.getEventById(eventId).toEventDataModel()
     }
@@ -40,7 +44,7 @@ class EventLocalDatasourceImpl(
     }
 
     override suspend fun resetUserEvents() {
-        eventDao.insertEvent(eventDao.getEvents().map { it.copy(localUserJoined = false) })
+        eventDao.resetUserEvents()
     }
 
     override suspend fun getPaidAttendeesNames(eventId: String): List<String> {

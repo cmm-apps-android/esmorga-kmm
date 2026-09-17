@@ -64,11 +64,8 @@ class EventRepositoryImpl(
 
     private suspend fun updateEventJoinedState(eventId: String, joined: Boolean) {
         try {
-            val currentEvents = localEventDs.getEvents()
-            val updatedEvents = currentEvents.map { event ->
-                if (event.dataId == eventId) event.copy(dataUserJoined = joined) else event
-            }
-            localEventDs.cacheEvents(updatedEvents)
+            val countChange = if (joined) 1 else -1
+            localEventDs.updateEventJoinedState(eventId, joined, countChange)
         } catch (_: Exception) {
             // Silently fail cache update, the important part (API call) succeeded
         }

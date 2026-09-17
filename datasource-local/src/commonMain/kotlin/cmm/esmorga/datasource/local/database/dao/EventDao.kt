@@ -19,7 +19,12 @@ interface EventDao {
     @Query("DELETE FROM EventLocalModel")
     suspend fun deleteAll()
 
-
     @Query( "SELECT * FROM EventLocalModel WHERE localId = :eventId")
     suspend fun getEventById(eventId: String): EventLocalModel
+
+    @Query("UPDATE EventLocalModel SET localUserJoined = false")
+    suspend fun resetUserEvents()
+
+    @Query("UPDATE EventLocalModel SET localUserJoined = :joined, localCurrentAttendeeCount = MAX(0, localCurrentAttendeeCount + :countChange) WHERE localId = :eventId")
+    suspend fun updateEventJoinedState(eventId: String, joined: Boolean, countChange: Int)
 }

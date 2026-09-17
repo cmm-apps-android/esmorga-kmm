@@ -22,6 +22,10 @@ interface EventDatasource {
 
     suspend fun cacheEvents(events: List<EventDataModel>) = Unit
 
+    suspend fun updateEventJoinedState(eventId: String, joined: Boolean, countChange: Int) {
+        throw EsmorgaException(message = "Unsupported operation", source = Source.UNSUPPORTED, code = ErrorCodes.UNSUPPORTED_OPERATION)
+    }
+
     suspend fun getEventById(eventId: String): EventDataModel {
         throw EsmorgaException(message = "Unsupported operation", source = Source.UNSUPPORTED, code = ErrorCodes.UNSUPPORTED_OPERATION)
     }
