@@ -6,8 +6,10 @@ import androidx.room.RoomDatabase
 import androidx.room.RoomDatabaseConstructor
 import androidx.room.TypeConverters
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
+import cmm.esmorga.datasource.local.database.dao.AttendeeDao
 import cmm.esmorga.datasource.local.database.dao.EventDao
 import cmm.esmorga.datasource.local.database.dao.UserDao
+import cmm.esmorga.datasource.local.event.model.AttendeeLocalModel
 import cmm.esmorga.datasource.local.event.model.EventLocalModel
 import cmm.esmorga.datasource.local.user.model.UserLocalModel
 import kotlinx.coroutines.Dispatchers
@@ -16,14 +18,16 @@ import kotlinx.coroutines.IO
 @Database(
     entities = [
         EventLocalModel::class,
-        UserLocalModel::class
-    ], version = 3, exportSchema = true
+        UserLocalModel::class,
+        AttendeeLocalModel::class
+    ], version = 4, exportSchema = true
 )
 @TypeConverters(ZonedDateTimeConverter::class)
 @ConstructedBy(EsmorgaDatabaseConstructor::class)
 abstract class EsmorgaDatabase : RoomDatabase() {
     abstract fun eventDao(): EventDao
     abstract fun userDao(): UserDao
+    abstract fun attendeeDao(): AttendeeDao
 }
 
 fun buildDatabase(builder: RoomDatabase.Builder<EsmorgaDatabase>): EsmorgaDatabase {

@@ -2,6 +2,7 @@ package cmm.esmorga.datasource.local.user
 
 import cmm.esmorga.data.user.datasource.UserDatasource
 import cmm.esmorga.data.user.model.UserDataModel
+import cmm.esmorga.datasource.local.database.dao.AttendeeDao
 import cmm.esmorga.datasource.local.database.dao.EventDao
 import cmm.esmorga.datasource.local.database.dao.UserDao
 import cmm.esmorga.datasource.local.user.mapper.toUserDataModel
@@ -9,7 +10,6 @@ import cmm.esmorga.datasource.local.user.mapper.toUserLocalModel
 
 class UserLocalDatasourceImpl(
     private val userDao: UserDao,
-    private val eventDao: EventDao
 ) : UserDatasource {
     override suspend fun saveUser(user: UserDataModel) {
         userDao.insertUser(user.toUserLocalModel())
@@ -21,6 +21,5 @@ class UserLocalDatasourceImpl(
 
     override suspend fun logout() {
         userDao.deleteUser()
-        eventDao.deleteAll()
     }
 }

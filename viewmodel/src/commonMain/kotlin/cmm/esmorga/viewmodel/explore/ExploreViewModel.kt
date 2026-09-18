@@ -3,9 +3,8 @@ package cmm.esmorga.viewmodel.explore
 import androidx.lifecycle.viewModelScope
 import cmm.esmorga.domain.event.GetEventListUseCase
 import cmm.esmorga.domain.result.ErrorCodes
-import cmm.esmorga.domain.result.EsmorgaException
-import cmm.esmorga.viewmodel.explore.mapper.EventListUiMapper.toEventUiList
 import cmm.esmorga.viewmodel.BaseViewModel
+import cmm.esmorga.viewmodel.explore.mapper.EventListUiMapper.toEventUiList
 import cmm.esmorga.viewmodel.explore.model.EventListEffect
 import cmm.esmorga.viewmodel.explore.model.ExploreUiState
 import kotlinx.coroutines.channels.BufferOverflow
@@ -29,10 +28,10 @@ class ExploreViewModel(private val getEventListUseCase: GetEventListUseCase) : B
         loadEvents()
     }
 
-    fun loadEvents(forceRefresh: Boolean = false) {
-        _uiState.value = _uiState.value.copy(loading = true, error = null)
+    fun loadEvents(refresh: Boolean = false) {
+        _uiState.value = _uiState.value.copy(isLoading = true, error = false)
         viewModelScope.launch {
-            val result = getEventListUseCase(forceRefresh = forceRefresh)
+            val result = getEventListUseCase(forceRefresh = refresh)
 
             result.onSuccess { success ->
                 if (success.hasError() && success.nonBlockingError == ErrorCodes.NO_CONNECTION) {
@@ -40,16 +39,10 @@ class ExploreViewModel(private val getEventListUseCase: GetEventListUseCase) : B
                 }
                 _uiState.value = _uiState.value.copy(
                     eventList = success.data.toEventUiList(),
-                    error = if (success.hasError() && success.nonBlockingError == ErrorCodes.NO_CONNECTION && success.data.isEmpty()) "No Connection" else null,
-                    loading = false
+                    isLoading = false
                 )
-            }.onFailure { error ->
-                val errorMsg = if (error is EsmorgaException) {
-                    "${error.source} error: ${error.message}"
-                } else {
-                    "Unknown error: ${error.message}"
-                }
-                _uiState.value = _uiState.value.copy(loading = false, error = errorMsg)
+            }.onFailure { _ ->
+                _uiState.value = _uiState.value.copy(isLoading = false, error = true)
             }
         }
     }

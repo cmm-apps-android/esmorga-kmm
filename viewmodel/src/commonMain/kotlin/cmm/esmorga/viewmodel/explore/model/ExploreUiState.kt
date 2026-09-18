@@ -1,8 +1,8 @@
 package cmm.esmorga.viewmodel.explore.model
 data class ExploreUiState(
-    val loading: Boolean = false,
+    val isLoading: Boolean = false,
     val eventList: List<EventListUiModel> = emptyList(),
-    val error: String? = null
+    val error: Boolean = false
 )
 
 data class EventListUiModel(

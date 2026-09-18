@@ -2,10 +2,13 @@ package cmm.esmorga.data.event
 
 import cmm.esmorga.data.CacheHelper
 import cmm.esmorga.data.event.datasource.EventDatasource
+import cmm.esmorga.data.event.mapper.toAttendeeList
 import cmm.esmorga.data.event.mapper.toEvent
 import cmm.esmorga.data.event.mapper.toEventList
+import cmm.esmorga.data.event.model.AttendeeDataModel
 import cmm.esmorga.data.event.model.EventDataModel
 import cmm.esmorga.data.user.datasource.UserDatasource
+import cmm.esmorga.domain.event.model.Attendee
 import cmm.esmorga.domain.event.model.Event
 import cmm.esmorga.domain.event.repository.EventRepository
 import cmm.esmorga.domain.result.ErrorCodes
@@ -61,11 +64,8 @@ class EventRepositoryImpl(
 
     private suspend fun updateEventJoinedState(eventId: String, joined: Boolean) {
         try {
-            val currentEvents = localEventDs.getEvents()
-            val updatedEvents = currentEvents.map { event ->
-                if (event.dataId == eventId) event.copy(dataUserJoined = joined) else event
-            }
-            localEventDs.cacheEvents(updatedEvents)
+            val countChange = if (joined) 1 else -1
+            localEventDs.updateEventJoinedState(eventId, joined, countChange)
         } catch (_: Exception) {
             // Silently fail cache update, the important part (API call) succeeded
         }
@@ -75,6 +75,28 @@ class EventRepositoryImpl(
         return Success(localEventDs.getEventById(eventId).toEvent())
     }
 
+    override suspend fun getEventAttendees(eventId: String): Success<List<Attendee>> {
+        val remoteAttendees = remoteEventDs.getEventAttendees(eventId)
+        val paidAttendees = try {
+            localEventDs.getPaidAttendeesNames(eventId).toSet()
+        } catch (_: Exception) {
+            emptySet()
+        }
+
+        val attendeeList = remoteAttendees.map { name ->
+            AttendeeDataModel(
+                dataName = name,
+                dataAlreadyPaid = name in paidAttendees
+            )
+        }
+
+        return Success(attendeeList.toAttendeeList())
+    }
+
+    override suspend fun saveAttendeePayment(eventId: String, userName: String, paid: Boolean): Success<Unit> {
+        localEventDs.saveAttendeePayment(eventId, userName, paid)
+        return Success(Unit)
+    }
 
     private suspend fun getEventsFromRemote(): List<EventDataModel> = coroutineScope {
         val user = runCatching { localUserDs.getUser() }.getOrNull()

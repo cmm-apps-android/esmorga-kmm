@@ -79,5 +79,14 @@
     <string name="inline_error_password_invalid">Mínimo 8 caracteres, debe incluir al menos 1 dígito, 1 letra y 1 símbolo</string>
     <string name="inline_error_password_mismatch">¡Las contraseñas no coinciden, inténtalo de nuevo!</string>
     <string name="inline_error_email_already_used">Email ya ha sido usado</string>
+    <string name="screen_event_details_capacity">%1$d/%2$d asistentes</string>
+    <string name="button_view_attendees">Ver asistentes</string>
+    <string name="screen_event_details_join_deadline">Join before %1$s</string>
+    <string name="title_event_attendees">Listado de asistentes</string>
+    <string name="body_loader">Cargando…</string>
+    <string name="title_name">Nombre</string>
+    <string name="title_payment_status">Pago</string>
+    <string name="snackbar_event_joined">Bravo! You have joined the event!</string>
+    <string name="snackbar_event_left">Buuuuu! Rajao!</string>
 
 </resources>

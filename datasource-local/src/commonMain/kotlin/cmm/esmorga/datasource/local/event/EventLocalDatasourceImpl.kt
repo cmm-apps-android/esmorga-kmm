@@ -2,16 +2,21 @@ package cmm.esmorga.datasource.local.event
 
 import cmm.esmorga.data.event.datasource.EventDatasource
 import cmm.esmorga.data.event.model.EventDataModel
+import cmm.esmorga.datasource.local.database.dao.AttendeeDao
 import cmm.esmorga.datasource.local.database.dao.EventDao
 import cmm.esmorga.datasource.local.event.mapper.toEventDataModel
 import cmm.esmorga.datasource.local.event.mapper.toEventDataModelList
 import cmm.esmorga.datasource.local.event.mapper.toEventLocalModelList
+import cmm.esmorga.datasource.local.event.model.AttendeeLocalModel
 import cmm.esmorga.domain.result.ErrorCodes
 import cmm.esmorga.domain.result.EsmorgaException
 import cmm.esmorga.domain.result.Source
 
 
-class EventLocalDatasourceImpl(private val eventDao: EventDao) : EventDatasource {
+class EventLocalDatasourceImpl(
+    private val eventDao: EventDao,
+    private val attendeeDao: AttendeeDao
+) : EventDatasource {
 
     override suspend fun getEvents(): List<EventDataModel> {
         return eventDao.getEvents().toEventDataModelList()
@@ -26,12 +31,38 @@ class EventLocalDatasourceImpl(private val eventDao: EventDao) : EventDatasource
         eventDao.insertEvent(events.toEventLocalModelList())
     }
 
+    override suspend fun updateEventJoinedState(eventId: String, joined: Boolean, countChange: Int) {
+        eventDao.updateEventJoinedState(eventId, joined, countChange)
+    }
+
     override suspend fun getEventById(eventId: String): EventDataModel {
         return eventDao.getEventById(eventId).toEventDataModel()
     }
 
     override suspend fun clearEvents() {
         eventDao.deleteAll()
+    }
+
+    override suspend fun resetUserEvents() {
+        eventDao.resetUserEvents()
+    }
+
+    override suspend fun getPaidAttendeesNames(eventId: String): List<String> {
+        return attendeeDao.getPaidAttendeesNamesByEvent(eventId)
+    }
+
+    override suspend fun saveAttendeePayment(eventId: String, userName: String, paid: Boolean) {
+        attendeeDao.insertAttendee(
+            AttendeeLocalModel(
+                localEventId = eventId,
+                localUserName = userName,
+                localAlreadyPaid = paid
+            )
+        )
+    }
+
+    override suspend fun clearAttendeesPayments() {
+        attendeeDao.deleteAll()
     }
 
 }

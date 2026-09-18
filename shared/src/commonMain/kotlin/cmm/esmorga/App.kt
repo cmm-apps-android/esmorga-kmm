@@ -14,6 +14,7 @@ import cmm.esmorga.navigation.Navigation
 import cmm.esmorga.navigation.NavigationKeys
 import cmm.esmorga.screens.changepassword.ChangePasswordScreen
 import cmm.esmorga.screens.errors.EsmorgaFullScreenError
+import cmm.esmorga.screens.eventattendees.EventAttendeesScreen
 import cmm.esmorga.screens.eventdetails.EventDetailsScreen
 import cmm.esmorga.screens.explore.ExploreScreen
 import cmm.esmorga.screens.home.HomeScreen
@@ -116,12 +117,21 @@ fun App() {
                         onNavigateToLocation = { lat, lng ->
                             uriHandler.openUri(buildMapUri(lat = lat, lng = lng))
                         },
+                        onNavigateToAttendees = { eventId ->
+                            navController.navigate(Navigation.EventAttendeesScreen(eventId))
+                        },
                         onNavigateToLogin = {
                             navController.navigate(Navigation.LoginScreen)
                         },
                         onNavigateToError = {
                             navController.navigate(Navigation.FullScreenError())
                         }
+                    )
+                }
+                composable<Navigation.EventAttendeesScreen> { backStackEntry ->
+                    EventAttendeesScreen(
+                        eventId = backStackEntry.toRoute<Navigation.EventAttendeesScreen>().eventId,
+                        onBackPressed = { navController.popBackStack() }
                     )
                 }
             }

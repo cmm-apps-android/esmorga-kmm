@@ -5,7 +5,6 @@ import cmm.esmorga.domain.result.ErrorCodes
 import cmm.esmorga.domain.result.EsmorgaException
 import cmm.esmorga.domain.result.Source
 
-
 interface EventDatasource {
     suspend fun getEvents(): List<EventDataModel>
 
@@ -23,11 +22,35 @@ interface EventDatasource {
 
     suspend fun cacheEvents(events: List<EventDataModel>) = Unit
 
+    suspend fun updateEventJoinedState(eventId: String, joined: Boolean, countChange: Int) {
+        throw EsmorgaException(message = "Unsupported operation", source = Source.UNSUPPORTED, code = ErrorCodes.UNSUPPORTED_OPERATION)
+    }
+
     suspend fun getEventById(eventId: String): EventDataModel {
         throw EsmorgaException(message = "Unsupported operation", source = Source.UNSUPPORTED, code = ErrorCodes.UNSUPPORTED_OPERATION)
     }
 
     suspend fun clearEvents() {
+        throw EsmorgaException(message = "Unsupported operation", source = Source.UNSUPPORTED, code = ErrorCodes.UNSUPPORTED_OPERATION)
+    }
+
+    suspend fun resetUserEvents() {
+        throw EsmorgaException(message = "Unsupported operation", source = Source.UNSUPPORTED, code = ErrorCodes.UNSUPPORTED_OPERATION)
+    }
+
+    suspend fun getEventAttendees(eventId: String): List<String> {
+        throw EsmorgaException(message = "Unsupported operation", source = Source.UNSUPPORTED, code = ErrorCodes.UNSUPPORTED_OPERATION)
+    }
+
+    suspend fun getPaidAttendeesNames(eventId: String): List<String> {
+        throw EsmorgaException(message = "Unsupported operation", source = Source.UNSUPPORTED, code = ErrorCodes.UNSUPPORTED_OPERATION)
+    }
+
+    suspend fun saveAttendeePayment(eventId: String, userName: String, paid: Boolean) {
+        throw EsmorgaException(message = "Unsupported operation", source = Source.UNSUPPORTED, code = ErrorCodes.UNSUPPORTED_OPERATION)
+    }
+
+    suspend fun clearAttendeesPayments() {
         throw EsmorgaException(message = "Unsupported operation", source = Source.UNSUPPORTED, code = ErrorCodes.UNSUPPORTED_OPERATION)
     }
 }

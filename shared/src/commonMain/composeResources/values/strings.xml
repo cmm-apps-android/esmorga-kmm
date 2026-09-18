@@ -79,5 +79,13 @@
     <string name="inline_error_password_invalid">Min 8 chars, must include at least 1 digit, 1 letter and 1 symbol</string>
     <string name="inline_error_password_mismatch">Passwords do not match, try again!</string>
     <string name="inline_error_email_already_used">Email already in use</string>
-
+    <string name="screen_event_details_capacity">%1$d/%2$d attendees</string>
+    <string name="button_view_attendees">View attendees</string>
+    <string name="screen_event_details_join_deadline">Join before %1$s</string>
+    <string name="title_event_attendees">Attendee list</string>
+    <string name="body_loader">Loading…</string>
+    <string name="title_name">Name</string>
+    <string name="title_payment_status">Paid</string>
+    <string name="snackbar_event_joined">Bravo! Te has unido al evento!</string>
+    <string name="snackbar_event_left">Booooo! quitter!</string>
 </resources>

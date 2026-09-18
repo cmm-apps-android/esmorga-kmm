@@ -76,7 +76,7 @@ fun ExploreScreen(
     EsmorgaTheme {
         EventListView(
             uiState = uiState,
-            onRefresh = { elvm.loadEvents(forceRefresh = true) },
+            onRefresh = { elvm.loadEvents(refresh = true) },
             onRetryClick = { elvm.loadEvents() },
             onEventClick = { elvm.onEventClick(it) }
         )
@@ -91,31 +91,28 @@ private fun EventListView(
     onRetryClick: () -> Unit,
     onEventClick: (eventId: String) -> Unit
 ) {
+
     PullToRefreshBox(
-        isRefreshing = uiState.loading && uiState.eventList.isNotEmpty(),
+        isRefreshing = uiState.isLoading && uiState.eventList.isNotEmpty(),
         onRefresh = onRefresh,
         modifier = Modifier.fillMaxSize()
     ) {
+
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(horizontal = 16.dp)
         ) {
-            if (uiState.loading && uiState.eventList.isEmpty()) {
-                EventListLoading()
-            } else {
-                if (uiState.error.isNullOrBlank().not()) {
-                    ErrorScreen(
-                        title = stringResource(Res.string.event_list_error_title),
-                        subtitle = stringResource(Res.string.event_list_error_subtitle),
-                        buttonText = stringResource(Res.string.event_list_error_button),
-                        buttonAction = onRetryClick
-                    )
-                } else if (uiState.eventList.isEmpty() && !uiState.loading) {
-                    EventListEmpty()
-                } else {
-                    EventList(uiState.eventList, onEventClick)
-                }
+            when {
+                uiState.error -> ErrorScreen(
+                    title = stringResource(Res.string.event_list_error_title),
+                    subtitle = stringResource(Res.string.event_list_error_subtitle),
+                    buttonText = stringResource(Res.string.event_list_error_button),
+                    buttonAction = onRetryClick
+                )
+                uiState.isLoading && uiState.eventList.isEmpty() -> EventListLoading()
+                uiState.eventList.isEmpty() -> EventListEmpty()
+                else -> EventList(uiState.eventList, onEventClick)
             }
         }
     }
@@ -156,9 +153,15 @@ private fun EventListEmpty() {
 }
 
 @Composable
-private fun EventList(events: List<EventListUiModel>, onEventClick: (eventId: String) -> Unit) {
+private fun EventList(
+    events: List<EventListUiModel>,
+    onEventClick: (eventId: String) -> Unit
+) {
     LazyColumn {
-        items(events.size) { pos ->
+        items(
+            count = events.size,
+            key = { pos -> events[pos].id }
+        ) { pos ->
             val event = events[pos]
 
             EsmorgaEventCard(
