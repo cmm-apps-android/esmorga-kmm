@@ -9,7 +9,7 @@ data class EventDataModel(
     val dataId: String,
     val dataName: String,
     val dataDate: Instant,
-    val dataDescription: String,
+    val dataDescription: String? = null,
     val dataType: EventType,
     val dataImageUrl: String? = null,
     val dataLocation: EventLocationDataModel,

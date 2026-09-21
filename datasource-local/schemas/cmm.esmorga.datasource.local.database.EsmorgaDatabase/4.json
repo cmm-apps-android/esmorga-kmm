@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 4,
-    "identityHash": "9f95bbcecb5ffd21e69f7591905e7626",
+    "identityHash": "9555d7d814fd419bf71f992bc4f70b80",
     "entities": [
       {
         "tableName": "EventLocalModel",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` TEXT NOT NULL, `localName` TEXT NOT NULL, `localDate` TEXT NOT NULL, `localDescription` TEXT NOT NULL, `localType` TEXT NOT NULL, `localImageUrl` TEXT, `localLocationName` TEXT NOT NULL, `localLocationLat` REAL, `localLocationLong` REAL, `localTags` TEXT NOT NULL, `localMaxCapacity` INTEGER, `localJoinDeadline` TEXT, `localCurrentAttendeeCount` INTEGER NOT NULL, `localUserJoined` INTEGER NOT NULL, `localCreationTime` INTEGER NOT NULL, PRIMARY KEY(`localId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` TEXT NOT NULL, `localName` TEXT NOT NULL, `localDate` TEXT NOT NULL, `localDescription` TEXT, `localType` TEXT NOT NULL, `localImageUrl` TEXT, `localLocationName` TEXT NOT NULL, `localLocationLat` REAL, `localLocationLong` REAL, `localTags` TEXT NOT NULL, `localMaxCapacity` INTEGER, `localJoinDeadline` TEXT, `localCurrentAttendeeCount` INTEGER NOT NULL, `localUserJoined` INTEGER NOT NULL, `localCreationTime` INTEGER NOT NULL, PRIMARY KEY(`localId`))",
         "fields": [
           {
             "fieldPath": "localId",
@@ -29,8 +29,7 @@
           {
             "fieldPath": "localDescription",
             "columnName": "localDescription",
-            "affinity": "TEXT",
-            "notNull": true
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "localType",
@@ -189,7 +188,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9f95bbcecb5ffd21e69f7591905e7626')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9555d7d814fd419bf71f992bc4f70b80')"
     ]
   }
 }

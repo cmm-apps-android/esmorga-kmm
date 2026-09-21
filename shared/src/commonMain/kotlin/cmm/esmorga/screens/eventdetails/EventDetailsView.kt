@@ -198,18 +198,20 @@ fun EventDetailsView(
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
             }
-            Spacer(modifier = Modifier.height(32.dp))
-            EsmorgaText(
-                text = stringResource(Res.string.event_details_description),
-                style = EsmorgaTextStyle.HEADING_2,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
-            Spacer(modifier = Modifier.height(12.dp))
-            EsmorgaText(
-                text = uiState.description,
-                style = EsmorgaTextStyle.BODY_1,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
+            uiState.description?.let {
+                Spacer(modifier = Modifier.height(32.dp))
+                EsmorgaText(
+                    text = stringResource(Res.string.event_details_description),
+                    style = EsmorgaTextStyle.HEADING_2,
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
+                Spacer(modifier = Modifier.height(12.dp))
+                EsmorgaText(
+                    text = it,
+                    style = EsmorgaTextStyle.BODY_1,
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
+            }
             Spacer(modifier = Modifier.height(32.dp))
             EsmorgaText(
                 text = stringResource(Res.string.event_details_location),

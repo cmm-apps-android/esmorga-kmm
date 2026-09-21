@@ -14,7 +14,7 @@ data class EventRemoteModel(
     @SerialName("eventId") val remoteId: String,
     @SerialName("eventName") val remoteName: String,
     @SerialName("eventDate") val remoteDate: String,
-    @SerialName("description") val remoteDescription: String,
+    @SerialName("description") val remoteDescription: String? = null,
     @SerialName("eventType") val remoteType: String,
     @SerialName("imageUrl") val remoteImageUrl: String? = null,
     @SerialName("location") val remoteLocation: EventLocationRemoteModel,
