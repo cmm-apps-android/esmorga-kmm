@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -45,31 +46,24 @@ fun EsmorgaTimePickerDialog(
                 modifier = Modifier.padding(24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(
+                EsmorgaText(
                     text = title,
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 20.dp)
+                    modifier = Modifier.fillMaxWidth(),
+                    style = EsmorgaTextStyle.BODY_1,
+                    color = MaterialTheme.colorScheme.primary
                 )
 
+                Spacer(modifier = Modifier.height(20.dp))
                 TimePicker(
                     state = state,
                     colors = TimePickerDefaults.colors(
-                        clockDialColor = MaterialTheme.colorScheme.surfaceVariant,
-                        clockDialSelectedContentColor = MaterialTheme.colorScheme.onPrimary,
-                        clockDialUnselectedContentColor = MaterialTheme.colorScheme.onSurface,
-                        selectorColor = MaterialTheme.colorScheme.primary,
-                        periodSelectorBorderColor = MaterialTheme.colorScheme.outline,
-                        periodSelectorSelectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
-                        periodSelectorUnselectedContainerColor = MaterialTheme.colorScheme.surface,
-                        periodSelectorSelectedContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                        periodSelectorUnselectedContentColor = MaterialTheme.colorScheme.onSurface,
                         timeSelectorSelectedContainerColor = MaterialTheme.colorScheme.primary,
-                        timeSelectorUnselectedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                        timeSelectorUnselectedContainerColor = MaterialTheme.colorScheme.secondary.copy(alpha = 0.5f),
                         timeSelectorSelectedContentColor = MaterialTheme.colorScheme.onPrimary,
-                        timeSelectorUnselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant
+                        timeSelectorUnselectedContentColor = MaterialTheme.colorScheme.onSecondary,
+                        clockDialColor = MaterialTheme.colorScheme.secondary.copy(alpha = 0.5f),
+                        clockDialSelectedContentColor = MaterialTheme.colorScheme.onPrimary,
+                        selectorColor = MaterialTheme.colorScheme.primary,
                     )
                 )
 
