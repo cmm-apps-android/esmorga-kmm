@@ -3,6 +3,8 @@ package cmm.esmorga.viewmodel.eventattendees
 import androidx.lifecycle.viewModelScope
 import cmm.esmorga.domain.event.GetEventAttendeesUseCase
 import cmm.esmorga.domain.event.SaveAttendeePaymentUseCase
+import cmm.esmorga.domain.user.GetSavedUserUseCase
+import cmm.esmorga.domain.user.model.RoleType
 import cmm.esmorga.viewmodel.BaseViewModel
 import cmm.esmorga.viewmodel.eventattendees.model.EventAttendeesUiState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,6 +14,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class EventAttendeesViewModel(
+    private val getSavedUserUseCase: GetSavedUserUseCase,
     private val getEventAttendeesUseCase: GetEventAttendeesUseCase,
     private val saveAttendeePaymentUseCase: SaveAttendeePaymentUseCase,
     private val eventId: String
@@ -28,11 +31,13 @@ class EventAttendeesViewModel(
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, hasError = false) }
             val result = getEventAttendeesUseCase(eventId)
+            val userResult = getSavedUserUseCase()
             result.onSuccess { success ->
                 _uiState.update {
                     it.copy(
                         isLoading = false,
                         attendees = success.data,
+                        isAdmin = userResult.getOrNull()?.data?.role == RoleType.ADMIN,
                         hasError = false
                     )
                 }

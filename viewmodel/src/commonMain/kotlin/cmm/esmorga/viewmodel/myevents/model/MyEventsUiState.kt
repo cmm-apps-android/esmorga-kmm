@@ -7,9 +7,10 @@ data class MyEventsUiState(
     val isLoggedIn: Boolean = false,
     val loading: Boolean = false,
     val eventList: List<EventListUiModel> = emptyList(),
-    val error: String? = null
+    val isAdmin: Boolean = false,
+    val error: Boolean = false
 ) {
-    val createEventEnabled = isLoggedIn && !loading && error == null
+    val createEventEnabled = isAdmin && !loading && !error
 }
 
 sealed class MyEventsEffect {

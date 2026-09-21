@@ -100,7 +100,7 @@ private fun MyEventsView(
         when {
             uiState.loading -> MyEventListLoading()
             uiState.isLoggedIn -> {
-                if (uiState.error != null) {
+                if (uiState.error) {
                     ErrorScreen(
                         title = stringResource(Res.string.event_list_error_title),
                         subtitle = stringResource(Res.string.event_list_error_subtitle),

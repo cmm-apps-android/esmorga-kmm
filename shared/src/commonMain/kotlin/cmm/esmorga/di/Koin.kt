@@ -33,7 +33,7 @@ val viewModelModule = module {
         EventDetailsViewModel(get(), get(), get(), get(), eventId)
     }
     viewModel { (eventId: String) ->
-        EventAttendeesViewModel(get(), get(), eventId)
+        EventAttendeesViewModel(get(), get(), get(), eventId)
     }
     viewModelOf(::LoginViewModel)
     viewModelOf(::RegistrationViewModel)
