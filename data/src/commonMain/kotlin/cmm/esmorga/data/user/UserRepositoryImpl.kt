@@ -43,6 +43,7 @@ class UserRepositoryImpl(
 
     override suspend fun logout(): Success<Unit> {
         localDs.logout()
+        remoteDs.logout()
         localEventDs.resetUserEvents()
         localEventDs.clearAttendeesPayments()
         return Success(Unit)

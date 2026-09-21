@@ -2,6 +2,7 @@ package cmm.esmorga.data.user
 
 import cmm.esmorga.data.user.UserRepositoryImpl
 import cmm.esmorga.data.user.datasource.UserDatasource
+import cmm.esmorga.data.event.datasource.EventDatasource
 import cmm.esmorga.domain.result.EsmorgaException
 import cmm.esmorga.domain.result.Source
 import cmm.esmorga.data.mock.UserDataMock
@@ -19,9 +20,10 @@ class UserRepositoryImplTest {
 
         val localDS = mockk<UserDatasource>(relaxed = true)
         val remoteDS = mockk<UserDatasource>(relaxed = true)
+        val localEventDs = mockk<EventDatasource>(relaxed = true)
         coEvery { localDS.getUser() } returns UserDataMock.provideUserDataModel(name = name)
 
-        val sut = UserRepositoryImpl(localDS, remoteDS)
+        val sut = UserRepositoryImpl(localDS, remoteDS, localEventDs)
         val result = sut.getUser()
 
         Assert.assertEquals(name, result.data.name)
@@ -32,8 +34,9 @@ class UserRepositoryImplTest {
         val name = "Ron"
         val localDS = mockk<UserDatasource>(relaxed = true)
         val remoteDS = mockk<UserDatasource>(relaxed = true)
+        val localEventDs = mockk<EventDatasource>(relaxed = true)
         coEvery { remoteDS.login(any(), any()) } returns Result.success(UserDataMock.provideUserDataModel(name = name))
-        val sut = UserRepositoryImpl(localDS, remoteDS)
+        val sut = UserRepositoryImpl(localDS, remoteDS, localEventDs)
         val result = sut.login("email", "password")
 
         Assert.assertEquals(name, result.data.name)
@@ -43,8 +46,9 @@ class UserRepositoryImplTest {
     fun `given invalid credentials when login fails then exception is thrown`() = runTest {
         val localDS = mockk<UserDatasource>(relaxed = true)
         val remoteDS = mockk<UserDatasource>(relaxed = true)
+        val localEventDs = mockk<EventDatasource>(relaxed = true)
         coEvery { remoteDS.login("validEmail", "validPassword") } returns Result.success(UserDataMock.provideUserDataModel(name = "Hermione"))
-        val sut = UserRepositoryImpl(localDS, remoteDS)
+        val sut = UserRepositoryImpl(localDS, remoteDS, localEventDs)
 
         sut.login("invalidEmail", "invalidPassword")
     }
@@ -53,8 +57,9 @@ class UserRepositoryImplTest {
     fun `given valid credentials when login fails then exception is thrown`() = runTest {
         val localDS = mockk<UserDatasource>(relaxed = true)
         val remoteDS = mockk<UserDatasource>(relaxed = true)
+        val localEventDs = mockk<EventDatasource>(relaxed = true)
         coEvery { remoteDS.login("validEmail", "validPassword") } returns Result.failure(EsmorgaException("error", Source.REMOTE, 500))
-        val sut = UserRepositoryImpl(localDS, remoteDS)
+        val sut = UserRepositoryImpl(localDS, remoteDS, localEventDs)
 
         sut.login("validEmail", "validPassword")
     }
@@ -63,11 +68,13 @@ class UserRepositoryImplTest {
     fun `given logged user when logout then local datasource is cleared`() = runTest {
         val localDS = mockk<UserDatasource>(relaxed = true)
         val remoteDS = mockk<UserDatasource>(relaxed = true)
-        val sut = UserRepositoryImpl(localDS, remoteDS)
+        val localEventDs = mockk<EventDatasource>(relaxed = true)
+        val sut = UserRepositoryImpl(localDS, remoteDS, localEventDs)
 
         val result = sut.logout()
 
         coVerify(exactly = 1) { localDS.logout() }
+        coVerify(exactly = 1) { remoteDS.logout() }
         Assert.assertEquals(Unit, result.data)
     }
 }

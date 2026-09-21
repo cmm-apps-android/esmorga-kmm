@@ -188,12 +188,12 @@ fun MyEventsEmptyView() {
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.Start,
-        modifier = Modifier.fillMaxSize().
-        padding(horizontal = 16.dp),
+        modifier = Modifier.fillMaxSize(),
     ) {
         EsmorgaText(
             text = stringResource(Res.string.screen_my_events_empty_text),
             style = EsmorgaTextStyle.HEADING_1,
+            modifier = Modifier.padding(all = 16.dp)
         )
         Image(
             painter = rememberLottiePainter(

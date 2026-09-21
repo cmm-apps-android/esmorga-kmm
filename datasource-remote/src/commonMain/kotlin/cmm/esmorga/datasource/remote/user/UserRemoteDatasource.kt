@@ -51,4 +51,8 @@ class UserRemoteDatasourceImpl(
             throw ExceptionHandler.manageApiException(e)
         }
     }
+
+    override suspend fun logout() {
+        authenticatedApi.clearTokens()
+    }
 }
