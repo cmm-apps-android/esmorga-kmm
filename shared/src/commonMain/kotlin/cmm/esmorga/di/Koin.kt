@@ -8,6 +8,7 @@ import cmm.esmorga.viewmodel.eventattendees.EventAttendeesViewModel
 import cmm.esmorga.viewmodel.eventdetails.EventDetailsViewModel
 import cmm.esmorga.viewmodel.explore.ExploreViewModel
 import cmm.esmorga.viewmodel.changepassword.ChangePasswordViewModel
+import cmm.esmorga.viewmodel.createevent.CreateEventViewModel
 import cmm.esmorga.viewmodel.login.LoginViewModel
 import cmm.esmorga.viewmodel.myevents.MyEventsViewModel
 import cmm.esmorga.viewmodel.profile.ProfileViewModel
@@ -39,6 +40,7 @@ val viewModelModule = module {
     viewModelOf(::MyEventsViewModel)
     viewModelOf(::ProfileViewModel)
     viewModelOf(::ChangePasswordViewModel)
+    viewModelOf(::CreateEventViewModel)
 }
 
 fun initKoin(appDeclaration: KoinAppDeclaration = {}) {

@@ -79,4 +79,10 @@ class MyEventsViewModel(
             _effect.emit(MyEventsEffect.NavigateToEventDetail(eventId))
         }
     }
+
+    fun onCreateEventClicked() {
+        viewModelScope.launch {
+            _effect.emit(MyEventsEffect.NavigateToCreateEvent)
+        }
+    }
 }

@@ -8,9 +8,12 @@ data class MyEventsUiState(
     val loading: Boolean = false,
     val eventList: List<EventListUiModel> = emptyList(),
     val error: String? = null
-)
+) {
+    val createEventEnabled = isLoggedIn && !loading && error == null
+}
 
 sealed class MyEventsEffect {
     data object NavigateToLogin : MyEventsEffect()
     data class NavigateToEventDetail(val eventId: String) : MyEventsEffect()
+    data object NavigateToCreateEvent : MyEventsEffect()
 }

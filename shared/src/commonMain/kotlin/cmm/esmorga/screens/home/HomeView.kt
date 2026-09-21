@@ -61,7 +61,8 @@ fun HomeScreen(
     backStackEntry: NavBackStackEntry,
     onEventClick: (String) -> Unit,
     onNavigateToLogin: () -> Unit,
-    onNavigateToChangePassword: () -> Unit
+    onNavigateToChangePassword: () -> Unit,
+    onNavigateToCreateEvent: () -> Unit
 ) {
     val isPasswordChangeSuccessful by backStackEntry.savedStateHandle
         .getStateFlow(NavigationKeys.PASSWORD_CHANGE_SUCCESS, false)
@@ -142,7 +143,8 @@ fun HomeScreen(
 
                 HomeTab.MyEvents -> MyEventsScreen(
                     onNavigateToLogin = onNavigateToLogin,
-                    onEventClick = onEventClick
+                    onEventClick = onEventClick,
+                    onNavigateToCreateEvent = onNavigateToCreateEvent
                 )
 
                 HomeTab.Profile -> ProfileScreen(

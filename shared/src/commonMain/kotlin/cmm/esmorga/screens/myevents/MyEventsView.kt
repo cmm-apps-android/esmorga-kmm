@@ -10,6 +10,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -52,7 +57,8 @@ import org.koin.compose.viewmodel.koinViewModel
 fun MyEventsScreen(
     mevm: MyEventsViewModel = koinViewModel(),
     onNavigateToLogin: () -> Unit,
-    onEventClick: (String) -> Unit
+    onEventClick: (String) -> Unit,
+    onNavigateToCreateEvent: () -> Unit
 ) {
     val uiState by mevm.uiState.collectAsStateWithLifecycle()
 
@@ -65,6 +71,7 @@ fun MyEventsScreen(
             when (effect) {
                 is MyEventsEffect.NavigateToLogin -> onNavigateToLogin()
                 is MyEventsEffect.NavigateToEventDetail -> onEventClick(effect.eventId)
+                is MyEventsEffect.NavigateToCreateEvent -> onNavigateToCreateEvent()
             }
         }
     }
@@ -73,7 +80,8 @@ fun MyEventsScreen(
         uiState = uiState,
         onLoginClicked = { mevm.onLoginClicked() },
         onRetryClick = { mevm.checkLoginStatus() },
-        onEventClick = { mevm.onEventClick(it) }
+        onEventClick = { mevm.onEventClick(it) },
+        onCreateEventClick = { mevm.onCreateEventClicked() }
     )
 }
 
@@ -82,7 +90,8 @@ private fun MyEventsView(
     uiState: MyEventsUiState,
     onLoginClicked: () -> Unit,
     onRetryClick: () -> Unit,
-    onEventClick: (String) -> Unit
+    onEventClick: (String) -> Unit,
+    onCreateEventClick: () -> Unit
 ) {
     Box(
         modifier = Modifier.fillMaxSize()
@@ -96,6 +105,7 @@ private fun MyEventsView(
                         title = stringResource(Res.string.event_list_error_title),
                         subtitle = stringResource(Res.string.event_list_error_subtitle),
                         buttonText = stringResource(Res.string.event_list_error_button),
+                        modifier = Modifier.fillMaxSize().padding(all = 16.dp),
                         buttonAction = onRetryClick
                     )
                 } else if (uiState.eventList.isEmpty()) {
@@ -110,6 +120,23 @@ private fun MyEventsView(
                 buttonText = stringResource(Res.string.login_button),
                 onButtonClicked = onLoginClicked
             )
+        }
+
+        if (uiState.createEventEnabled) {
+            FloatingActionButton(
+                onClick = onCreateEventClick,
+                containerColor = colorScheme.primary,
+                shape = CircleShape,
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(all = 32.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = null,
+                    tint = colorScheme.onPrimary
+                )
+            }
         }
     }
 }

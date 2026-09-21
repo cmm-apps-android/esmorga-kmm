@@ -27,6 +27,15 @@ sealed class Navigation {
 
     @Serializable
     data class FullScreenError(val esmorgaErrorScreenArguments: String? = null) : Navigation()
+
+    @Serializable
+    data object CreateEventFlow : Navigation()
+
+    @Serializable
+    data object CreateEventStep1 : Navigation()
+
+    @Serializable
+    data object CreateEventStep2 : Navigation()
 }
 
 object NavigationKeys {

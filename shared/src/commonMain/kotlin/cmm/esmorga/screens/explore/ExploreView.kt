@@ -108,6 +108,7 @@ private fun EventListView(
                     title = stringResource(Res.string.event_list_error_title),
                     subtitle = stringResource(Res.string.event_list_error_subtitle),
                     buttonText = stringResource(Res.string.event_list_error_button),
+                    modifier = Modifier.fillMaxSize().padding(vertical = 16.dp),
                     buttonAction = onRetryClick
                 )
                 uiState.isLoading && uiState.eventList.isEmpty() -> EventListLoading()
