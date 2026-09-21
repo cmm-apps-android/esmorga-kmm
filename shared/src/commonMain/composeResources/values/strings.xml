@@ -101,5 +101,9 @@
     <string name="step_2_option_games">Games</string>
     <string name="inline_error_invalid_length_name">The text must be between 3 and 100 characters</string>
     <string name="inline_error_invalid_length_description">The text must be between 20 and 5000 characters</string>
+    <string name="step_3_screen_title">Event date</string>
+    <string name="step_3_screen_row_time">Event time</string>
+    <string name="field_title_join_deadline_time">Join deadline time</string>
+    <string name="time_picker_dialog_title">Select time</string>
 
 </resources>

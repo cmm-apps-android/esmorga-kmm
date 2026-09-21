@@ -56,7 +56,7 @@ fun CreateEventStep2Screen(
     LaunchedEffect(Unit) {
         cevm.effect.collect { effect ->
             when (effect) {
-                CreateEventEffect.NavigateToSuccess -> onNext()
+                CreateEventEffect.NavigateToStep3 -> onNext()
                 CreateEventEffect.NavigateBack -> onBackPressed()
                 else -> {}
             }

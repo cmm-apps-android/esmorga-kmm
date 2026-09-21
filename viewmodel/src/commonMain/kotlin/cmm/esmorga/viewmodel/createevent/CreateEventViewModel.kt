@@ -48,8 +48,34 @@ class CreateEventViewModel : BaseViewModel() {
         _uiState.update { it.copy(selectedType = type) }
     }
 
+    fun onDateChanged(dateMillis: Long?) {
+        _uiState.update {
+            it.copy(
+                selectedDateMillis = dateMillis,
+                isStep3Valid = dateMillis != null
+            )
+        }
+    }
+
+    fun onTimeChanged(hour: Int, minute: Int) {
+        _uiState.update {
+            it.copy(
+                selectedHour = hour,
+                selectedMinute = minute
+            )
+        }
+    }
+
     fun onContinueStep2() {
         if (_uiState.value.selectedType != null) {
+            viewModelScope.launch {
+                _effect.emit(CreateEventEffect.NavigateToStep3)
+            }
+        }
+    }
+
+    fun onContinueStep3() {
+        if (_uiState.value.isStep3Valid) {
             viewModelScope.launch {
                 _effect.emit(CreateEventEffect.NavigateToSuccess)
             }

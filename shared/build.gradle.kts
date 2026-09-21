@@ -50,6 +50,7 @@ kotlin {
             implementation(libs.coil3.network.ktor)
             implementation(libs.compottie)
             implementation(libs.compottie.resources)
+            implementation(libs.kotlin.datetime)
             implementation(project(":domain"))
             implementation(project(":data"))
             implementation(project(":viewmodel"))

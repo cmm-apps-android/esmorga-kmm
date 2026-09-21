@@ -101,5 +101,9 @@
     <string name="step_2_option_games">Juegos</string>
     <string name="inline_error_invalid_length_name">El texto debe tener entre 3 y 100 caracteres</string>
     <string name="inline_error_invalid_length_description">El texto debe tener entre 20 y 5000 caracteres</string>
+    <string name="step_3_screen_title">Fecha del evento</string>
+    <string name="step_3_screen_row_time">Hora del evento</string>
+    <string name="field_title_join_deadline_time">Hora límite para apuntarse</string>
+    <string name="time_picker_dialog_title">Seleccionar hora</string>
 
 </resources>

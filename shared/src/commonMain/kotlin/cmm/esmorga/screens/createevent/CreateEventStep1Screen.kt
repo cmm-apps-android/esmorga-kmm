@@ -106,6 +106,7 @@ fun CreateEventStep1Screen(
                 onValueChange = { cevm.onEventNameChanged(it) },
                 title = stringResource(Res.string.field_title_event_name),
                 placeholder = stringResource(Res.string.placeholder_event_name),
+                imeAction = androidx.compose.ui.text.input.ImeAction.Next,
                 errorText = nameErrorText
             )
 

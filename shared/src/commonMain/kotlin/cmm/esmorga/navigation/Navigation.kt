@@ -36,6 +36,9 @@ sealed class Navigation {
 
     @Serializable
     data object CreateEventStep2 : Navigation()
+
+    @Serializable
+    data object CreateEventStep3 : Navigation()
 }
 
 object NavigationKeys {

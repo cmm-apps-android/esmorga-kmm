@@ -60,7 +60,8 @@ fun EsmorgaRow(
                     text = caption,
                     style = EsmorgaTextStyle.CAPTION,
                     maxLines = 1,
-                    modifier = Modifier.widthIn(max = 74.dp)
+                    modifier = Modifier.widthIn(max = 74.dp),
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             }
 

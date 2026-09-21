@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import cmm.esmorga.screens.createevent.CreateEventStep1Screen
 import cmm.esmorga.screens.createevent.CreateEventStep2Screen
+import cmm.esmorga.screens.createevent.CreateEventStep3Screen
 import cmm.esmorga.viewmodel.createevent.CreateEventViewModel
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -29,6 +30,16 @@ fun NavGraphBuilder.createEventGraph(navController: NavHostController) {
                 viewModelStoreOwner = remember { navController.getBackStackEntry<Navigation.CreateEventFlow>() }
             )
             CreateEventStep2Screen(
+                cevm = cevm,
+                onNext = { navController.navigate(Navigation.CreateEventStep3) },
+                onBackPressed = { navController.popBackStack() }
+            )
+        }
+        composable<Navigation.CreateEventStep3> {
+            val cevm: CreateEventViewModel = koinViewModel(
+                viewModelStoreOwner = remember { navController.getBackStackEntry<Navigation.CreateEventFlow>() }
+            )
+            CreateEventStep3Screen(
                 cevm = cevm,
                 onNext = {
                     // Logic for completing the flow will be added later
