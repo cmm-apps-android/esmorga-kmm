@@ -7,6 +7,9 @@ import cmm.esmorga.viewmodel.createevent.model.CreateEventEffect
 import cmm.esmorga.viewmodel.createevent.model.CreateEventUiState
 import cmm.esmorga.viewmodel.createevent.model.DescriptionError
 import cmm.esmorga.viewmodel.createevent.model.NameError
+import cmm.esmorga.viewmodel.createevent.model.LocationError
+import cmm.esmorga.viewmodel.createevent.model.CoordinatesError
+import cmm.esmorga.viewmodel.createevent.model.MaxCapacityError
 import kotlinx.datetime.*
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -152,10 +155,84 @@ class CreateEventViewModel : BaseViewModel() {
     fun onContinueStep3() {
         if (_uiState.value.isStep3Valid) {
             viewModelScope.launch {
+                _effect.emit(CreateEventEffect.NavigateToStep4)
+            }
+        }
+    }
+
+    fun onEventLocationChanged(location: String) {
+        _uiState.update {
+            it.copy(
+                eventLocation = location,
+                locationError = validateLocation(location)
+            )
+        }
+        validateStep4()
+    }
+
+    fun onEventCoordinatesChanged(coordinates: String) {
+        _uiState.update {
+            it.copy(
+                eventCoordinates = coordinates,
+                coordinatesError = validateCoordinates(coordinates)
+            )
+        }
+        validateStep4()
+    }
+
+    fun onEventMaxCapacityChanged(maxCapacity: String) {
+        _uiState.update {
+            it.copy(
+                eventMaxCapacity = maxCapacity,
+                maxCapacityError = validateMaxCapacity(maxCapacity)
+            )
+        }
+        validateStep4()
+    }
+
+    fun onContinueStep4() {
+        if (_uiState.value.isStep4Valid) {
+            viewModelScope.launch {
                 _effect.emit(CreateEventEffect.NavigateToSuccess)
             }
         }
     }
+
+    private fun validateLocation(location: String): LocationError? {
+        return when {
+            location.isBlank() -> LocationError.EMPTY
+            location.length > LOCATION_NAME_MAX_LENGTH -> LocationError.INVALID_LENGTH
+            else -> null
+        }
+    }
+
+    private fun validateCoordinates(coordinates: String): CoordinatesError? {
+        if (coordinates.isBlank()) return null
+        val parts = coordinates.split(",")
+        if (parts.size != 2) return CoordinatesError.INVALID_FORMAT
+        val lat = parts[0].trim().toDoubleOrNull()
+        val lng = parts[1].trim().toDoubleOrNull()
+        if (lat == null || lng == null) return CoordinatesError.INVALID_FORMAT
+        return null
+    }
+
+    private fun validateMaxCapacity(capacity: String): MaxCapacityError? {
+        if (capacity.isBlank()) return null
+        val value = capacity.toIntOrNull()
+        if (value == null || value !in 1..MAX_CAPACITY_LIMIT) return MaxCapacityError.INVALID_VALUE
+        return null
+    }
+
+    private fun validateStep4() {
+        val state = _uiState.value
+        val isValid = state.locationError == null &&
+                state.coordinatesError == null &&
+                state.maxCapacityError == null &&
+                state.eventLocation.isNotBlank()
+        _uiState.update { it.copy(isStep4Valid = isValid) }
+    }
+
+
 
     fun onContinueStep1() {
         if (_uiState.value.isStep1Valid) {
@@ -192,5 +269,10 @@ class CreateEventViewModel : BaseViewModel() {
                       state.descriptionError == null && 
                       state.eventName.isNotBlank()
         _uiState.update { it.copy(isStep1Valid = isValid) }
+    }
+
+    companion object {
+        const val LOCATION_NAME_MAX_LENGTH = 100
+        const val MAX_CAPACITY_LIMIT = 5000
     }
 }

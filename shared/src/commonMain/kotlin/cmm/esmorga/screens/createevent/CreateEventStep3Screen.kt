@@ -118,7 +118,7 @@ fun CreateEventStep3Screen(
     LaunchedEffect(Unit) {
         cevm.effect.collect { effect ->
             when (effect) {
-                CreateEventEffect.NavigateToSuccess -> onNext()
+                CreateEventEffect.NavigateToStep4 -> onNext()
                 CreateEventEffect.NavigateBack -> onBackPressed()
                 else -> {}
             }

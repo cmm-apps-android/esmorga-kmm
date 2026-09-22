@@ -17,8 +17,27 @@ data class CreateEventUiState(
     val selectedDeadlineMinute: Int? = null,
     val showDeadlineSection: Boolean = false,
     val isDeadlineExceeded: Boolean = false,
-    val isStep3Valid: Boolean = false
+    val isStep3Valid: Boolean = false,
+    val eventLocation: String = "",
+    val eventCoordinates: String = "",
+    val eventMaxCapacity: String = "",
+    val locationError: LocationError? = null,
+    val coordinatesError: CoordinatesError? = null,
+    val maxCapacityError: MaxCapacityError? = null,
+    val isStep4Valid: Boolean = false
 )
+
+enum class LocationError {
+    EMPTY, INVALID_LENGTH
+}
+
+enum class CoordinatesError {
+    INVALID_FORMAT
+}
+
+enum class MaxCapacityError {
+    INVALID_VALUE
+}
 
 enum class NameError {
     EMPTY, INVALID_LENGTH
@@ -32,5 +51,6 @@ sealed class CreateEventEffect {
     data object NavigateToStep2 : CreateEventEffect()
     data object NavigateToStep3 : CreateEventEffect()
     data object NavigateBack : CreateEventEffect()
+    data object NavigateToStep4 : CreateEventEffect()
     data object NavigateToSuccess : CreateEventEffect()
 }

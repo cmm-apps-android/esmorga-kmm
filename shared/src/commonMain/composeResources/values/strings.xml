@@ -71,10 +71,8 @@
     <string name="inline_error_email">Invalid email</string>
     <string name="inline_error_password">Invalid password</string>
     <string name="inline_error_empty_field">Required field</string>
-    <string name="inline_error_last_name">Only letters, spaces and \&apos; - are accepted</string>
-    <string name="inline_error_location_required">You must enter a location (max %1$d letters)</string>
     <string name="inline_error_event_date_deadline_exceeded">The deadline cannot be after the event start time</string>
-    <string name="inline_error_max_capacity_invalid">The capacity must be between 1 and 5000</string>
+    <string name="inline_error_last_name">Only letters, spaces and \&apos; - are accepted</string>
     <string name="inline_error_name">Only letters, spaces and \&apos; - are accepted</string>
     <string name="inline_error_password_invalid">Min 8 chars, must include at least 1 digit, 1 letter and 1 symbol</string>
     <string name="inline_error_password_mismatch">Passwords do not match, try again!</string>
@@ -106,5 +104,14 @@
     <string name="field_title_join_deadline_time">Join deadline time</string>
     <string name="time_picker_dialog_title">Select time</string>
     <string name="field_title_join_deadline">Join deadline (optional)</string>
+    <string name="field_title_event_location">Event Location</string>
+    <string name="placeholder_event_location">Enter the location</string>
+    <string name="field_title_event_coordinates">Event Coordinates (optional)</string>
+    <string name="placeholder_event_coordinates">Enter the coordinates (lat,lng)</string>
+    <string name="field_title_event_max_capacity">Maximum Capacity (optional)</string>
+    <string name="placeholder_event_max_capacity">Enter the maximum capacity allowed</string>
+    <string name="inline_error_location_required">You must enter a location (max %1$d characters)</string>
+    <string name="inline_error_coordinates_invalid">The coordinates must be in lat,long format</string>
+    <string name="inline_error_max_capacity_invalid">The capacity must be between 1 and 5000</string>
 
 </resources>
