@@ -38,27 +38,27 @@ import cmm.esmorga.shared.generated.resources.step_2_screen_title
 import cmm.esmorga.shared.generated.resources.step_continue_button
 import cmm.esmorga.utils.screenContentInsets
 import cmm.esmorga.utils.screenTopBarInsets
-import cmm.esmorga.viewmodel.createevent.CreateEventViewModel
-import cmm.esmorga.viewmodel.createevent.model.CreateEventEffect
+import cmm.esmorga.viewmodel.createevent.CreateEventStep2ViewModel
+import cmm.esmorga.viewmodel.createevent.model.CreateEventStep2Effect
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.viewmodel.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateEventStep2Screen(
-    cevm: CreateEventViewModel,
+    viewModel: CreateEventStep2ViewModel = koinViewModel(),
     onNext: () -> Unit,
     onBackPressed: () -> Unit
 ) {
-    val uiState by cevm.uiState.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val scrollState = rememberScrollState()
 
     LaunchedEffect(Unit) {
-        cevm.effect.collect { effect ->
+        viewModel.effect.collect { effect ->
             when (effect) {
-                CreateEventEffect.NavigateToStep3 -> onNext()
-                CreateEventEffect.NavigateBack -> onBackPressed()
-                else -> {}
+                CreateEventStep2Effect.NavigateToStep3 -> onNext()
+                CreateEventStep2Effect.NavigateBack -> onBackPressed()
             }
         }
     }
@@ -70,7 +70,7 @@ fun CreateEventStep2Screen(
                 title = {},
                 windowInsets = screenTopBarInsets(),
                 navigationIcon = {
-                    IconButton(onClick = { cevm.onBackClicked() }) {
+                    IconButton(onClick = { viewModel.onBackClicked() }) {
                         Icon(
                             painter = painterResource(Res.drawable.ic_arrow_back),
                             contentDescription = stringResource(Res.string.back_icon_description)
@@ -110,7 +110,7 @@ fun CreateEventStep2Screen(
                 EsmorgaRadioButtonRow(
                     text = label,
                     selected = uiState.selectedType == type,
-                    onClick = { cevm.onEventTypeSelected(type) }
+                    onClick = { viewModel.onEventTypeSelected(type) }
                 )
             }
 
@@ -119,7 +119,7 @@ fun CreateEventStep2Screen(
             EsmorgaButton(
                 text = stringResource(Res.string.step_continue_button),
                 isEnabled = uiState.selectedType != null,
-                onClick = { cevm.onContinueStep2() }
+                onClick = { viewModel.onContinueStep2() }
             )
         }
     }

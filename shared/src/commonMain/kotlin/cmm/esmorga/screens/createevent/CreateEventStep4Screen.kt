@@ -41,30 +41,30 @@ import cmm.esmorga.shared.generated.resources.screen_create_event_title
 import cmm.esmorga.shared.generated.resources.step_continue_button
 import cmm.esmorga.utils.screenContentInsets
 import cmm.esmorga.utils.screenTopBarInsets
-import cmm.esmorga.viewmodel.createevent.CreateEventViewModel
-import cmm.esmorga.viewmodel.createevent.model.CreateEventEffect
+import cmm.esmorga.viewmodel.createevent.CreateEventStep4ViewModel
+import cmm.esmorga.viewmodel.createevent.model.CreateEventStep4Effect
 import cmm.esmorga.viewmodel.createevent.model.LocationError
 import cmm.esmorga.viewmodel.createevent.model.CoordinatesError
 import cmm.esmorga.viewmodel.createevent.model.MaxCapacityError
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.viewmodel.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateEventStep4Screen(
-    cevm: CreateEventViewModel,
+    viewModel: CreateEventStep4ViewModel = koinViewModel(),
     onNext: () -> Unit,
     onBackPressed: () -> Unit
 ) {
-    val uiState by cevm.uiState.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val scrollState = rememberScrollState()
 
     LaunchedEffect(Unit) {
-        cevm.effect.collect { effect ->
+        viewModel.effect.collect { effect ->
             when (effect) {
-                CreateEventEffect.NavigateToSuccess -> onNext()
-                CreateEventEffect.NavigateBack -> onBackPressed()
-                else -> {}
+                CreateEventStep4Effect.NavigateToSuccess -> onNext()
+                CreateEventStep4Effect.NavigateBack -> onBackPressed()
             }
         }
     }
@@ -76,7 +76,7 @@ fun CreateEventStep4Screen(
                 title = {},
                 windowInsets = screenTopBarInsets(),
                 navigationIcon = {
-                    IconButton(onClick = { cevm.onBackClicked() }) {
+                    IconButton(onClick = { viewModel.onBackClicked() }) {
                         Icon(
                             painter = painterResource(Res.drawable.ic_arrow_back),
                             contentDescription = stringResource(Res.string.back_icon_description)
@@ -101,14 +101,14 @@ fun CreateEventStep4Screen(
             Spacer(modifier = Modifier.height(20.dp))
 
             val locationErrorText = when (uiState.locationError) {
-                LocationError.EMPTY -> stringResource(Res.string.inline_error_location_required, CreateEventViewModel.LOCATION_NAME_MAX_LENGTH)
-                LocationError.INVALID_LENGTH -> stringResource(Res.string.inline_error_location_required, CreateEventViewModel.LOCATION_NAME_MAX_LENGTH)
+                LocationError.EMPTY -> stringResource(Res.string.inline_error_location_required, CreateEventStep4ViewModel.LOCATION_NAME_MAX_LENGTH)
+                LocationError.INVALID_LENGTH -> stringResource(Res.string.inline_error_location_required, CreateEventStep4ViewModel.LOCATION_NAME_MAX_LENGTH)
                 null -> null
             }
 
             EsmorgaTextField(
                 value = uiState.eventLocation,
-                onValueChange = { cevm.onEventLocationChanged(it) },
+                onValueChange = { viewModel.onEventLocationChanged(it) },
                 title = stringResource(Res.string.field_title_event_location),
                 placeholder = stringResource(Res.string.placeholder_event_location),
                 imeAction = ImeAction.Next,
@@ -124,7 +124,7 @@ fun CreateEventStep4Screen(
 
             EsmorgaTextField(
                 value = uiState.eventCoordinates,
-                onValueChange = { cevm.onEventCoordinatesChanged(it) },
+                onValueChange = { viewModel.onEventCoordinatesChanged(it) },
                 title = stringResource(Res.string.field_title_event_coordinates),
                 placeholder = stringResource(Res.string.placeholder_event_coordinates),
                 imeAction = ImeAction.Next,
@@ -140,14 +140,14 @@ fun CreateEventStep4Screen(
 
             EsmorgaTextField(
                 value = uiState.eventMaxCapacity,
-                onValueChange = { cevm.onEventMaxCapacityChanged(it) },
+                onValueChange = { viewModel.onEventMaxCapacityChanged(it) },
                 title = stringResource(Res.string.field_title_event_max_capacity),
                 placeholder = stringResource(Res.string.placeholder_event_max_capacity),
                 imeAction = ImeAction.Done,
                 errorText = maxCapacityErrorText,
                 onDonePressed = {
                     if (uiState.isStep4Valid) {
-                        cevm.onContinueStep4()
+                        viewModel.onContinueStep4()
                     }
                 }
             )
@@ -157,7 +157,7 @@ fun CreateEventStep4Screen(
             EsmorgaButton(
                 text = stringResource(Res.string.step_continue_button),
                 isEnabled = uiState.isStep4Valid,
-                onClick = { cevm.onContinueStep4() }
+                onClick = { viewModel.onContinueStep4() }
             )
         }
     }

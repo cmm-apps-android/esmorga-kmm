@@ -37,29 +37,29 @@ import cmm.esmorga.shared.generated.resources.screen_create_event_title
 import cmm.esmorga.shared.generated.resources.step_continue_button
 import cmm.esmorga.utils.screenContentInsets
 import cmm.esmorga.utils.screenTopBarInsets
-import cmm.esmorga.viewmodel.createevent.CreateEventViewModel
-import cmm.esmorga.viewmodel.createevent.model.CreateEventEffect
+import cmm.esmorga.viewmodel.createevent.CreateEventStep1ViewModel
+import cmm.esmorga.viewmodel.createevent.model.CreateEventStep1Effect
 import cmm.esmorga.viewmodel.createevent.model.DescriptionError
 import cmm.esmorga.viewmodel.createevent.model.NameError
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.viewmodel.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateEventStep1Screen(
-    cevm: CreateEventViewModel,
+    viewModel: CreateEventStep1ViewModel = koinViewModel(),
     onNavigateToStep2: () -> Unit,
     onBackPressed: () -> Unit
 ) {
-    val uiState by cevm.uiState.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val scrollState = rememberScrollState()
 
     LaunchedEffect(Unit) {
-        cevm.effect.collect { effect ->
+        viewModel.effect.collect { effect ->
             when (effect) {
-                CreateEventEffect.NavigateToStep2 -> onNavigateToStep2()
-                CreateEventEffect.NavigateBack -> onBackPressed()
-                else -> {}
+                CreateEventStep1Effect.NavigateToStep2 -> onNavigateToStep2()
+                CreateEventStep1Effect.NavigateBack -> onBackPressed()
             }
         }
     }
@@ -71,7 +71,7 @@ fun CreateEventStep1Screen(
                 title = {},
                 windowInsets = screenTopBarInsets(),
                 navigationIcon = {
-                    IconButton(onClick = { cevm.onBackClicked() }) {
+                    IconButton(onClick = { viewModel.onBackClicked() }) {
                         Icon(
                             painter = painterResource(Res.drawable.ic_arrow_back),
                             contentDescription = stringResource(Res.string.back_icon_description)
@@ -103,7 +103,7 @@ fun CreateEventStep1Screen(
 
             EsmorgaTextField(
                 value = uiState.eventName,
-                onValueChange = { cevm.onEventNameChanged(it) },
+                onValueChange = { viewModel.onEventNameChanged(it) },
                 title = stringResource(Res.string.field_title_event_name),
                 placeholder = stringResource(Res.string.placeholder_event_name),
                 imeAction = androidx.compose.ui.text.input.ImeAction.Next,
@@ -119,13 +119,18 @@ fun CreateEventStep1Screen(
 
             EsmorgaTextField(
                 value = uiState.eventDescription,
-                onValueChange = { cevm.onEventDescriptionChanged(it) },
+                onValueChange = { viewModel.onEventDescriptionChanged(it) },
                 title = stringResource(Res.string.field_title_event_description),
                 placeholder = "",
                 errorText = descriptionErrorText,
                 singleLine = false,
                 maxChars = 5000,
-                minHeight = 120.dp
+                minHeight = 120.dp,
+                onDonePressed = {
+                    if (uiState.isStep1Valid) {
+                        viewModel.onContinueStep1()
+                    }
+                }
             )
 
             Spacer(modifier = Modifier.height(32.dp))
@@ -133,7 +138,7 @@ fun CreateEventStep1Screen(
             EsmorgaButton(
                 text = stringResource(Res.string.step_continue_button),
                 isEnabled = uiState.isStep1Valid,
-                onClick = { cevm.onContinueStep1() }
+                onClick = { viewModel.onContinueStep1() }
             )
         }
     }

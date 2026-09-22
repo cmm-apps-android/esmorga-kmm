@@ -35,7 +35,7 @@ import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun EsmorgaTextField(
-    value: String,
+    value: String? = null,
     onValueChange: (String) -> Unit,
     title: String,
     placeholder: String,
@@ -54,7 +54,7 @@ fun EsmorgaTextField(
         EsmorgaText(text = title, style = EsmorgaTextStyle.BODY_1)
         Spacer(modifier = Modifier.height(8.dp))
         OutlinedTextField(
-            value = value,
+            value = value.orEmpty(),
             visualTransformation = if (isPassword && !passwordVisible) PasswordVisualTransformation() else VisualTransformation.None,
             onValueChange = {
                 if (maxChars == null || it.length <= maxChars) {
@@ -106,7 +106,7 @@ fun EsmorgaTextField(
 
             if (maxChars != null) {
                 EsmorgaText(
-                    text = "${value.length}/$maxChars",
+                    text = "${value.orEmpty().length}/$maxChars",
                     style = EsmorgaTextStyle.CAPTION,
                     color = MaterialTheme.colorScheme.error
                 )

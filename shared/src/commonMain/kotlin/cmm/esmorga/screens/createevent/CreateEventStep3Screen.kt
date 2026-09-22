@@ -49,24 +49,25 @@ import cmm.esmorga.shared.generated.resources.time_picker_dialog_title
 import cmm.esmorga.viewmodel.common.DateUtils
 import cmm.esmorga.utils.screenContentInsets
 import cmm.esmorga.utils.screenTopBarInsets
-import cmm.esmorga.viewmodel.createevent.CreateEventViewModel
-import cmm.esmorga.viewmodel.createevent.model.CreateEventEffect
+import cmm.esmorga.viewmodel.createevent.CreateEventStep3ViewModel
+import cmm.esmorga.viewmodel.createevent.model.CreateEventStep3Effect
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atStartOfDayIn
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.datetime.todayIn
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.viewmodel.koinViewModel
 import kotlin.time.Clock
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateEventStep3Screen(
-    cevm: CreateEventViewModel,
+    viewModel: CreateEventStep3ViewModel = koinViewModel(),
     onNext: () -> Unit,
     onBackPressed: () -> Unit
 ) {
-    val uiState by cevm.uiState.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val scrollState = rememberScrollState()
 
     var showTimePicker by remember { mutableStateOf(false) }
@@ -79,12 +80,12 @@ fun CreateEventStep3Screen(
     }
 
     val datePickerState = rememberDatePickerState(
-        initialSelectedDateMillis = Clock.System.now().toEpochMilliseconds(),
+        initialSelectedDateMillis = uiState.selectedDateMillis ?: Clock.System.now().toEpochMilliseconds(),
         selectableDates = PossibleSelectableDates(startOfToday)
     )
 
     val deadlineDatePickerState = rememberDatePickerState(
-        initialSelectedDateMillis = datePickerState.selectedDateMillis ?: Clock.System.now().toEpochMilliseconds(),
+        initialSelectedDateMillis = uiState.selectedDeadlineDateMillis ?: datePickerState.selectedDateMillis ?: Clock.System.now().toEpochMilliseconds(),
         selectableDates = DeadlineSelectableDates(
             startOfToday = startOfToday,
             eventDateMidnightMillis = datePickerState.selectedDateMillis ?: Long.MAX_VALUE
@@ -96,31 +97,30 @@ fun CreateEventStep3Screen(
         .toLocalDateTime(TimeZone.currentSystemDefault())
 
     val timePickerState = rememberTimePickerState(
-        initialHour = currentTime.hour,
-        initialMinute = currentTime.minute,
+        initialHour = uiState.selectedHour ?: currentTime.hour,
+        initialMinute = uiState.selectedMinute ?: currentTime.minute,
         is24Hour = true
     )
 
     val deadlineTimePickerState = rememberTimePickerState(
-        initialHour = currentTime.hour,
-        initialMinute = currentTime.minute,
+        initialHour = uiState.selectedDeadlineHour ?: currentTime.hour,
+        initialMinute = uiState.selectedDeadlineMinute ?: currentTime.minute,
         is24Hour = true
     )
 
     LaunchedEffect(datePickerState.selectedDateMillis) {
-        cevm.onDateChanged(datePickerState.selectedDateMillis)
+        viewModel.onDateChanged(datePickerState.selectedDateMillis)
     }
 
     LaunchedEffect(deadlineDatePickerState.selectedDateMillis) {
-        cevm.onDeadlineDateChanged(deadlineDatePickerState.selectedDateMillis)
+        viewModel.onDeadlineDateChanged(deadlineDatePickerState.selectedDateMillis)
     }
 
     LaunchedEffect(Unit) {
-        cevm.effect.collect { effect ->
+        viewModel.effect.collect { effect ->
             when (effect) {
-                CreateEventEffect.NavigateToStep4 -> onNext()
-                CreateEventEffect.NavigateBack -> onBackPressed()
-                else -> {}
+                CreateEventStep3Effect.NavigateToStep4 -> onNext()
+                CreateEventStep3Effect.NavigateBack -> onBackPressed()
             }
         }
     }
@@ -131,7 +131,7 @@ fun CreateEventStep3Screen(
             title = stringResource(Res.string.time_picker_dialog_title),
             onCancel = { showTimePicker = false },
             onConfirm = {
-                cevm.onTimeChanged(timePickerState.hour, timePickerState.minute)
+                viewModel.onTimeChanged(timePickerState.hour, timePickerState.minute)
                 showTimePicker = false
             }
         )
@@ -143,7 +143,7 @@ fun CreateEventStep3Screen(
             title = stringResource(Res.string.time_picker_dialog_title),
             onCancel = { showDeadlineTimePicker = false },
             onConfirm = {
-                cevm.onDeadlineTimeChanged(deadlineTimePickerState.hour, deadlineTimePickerState.minute)
+                viewModel.onDeadlineTimeChanged(deadlineTimePickerState.hour, deadlineTimePickerState.minute)
                 showDeadlineTimePicker = false
             }
         )
@@ -156,7 +156,7 @@ fun CreateEventStep3Screen(
                 title = {},
                 windowInsets = screenTopBarInsets(),
                 navigationIcon = {
-                    IconButton(onClick = { cevm.onBackClicked() }) {
+                    IconButton(onClick = { viewModel.onBackClicked() }) {
                         Icon(
                             painter = painterResource(Res.drawable.ic_arrow_back),
                             contentDescription = stringResource(Res.string.back_icon_description)
@@ -200,7 +200,7 @@ fun CreateEventStep3Screen(
                 checked = uiState.showDeadlineSection,
                 shouldShowDivider = false,
                 onCheckedChanged = {
-                    cevm.onToggleDeadlineSection(it)
+                    viewModel.onToggleDeadlineSection(it)
                 }
             )
 
@@ -229,7 +229,7 @@ fun CreateEventStep3Screen(
                 text = stringResource(Res.string.step_continue_button),
                 isEnabled = uiState.isStep3Valid,
                 modifier = Modifier.padding(horizontal = 16.dp),
-                onClick = { cevm.onContinueStep3() }
+                onClick = { viewModel.onContinueStep3() }
             )
         }
     }
