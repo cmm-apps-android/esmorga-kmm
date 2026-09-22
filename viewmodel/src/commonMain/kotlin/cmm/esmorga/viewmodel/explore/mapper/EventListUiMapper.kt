@@ -1,13 +1,10 @@
 package cmm.esmorga.viewmodel.explore.mapper
 
 import cmm.esmorga.domain.event.model.Event
-import cmm.esmorga.viewmodel.common.formatDayOfWeekMediumDateShortTime
+import cmm.esmorga.viewmodel.common.DateUtils
 import cmm.esmorga.viewmodel.explore.model.EventListUiModel
-import kotlin.time.Instant
 
 object EventListUiMapper {
-
-    fun formatDate(date: Instant): String = formatDayOfWeekMediumDateShortTime(date)
 
 
     private fun Event.toEventUi(): EventListUiModel {
@@ -16,7 +13,7 @@ object EventListUiMapper {
             id = this.id,
             imageUrl = this.imageUrl,
             cardTitle = this.name,
-            cardSubtitle1 = formatDate(date),
+            cardSubtitle1 = DateUtils.formatDayOfWeekMediumDateShortTime(date),
             cardSubtitle2 = this.location.name
         )
     }

@@ -12,6 +12,11 @@ data class CreateEventUiState(
     val selectedDateMillis: Long? = null,
     val selectedHour: Int? = null,
     val selectedMinute: Int? = null,
+    val selectedDeadlineDateMillis: Long? = null,
+    val selectedDeadlineHour: Int? = null,
+    val selectedDeadlineMinute: Int? = null,
+    val showDeadlineSection: Boolean = false,
+    val isDeadlineExceeded: Boolean = false,
     val isStep3Valid: Boolean = false
 )
 

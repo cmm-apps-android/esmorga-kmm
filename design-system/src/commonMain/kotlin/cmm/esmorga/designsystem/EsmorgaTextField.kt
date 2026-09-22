@@ -108,7 +108,7 @@ fun EsmorgaTextField(
                 EsmorgaText(
                     text = "${value.length}/$maxChars",
                     style = EsmorgaTextStyle.CAPTION,
-                    color = MaterialTheme.colorScheme.secondary
+                    color = MaterialTheme.colorScheme.error
                 )
             }
         }

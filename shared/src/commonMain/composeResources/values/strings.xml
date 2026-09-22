@@ -105,5 +105,6 @@
     <string name="step_3_screen_row_time">Event time</string>
     <string name="field_title_join_deadline_time">Join deadline time</string>
     <string name="time_picker_dialog_title">Select time</string>
+    <string name="field_title_join_deadline">Join deadline (optional)</string>
 
 </resources>

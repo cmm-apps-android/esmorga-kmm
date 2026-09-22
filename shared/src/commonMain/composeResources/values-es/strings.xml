@@ -105,5 +105,6 @@
     <string name="step_3_screen_row_time">Hora del evento</string>
     <string name="field_title_join_deadline_time">Hora límite para apuntarse</string>
     <string name="time_picker_dialog_title">Seleccionar hora</string>
+    <string name="field_title_join_deadline">Fecha límite para apuntarse (opcional)</string>
 
 </resources>
