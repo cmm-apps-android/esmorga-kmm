@@ -60,7 +60,7 @@ fun CreateEventForm.toCreateEventRemoteModel(): CreateEventRemoteModel {
     return CreateEventRemoteModel(
         remoteName = name,
         remoteDescription = description,
-        remoteType = type.name.lowercase(),
+        remoteType = type.name.lowercase().replaceFirstChar { it.titlecase() },
         remoteDate = date,
         remoteJoinDeadline = joinDeadline,
         remoteLocation = EventLocationRemoteModel(remoteLocationName = location.name, remoteLat = location.lat, remoteLong = location.long),
