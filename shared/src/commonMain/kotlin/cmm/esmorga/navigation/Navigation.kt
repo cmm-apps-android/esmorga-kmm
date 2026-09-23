@@ -49,4 +49,5 @@ sealed class Navigation {
 
 object NavigationKeys {
     const val PASSWORD_CHANGE_SUCCESS = "password_change_success"
+    const val CREATE_EVENT_SUCCESS = "create_event_success"
 }

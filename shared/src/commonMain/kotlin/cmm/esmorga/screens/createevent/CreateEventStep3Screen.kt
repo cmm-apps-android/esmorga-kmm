@@ -231,6 +231,7 @@ fun CreateEventStep3Screen(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 onClick = { viewModel.onContinueStep3() }
             )
+            Spacer(modifier = Modifier.height(32.dp))
         }
     }
 }

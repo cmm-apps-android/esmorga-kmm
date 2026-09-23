@@ -41,9 +41,8 @@ fun NavGraphBuilder.createEventGraph(navController: NavHostController) {
         composable<Navigation.CreateEventStep5> {
             CreateEventStep5Screen(
                 onNext = {
-                    navController.navigate(Navigation.HomeScreen) {
-                        popUpTo<Navigation.CreateEventFlow> { inclusive = true }
-                    }
+                    navController.getBackStackEntry<Navigation.HomeScreen>().savedStateHandle[NavigationKeys.CREATE_EVENT_SUCCESS] = true
+                    navController.popBackStack(Navigation.HomeScreen, inclusive = false)
                 },
                 onBackPressed = { navController.popBackStack() }
             )

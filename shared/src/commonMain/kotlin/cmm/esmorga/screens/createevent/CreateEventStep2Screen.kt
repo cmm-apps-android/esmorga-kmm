@@ -121,6 +121,9 @@ fun CreateEventStep2Screen(
                 isEnabled = uiState.selectedType != null,
                 onClick = { viewModel.onContinueStep2() }
             )
+
+            Spacer(modifier = Modifier.height(32.dp))
+
         }
     }
 }

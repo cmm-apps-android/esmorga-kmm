@@ -119,5 +119,6 @@
     <string name="button_delete">Delete</string>
     <string name="button_create_event">Create Event</string>
     <string name="error_create_event">Failed to create event</string>
+    <string name="snackbar_event_created">Event created successfully</string>
 
 </resources>

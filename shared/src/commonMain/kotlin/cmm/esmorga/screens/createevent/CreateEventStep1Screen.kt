@@ -140,6 +140,7 @@ fun CreateEventStep1Screen(
                 isEnabled = uiState.isStep1Valid,
                 onClick = { viewModel.onContinueStep1() }
             )
+            Spacer(modifier = Modifier.height(32.dp))
         }
     }
 }

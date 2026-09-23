@@ -14,22 +14,22 @@ import org.koin.dsl.module
 
 object RemoteDIModule {
 
+    private const val BASE_URL = "https://qa.api.esmorgaevents.com/v1/"
     private val HTTP_CLIENT_PUBLIC = named("HttpClientPublic")
     private val HTTP_CLIENT_AUTHENTICATED = named("HttpClientAuthenticated")
 
     val module = module {
         factory<EventDatasource>(named(DataDIModule.REMOTE_DATASOURCE_INSTANCE_NAME)) { EventRemoteDatasourceImpl(get(), get()) }
         factory<UserDatasource>(named(DataDIModule.REMOTE_DATASOURCE_INSTANCE_NAME)) { UserRemoteDatasourceImpl(get(), get()) }
+        single { NetworkApiHelper() }
         
         single<HttpClient>(HTTP_CLIENT_PUBLIC) {
-            NetworkApiHelper().providePublicApi(
-                baseUrl = "https://qa.api.esmorgaevents.com/v1/"
-            )
+            get<NetworkApiHelper>().providePublicApi(baseUrl = BASE_URL)
         }
         
         single<HttpClient>(HTTP_CLIENT_AUTHENTICATED) {
-            NetworkApiHelper().provideAuthenticatedApi(
-                baseUrl = "https://qa.api.esmorgaevents.com/v1/",
+            get<NetworkApiHelper>().provideAuthenticatedApi(
+                baseUrl = BASE_URL,
                 userLocalDs = get(named(DataDIModule.LOCAL_DATASOURCE_INSTANCE_NAME))
             )
         }

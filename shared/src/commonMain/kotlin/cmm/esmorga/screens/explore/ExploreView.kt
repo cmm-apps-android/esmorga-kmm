@@ -53,9 +53,16 @@ import org.koin.compose.viewmodel.koinViewModel
 fun ExploreScreen(
     elvm: ExploreViewModel = koinViewModel(),
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
+    refreshEvents: Boolean = false,
     onEventClick: (eventId: String) -> Unit
 ) {
     val uiState: ExploreUiState by elvm.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(refreshEvents) {
+        if (refreshEvents) {
+            elvm.loadEvents(refresh = true)
+        }
+    }
 
     val message = stringResource(Res.string.no_internet_snackbar)
     val localCoroutineScope = rememberCoroutineScope()
