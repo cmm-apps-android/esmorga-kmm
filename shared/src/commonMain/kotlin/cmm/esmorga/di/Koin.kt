@@ -13,6 +13,7 @@ import cmm.esmorga.viewmodel.createevent.CreateEventStep1ViewModel
 import cmm.esmorga.viewmodel.createevent.CreateEventStep2ViewModel
 import cmm.esmorga.viewmodel.createevent.CreateEventStep3ViewModel
 import cmm.esmorga.viewmodel.createevent.CreateEventStep4ViewModel
+import cmm.esmorga.viewmodel.createevent.CreateEventStep5ViewModel
 import cmm.esmorga.viewmodel.login.LoginViewModel
 import cmm.esmorga.viewmodel.myevents.MyEventsViewModel
 import cmm.esmorga.viewmodel.profile.ProfileViewModel
@@ -50,6 +51,7 @@ val viewModelModule = module {
     viewModelOf(::CreateEventStep2ViewModel)
     viewModelOf(::CreateEventStep3ViewModel)
     viewModelOf(::CreateEventStep4ViewModel)
+    viewModelOf(::CreateEventStep5ViewModel)
 }
 
 fun initKoin(appDeclaration: KoinAppDeclaration = {}) {

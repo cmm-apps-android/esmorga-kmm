@@ -113,5 +113,11 @@
     <string name="inline_error_location_required">Debes introducir una localización (max %1$d letras)</string>
     <string name="inline_error_coordinates_invalid">Las coordenadas deben estar en formato lat,long</string>
     <string name="inline_error_max_capacity_invalid">La capacidad tiene que ser entre 1 y 5000</string>
+    <string name="field_title_event_image">Imagen del evento (opcional)</string>
+    <string name="placeholder_event_image">Introduce la URL de la imagen</string>
+    <string name="button_preview">Previsualizar</string>
+    <string name="button_delete">Borrar</string>
+    <string name="button_create_event">Crear evento</string>
+    <string name="error_create_event">Error al crear el evento</string>
 
 </resources>

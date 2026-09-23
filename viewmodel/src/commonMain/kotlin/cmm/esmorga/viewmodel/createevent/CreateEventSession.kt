@@ -20,6 +20,7 @@ data class CreateEventData(
     val eventLocation: String? = null,
     val eventCoordinates: String? = null,
     val eventMaxCapacity: String? = null,
+    val imageUrl: String? = null,
 )
 
 class CreateEventSession {

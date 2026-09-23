@@ -2,6 +2,7 @@ package cmm.esmorga.viewmodel.createevent
 
 import androidx.lifecycle.viewModelScope
 import cmm.esmorga.viewmodel.BaseViewModel
+import cmm.esmorga.viewmodel.common.isValidCoordinates
 import cmm.esmorga.viewmodel.createevent.model.CreateEventStep4Effect
 import cmm.esmorga.viewmodel.createevent.model.CreateEventStep4UiState
 import cmm.esmorga.viewmodel.createevent.model.LocationError
@@ -77,7 +78,7 @@ class CreateEventStep4ViewModel(
     fun onContinueStep4() {
         if (_uiState.value.isStep4Valid) {
             viewModelScope.launch {
-                _effect.emit(CreateEventStep4Effect.NavigateToSuccess)
+                _effect.emit(CreateEventStep4Effect.NavigateToStep5)
             }
         }
     }
@@ -97,13 +98,7 @@ class CreateEventStep4ViewModel(
     }
 
     private fun validateCoordinates(coordinates: String): CoordinatesError? {
-        if (coordinates.isBlank()) return null
-        val parts = coordinates.split(",")
-        if (parts.size != 2) return CoordinatesError.INVALID_FORMAT
-        val lat = parts[0].trim().toDoubleOrNull()
-        val lng = parts[1].trim().toDoubleOrNull()
-        if (lat == null || lng == null) return CoordinatesError.INVALID_FORMAT
-        return null
+        return if (coordinates.isValidCoordinates()) null else CoordinatesError.INVALID_FORMAT
     }
 
     private fun validateMaxCapacity(capacity: String): MaxCapacityError? {

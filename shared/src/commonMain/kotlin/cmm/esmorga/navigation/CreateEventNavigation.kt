@@ -8,6 +8,7 @@ import cmm.esmorga.screens.createevent.CreateEventStep1Screen
 import cmm.esmorga.screens.createevent.CreateEventStep2Screen
 import cmm.esmorga.screens.createevent.CreateEventStep3Screen
 import cmm.esmorga.screens.createevent.CreateEventStep4Screen
+import cmm.esmorga.screens.createevent.CreateEventStep5Screen
 
 fun NavGraphBuilder.createEventGraph(navController: NavHostController) {
     navigation<Navigation.CreateEventFlow>(
@@ -33,7 +34,17 @@ fun NavGraphBuilder.createEventGraph(navController: NavHostController) {
         }
         composable<Navigation.CreateEventStep4> {
             CreateEventStep4Screen(
-                onNext = { navController.navigate(Navigation.HomeScreen) },
+                onNext = { navController.navigate(Navigation.CreateEventStep5) },
+                onBackPressed = { navController.popBackStack() }
+            )
+        }
+        composable<Navigation.CreateEventStep5> {
+            CreateEventStep5Screen(
+                onNext = {
+                    navController.navigate(Navigation.HomeScreen) {
+                        popUpTo<Navigation.CreateEventFlow> { inclusive = true }
+                    }
+                },
                 onBackPressed = { navController.popBackStack() }
             )
         }

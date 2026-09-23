@@ -63,7 +63,7 @@ fun CreateEventStep4Screen(
     LaunchedEffect(Unit) {
         viewModel.effect.collect { effect ->
             when (effect) {
-                CreateEventStep4Effect.NavigateToSuccess -> onNext()
+                CreateEventStep4Effect.NavigateToStep5 -> onNext()
                 CreateEventStep4Effect.NavigateBack -> onBackPressed()
             }
         }

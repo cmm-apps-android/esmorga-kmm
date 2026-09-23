@@ -9,6 +9,7 @@ import cmm.esmorga.data.event.model.AttendeeDataModel
 import cmm.esmorga.data.event.model.EventDataModel
 import cmm.esmorga.data.user.datasource.UserDatasource
 import cmm.esmorga.domain.event.model.Attendee
+import cmm.esmorga.domain.event.model.CreateEventForm
 import cmm.esmorga.domain.event.model.Event
 import cmm.esmorga.domain.event.repository.EventRepository
 import cmm.esmorga.domain.result.ErrorCodes
@@ -96,6 +97,11 @@ class EventRepositoryImpl(
     override suspend fun saveAttendeePayment(eventId: String, userName: String, paid: Boolean): Success<Unit> {
         localEventDs.saveAttendeePayment(eventId, userName, paid)
         return Success(Unit)
+    }
+
+    override suspend fun createEvent(eventForm: CreateEventForm) {
+        remoteEventDs.createEvent(eventForm)
+        localEventDs.clearEvents()
     }
 
     private suspend fun getEventsFromRemote(): List<EventDataModel> = coroutineScope {

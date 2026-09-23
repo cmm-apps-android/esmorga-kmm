@@ -23,6 +23,6 @@ enum class MaxCapacityError {
 }
 
 sealed class CreateEventStep4Effect {
-    data object NavigateToSuccess : CreateEventStep4Effect()
+    data object NavigateToStep5 : CreateEventStep4Effect()
     data object NavigateBack : CreateEventStep4Effect()
 }

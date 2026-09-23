@@ -5,7 +5,9 @@ import cmm.esmorga.data.event.model.EventDataModel
 import cmm.esmorga.datasource.remote.api.EsmorgaApi
 import cmm.esmorga.datasource.remote.api.EsmorgaPublicApi
 import cmm.esmorga.datasource.remote.api.ExceptionHandler.manageApiException
+import cmm.esmorga.datasource.remote.event.mapper.toCreateEventRemoteModel
 import cmm.esmorga.datasource.remote.event.mapper.toEventDataModelList
+import cmm.esmorga.domain.event.model.CreateEventForm
 
 
 class EventRemoteDatasourceImpl(
@@ -51,6 +53,14 @@ class EventRemoteDatasourceImpl(
         return try {
             authenticatedApi.getEventAttendees(eventId).remoteEventAttendeeList
         } catch (e: Throwable) {
+            throw manageApiException(e)
+        }
+    }
+
+    override suspend fun createEvent(eventForm: CreateEventForm) {
+        try {
+            authenticatedApi.createEvent(eventForm.toCreateEventRemoteModel())
+        } catch (e: Exception) {
             throw manageApiException(e)
         }
     }
