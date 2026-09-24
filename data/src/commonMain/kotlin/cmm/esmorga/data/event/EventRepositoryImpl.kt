@@ -101,7 +101,6 @@ class EventRepositoryImpl(
 
     override suspend fun createEvent(eventForm: CreateEventForm) {
         remoteEventDs.createEvent(eventForm)
-        localEventDs.clearEvents()
     }
 
     private suspend fun getEventsFromRemote(): List<EventDataModel> = coroutineScope {
