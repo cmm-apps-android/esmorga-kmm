@@ -1,5 +1,7 @@
 package cmm.esmorga.domain.di
 
+import cmm.esmorga.domain.event.CreateEventUseCase
+import cmm.esmorga.domain.event.CreateEventUseCaseImpl
 import cmm.esmorga.domain.event.GetEventDetailsUseCase
 import cmm.esmorga.domain.event.GetEventDetailsUseCaseImpl
 import cmm.esmorga.domain.event.GetEventAttendeesUseCase
@@ -30,6 +32,7 @@ import org.koin.dsl.module
 object DomainDIModule {
 
     val module = module {
+        factory<CreateEventUseCase> { CreateEventUseCaseImpl(get()) }
         factory<GetEventListUseCase> { GetEventListUseCaseImpl(get()) }
         factory<GetMyEventListUseCase> { GetMyEventListUseCaseImpl(get()) }
         factory<JoinEventUseCase> { JoinEventUseCaseImpl(get()) }

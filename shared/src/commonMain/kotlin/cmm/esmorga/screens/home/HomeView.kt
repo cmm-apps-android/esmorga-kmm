@@ -41,6 +41,7 @@ import cmm.esmorga.shared.generated.resources.ic_explore
 import cmm.esmorga.shared.generated.resources.ic_my_events
 import cmm.esmorga.shared.generated.resources.ic_profile
 import cmm.esmorga.shared.generated.resources.password_change_success_snackbar
+import cmm.esmorga.shared.generated.resources.snackbar_event_created
 import cmm.esmorga.shared.generated.resources.screen_my_events_title
 import cmm.esmorga.utils.screenBottomBarInsets
 import cmm.esmorga.utils.screenTopBarInsets
@@ -61,20 +62,31 @@ fun HomeScreen(
     backStackEntry: NavBackStackEntry,
     onEventClick: (String) -> Unit,
     onNavigateToLogin: () -> Unit,
-    onNavigateToChangePassword: () -> Unit
+    onNavigateToChangePassword: () -> Unit,
+    onNavigateToCreateEvent: () -> Unit
 ) {
     val isPasswordChangeSuccessful by backStackEntry.savedStateHandle
         .getStateFlow(NavigationKeys.PASSWORD_CHANGE_SUCCESS, false)
+        .collectAsStateWithLifecycle()
+
+    val isEventCreatedSuccessful by backStackEntry.savedStateHandle
+        .getStateFlow(NavigationKeys.CREATE_EVENT_SUCCESS, false)
         .collectAsStateWithLifecycle()
 
     var selectedTab by rememberSaveable { mutableStateOf(HomeTab.Explore) }
     val snackbarHostState = remember { SnackbarHostState() }
 
     val passwordChangeConfirmation = stringResource(Res.string.password_change_success_snackbar)
-    LaunchedEffect(isPasswordChangeSuccessful) {
+    val eventCreatedConfirmation = stringResource(Res.string.snackbar_event_created)
+
+    LaunchedEffect(isPasswordChangeSuccessful, isEventCreatedSuccessful) {
         if (isPasswordChangeSuccessful) {
             snackbarHostState.showSnackbar(passwordChangeConfirmation)
             backStackEntry.savedStateHandle[NavigationKeys.PASSWORD_CHANGE_SUCCESS] = false
+        }
+        if (isEventCreatedSuccessful) {
+            snackbarHostState.showSnackbar(eventCreatedConfirmation)
+            backStackEntry.savedStateHandle[NavigationKeys.CREATE_EVENT_SUCCESS] = false
         }
     }
 
@@ -136,13 +148,15 @@ fun HomeScreen(
         ) { tab ->
             when (tab) {
                 HomeTab.Explore -> ExploreScreen(
+                    refreshEvents = isEventCreatedSuccessful,
                     onEventClick = onEventClick,
                     snackbarHostState = snackbarHostState
                 )
 
                 HomeTab.MyEvents -> MyEventsScreen(
                     onNavigateToLogin = onNavigateToLogin,
-                    onEventClick = onEventClick
+                    onEventClick = onEventClick,
+                    onNavigateToCreateEvent = onNavigateToCreateEvent
                 )
 
                 HomeTab.Profile -> ProfileScreen(

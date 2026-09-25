@@ -1,6 +1,7 @@
 package cmm.esmorga.data.event.datasource
 
 import cmm.esmorga.data.event.model.EventDataModel
+import cmm.esmorga.domain.event.model.CreateEventForm
 import cmm.esmorga.domain.result.ErrorCodes
 import cmm.esmorga.domain.result.EsmorgaException
 import cmm.esmorga.domain.result.Source
@@ -51,6 +52,10 @@ interface EventDatasource {
     }
 
     suspend fun clearAttendeesPayments() {
+        throw EsmorgaException(message = "Unsupported operation", source = Source.UNSUPPORTED, code = ErrorCodes.UNSUPPORTED_OPERATION)
+    }
+
+    suspend fun createEvent(eventForm: CreateEventForm) {
         throw EsmorgaException(message = "Unsupported operation", source = Source.UNSUPPORTED, code = ErrorCodes.UNSUPPORTED_OPERATION)
     }
 }

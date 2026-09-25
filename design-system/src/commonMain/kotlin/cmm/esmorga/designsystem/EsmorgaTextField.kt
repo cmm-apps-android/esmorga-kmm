@@ -1,9 +1,11 @@
 package cmm.esmorga.designsystem
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -24,6 +26,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import cmm.esmorga.design_system.generated.resources.Res
 import cmm.esmorga.design_system.generated.resources.ic_visibility
@@ -32,7 +35,7 @@ import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun EsmorgaTextField(
-    value: String,
+    value: String? = null,
     onValueChange: (String) -> Unit,
     title: String,
     placeholder: String,
@@ -42,16 +45,22 @@ fun EsmorgaTextField(
     imeAction: ImeAction = ImeAction.Done,
     errorText: String? = null,
     isEnabled: Boolean = true,
+    maxChars: Int? = null,
+    minHeight: Dp? = null,
     onDonePressed: () -> Unit = {}
 ) {
     var passwordVisible by remember { mutableStateOf(false) }
-    Column {
+    Column(modifier = modifier) {
         EsmorgaText(text = title, style = EsmorgaTextStyle.BODY_1)
         Spacer(modifier = Modifier.height(8.dp))
         OutlinedTextField(
-            value = value,
+            value = value.orEmpty(),
             visualTransformation = if (isPassword && !passwordVisible) PasswordVisualTransformation() else VisualTransformation.None,
-            onValueChange = onValueChange,
+            onValueChange = {
+                if (maxChars == null || it.length <= maxChars) {
+                    onValueChange(it)
+                }
+            },
             placeholder = {
                 Text(
                     text = placeholder,
@@ -65,7 +74,9 @@ fun EsmorgaTextField(
                 focusedBorderColor = MaterialTheme.colorScheme.secondary,
                 unfocusedBorderColor = MaterialTheme.colorScheme.secondary
             ),
-            modifier = modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().then(
+                if (minHeight != null) Modifier.heightIn(min = minHeight) else Modifier
+            ),
             shape = RoundedCornerShape(12),
             trailingIcon = {
                 if (isPassword) {
@@ -77,12 +88,29 @@ fun EsmorgaTextField(
             },
             keyboardActions = KeyboardActions(onDone = { onDonePressed() })
         )
-        if (errorText != null) {
-            Spacer(modifier = Modifier.height(4.dp))
-            EsmorgaText(
-                text = errorText,
-                style = EsmorgaTextStyle.CAPTION
-            )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 4.dp)
+        ) {
+            if (errorText != null) {
+                EsmorgaText(
+                    text = errorText,
+                    style = EsmorgaTextStyle.CAPTION,
+                    modifier = Modifier.weight(1f),
+                    color = MaterialTheme.colorScheme.error
+                )
+            } else {
+                Spacer(modifier = Modifier.weight(1f))
+            }
+
+            if (maxChars != null) {
+                EsmorgaText(
+                    text = "${value.orEmpty().length}/$maxChars",
+                    style = EsmorgaTextStyle.CAPTION,
+                    color = MaterialTheme.colorScheme.error
+                )
+            }
         }
     }
 }

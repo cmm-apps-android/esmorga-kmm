@@ -1,11 +1,13 @@
 package cmm.esmorga.datasource.remote.api
 
+import cmm.esmorga.datasource.remote.event.model.CreateEventRemoteModel
 import cmm.esmorga.datasource.remote.event.model.EventAttendeeWrapperRemoteModel
 import cmm.esmorga.datasource.remote.event.model.EventListWrapperRemoteModel
 import cmm.esmorga.datasource.remote.user.model.AccessTokenRemoteModel
 import cmm.esmorga.datasource.remote.user.model.ChangePasswordBodyRemoteModel
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
+import io.ktor.client.plugins.auth.clearAuthTokens
 import io.ktor.client.request.delete
 import io.ktor.client.request.get
 import io.ktor.client.request.post
@@ -47,6 +49,17 @@ class EsmorgaApi(private val httpClient: HttpClient) {
     suspend fun getEventAttendees(eventId: String): EventAttendeeWrapperRemoteModel {
         val response = httpClient.get("events/$eventId/users")
         return response.body()
+    }
+
+    suspend fun createEvent(body: CreateEventRemoteModel) {
+        httpClient.post("events") {
+            contentType(ContentType.Application.Json)
+            setBody(body)
+        }
+    }
+
+    fun clearTokens() {
+        httpClient.clearAuthTokens()
     }
 
 }

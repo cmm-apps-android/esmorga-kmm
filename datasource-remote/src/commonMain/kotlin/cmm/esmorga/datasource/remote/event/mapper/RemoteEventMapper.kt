@@ -8,6 +8,8 @@ import cmm.esmorga.domain.result.EsmorgaException
 import cmm.esmorga.domain.result.Source
 import cmm.esmorga.data.event.model.EventDataModel
 import cmm.esmorga.data.event.model.EventLocationDataModel
+import cmm.esmorga.datasource.remote.event.model.CreateEventRemoteModel
+import cmm.esmorga.domain.event.model.CreateEventForm
 import io.ktor.http.parsing.ParseException
 import kotlin.time.Instant
 
@@ -53,3 +55,16 @@ fun EventLocationRemoteModel.toEventLocationDataModel(): EventLocationDataModel 
     lat = this.remoteLat,
     long = this.remoteLong
 )
+
+fun CreateEventForm.toCreateEventRemoteModel(): CreateEventRemoteModel {
+    return CreateEventRemoteModel(
+        remoteName = name,
+        remoteDescription = description,
+        remoteType = type.name.lowercase().replaceFirstChar { it.titlecase() },
+        remoteDate = date,
+        remoteJoinDeadline = joinDeadline,
+        remoteLocation = EventLocationRemoteModel(remoteLocationName = location.name, remoteLat = location.lat, remoteLong = location.long),
+        remoteMaxCapacity = maxCapacity,
+        remoteImageUrl = imageUrl
+    )
+}

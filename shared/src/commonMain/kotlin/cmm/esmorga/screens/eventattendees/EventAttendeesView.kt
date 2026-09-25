@@ -109,6 +109,7 @@ private fun EventAttendeesView(
             } else {
                 EventAttendeesList(
                     attendees = uiState.attendees,
+                    shouldShowChecked = uiState.isAdmin,
                     onAttendeeChecked = onAttendeeChecked
                 )
             }
@@ -132,35 +133,37 @@ private fun EventAttendeesLoading() {
 }
 
 @Composable
-private fun EventAttendeesList(attendees: List<Attendee>, onAttendeeChecked: (Int, Boolean) -> Unit) {
+private fun EventAttendeesList(
+    attendees: List<Attendee>,
+    shouldShowChecked: Boolean,
+    onAttendeeChecked: (Int, Boolean) -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 16.dp, bottom = 32.dp, start = 16.dp, end = 16.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        EsmorgaText(
+            text = stringResource(Res.string.title_name),
+            style = EsmorgaTextStyle.HEADING_2
+        )
+
+        if (shouldShowChecked) {
+            EsmorgaText(
+                text = stringResource(Res.string.title_payment_status),
+                style = EsmorgaTextStyle.HEADING_2
+            )
+        }
+    }
+
+    EsmorgaHorizontalDivider()
+
     LazyColumn(modifier = Modifier.fillMaxSize()) {
-        item {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 16.dp, bottom = 32.dp, start = 16.dp, end = 16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                EsmorgaText(
-                    text = stringResource(Res.string.title_name),
-                    style = EsmorgaTextStyle.HEADING_2
-                )
-
-                EsmorgaText(
-                    text = stringResource(Res.string.title_payment_status),
-                    style = EsmorgaTextStyle.HEADING_2
-                )
-            }
-        }
-
-        item {
-            EsmorgaHorizontalDivider()
-        }
-
         itemsIndexed(attendees) { index, attendee ->
             EsmorgaCheckboxRow(
                 text = "${index + 1}. ${attendee.name}",
-                shouldShowChecked = true,
+                shouldShowChecked = shouldShowChecked,
                 checked = attendee.alreadyPaid,
                 onCheckedChanged = { onAttendeeChecked(index, it) }
             )

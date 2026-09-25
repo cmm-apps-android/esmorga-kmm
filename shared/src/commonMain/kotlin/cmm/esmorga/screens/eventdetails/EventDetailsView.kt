@@ -57,7 +57,7 @@ import cmm.esmorga.view.theme.EsmorgaTheme
 import cmm.esmorga.viewmodel.eventdetails.EventDetailsViewModel
 import cmm.esmorga.viewmodel.eventdetails.model.EventDetailsEffect
 import cmm.esmorga.viewmodel.eventdetails.model.EventDetailsUiState
-import cmm.esmorga.viewmodel.explore.mapper.EventListUiMapper.formatDate
+import cmm.esmorga.viewmodel.common.DateUtils
 import cmm.esmorga.design_system.generated.resources.Res as DsRes
 import cmm.esmorga.design_system.generated.resources.group
 import cmm.esmorga.shared.generated.resources.snackbar_event_joined
@@ -191,25 +191,27 @@ fun EventDetailsView(
                 EsmorgaText(
                     text = stringResource(
                         Res.string.screen_event_details_join_deadline,
-                        formatDate(joinDeadline)
+                        DateUtils.formatDayOfWeekMediumDateShortTime(joinDeadline)
                     ),
                     style = EsmorgaTextStyle.BUTTON_PRIMARY,
                     color = DarkClaret,
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
             }
-            Spacer(modifier = Modifier.height(32.dp))
-            EsmorgaText(
-                text = stringResource(Res.string.event_details_description),
-                style = EsmorgaTextStyle.HEADING_2,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
-            Spacer(modifier = Modifier.height(12.dp))
-            EsmorgaText(
-                text = uiState.description,
-                style = EsmorgaTextStyle.BODY_1,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
+            uiState.description?.let {
+                Spacer(modifier = Modifier.height(32.dp))
+                EsmorgaText(
+                    text = stringResource(Res.string.event_details_description),
+                    style = EsmorgaTextStyle.HEADING_2,
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
+                Spacer(modifier = Modifier.height(12.dp))
+                EsmorgaText(
+                    text = it,
+                    style = EsmorgaTextStyle.BODY_1,
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
+            }
             Spacer(modifier = Modifier.height(32.dp))
             EsmorgaText(
                 text = stringResource(Res.string.event_details_location),

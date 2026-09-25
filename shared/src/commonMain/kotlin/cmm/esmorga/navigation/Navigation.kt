@@ -27,8 +27,27 @@ sealed class Navigation {
 
     @Serializable
     data class FullScreenError(val esmorgaErrorScreenArguments: String? = null) : Navigation()
+
+    @Serializable
+    data object CreateEventFlow : Navigation()
+
+    @Serializable
+    data object CreateEventStep1 : Navigation()
+
+    @Serializable
+    data object CreateEventStep2 : Navigation()
+
+    @Serializable
+    data object CreateEventStep3 : Navigation()
+
+    @Serializable
+    data object CreateEventStep4 : Navigation()
+
+    @Serializable
+    data object CreateEventStep5 : Navigation()
 }
 
 object NavigationKeys {
     const val PASSWORD_CHANGE_SUCCESS = "password_change_success"
+    const val CREATE_EVENT_SUCCESS = "create_event_success"
 }

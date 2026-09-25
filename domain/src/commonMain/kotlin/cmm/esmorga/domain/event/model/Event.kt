@@ -10,7 +10,7 @@ data class Event(
     val id: String,
     val name: String,
     val date: Instant,
-    val description: String,
+    val description: String? = null,
     val type: EventType,
     val imageUrl: String? = null,
     val location: EventLocation,

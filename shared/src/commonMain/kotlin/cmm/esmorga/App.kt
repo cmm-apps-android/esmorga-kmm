@@ -8,10 +8,12 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import cmm.esmorga.navigation.Navigation
 import cmm.esmorga.navigation.NavigationKeys
+import cmm.esmorga.navigation.createEventGraph
 import cmm.esmorga.screens.changepassword.ChangePasswordScreen
 import cmm.esmorga.screens.errors.EsmorgaFullScreenError
 import cmm.esmorga.screens.eventattendees.EventAttendeesScreen
@@ -44,6 +46,9 @@ fun App() {
                         },
                         onNavigateToChangePassword = {
                             navController.navigate(Navigation.ChangePasswordScreen)
+                        },
+                        onNavigateToCreateEvent = {
+                            navController.navigate(Navigation.CreateEventFlow)
                         }
                     )
                 }
@@ -134,6 +139,8 @@ fun App() {
                         onBackPressed = { navController.popBackStack() }
                     )
                 }
+
+                createEventGraph(navController)
             }
         }
     }
