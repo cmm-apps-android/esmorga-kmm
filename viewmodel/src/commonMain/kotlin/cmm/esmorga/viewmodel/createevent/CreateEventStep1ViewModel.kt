@@ -26,16 +26,7 @@ class CreateEventStep1ViewModel(
     val effect: SharedFlow<CreateEventStep1Effect> = _effect.asSharedFlow()
 
     init {
-        val initialData = session.data.value
-        _uiState.update {
-            it.copy(
-                eventName = initialData.eventName,
-                eventDescription = initialData.eventDescription,
-                nameError = initialData.eventName?.let { validateName(it) },
-                descriptionError = initialData.eventDescription?.let { validateDescription(it) }
-            )
-        }
-        validateStep1()
+        session.clear()
     }
 
     fun onEventNameChanged(name: String) {

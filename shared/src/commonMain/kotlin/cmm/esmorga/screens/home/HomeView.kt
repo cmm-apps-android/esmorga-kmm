@@ -85,6 +85,7 @@ fun HomeScreen(
             backStackEntry.savedStateHandle[NavigationKeys.PASSWORD_CHANGE_SUCCESS] = false
         }
         if (isEventCreatedSuccessful) {
+            selectedTab = HomeTab.Explore
             snackbarHostState.showSnackbar(eventCreatedConfirmation)
             backStackEntry.savedStateHandle[NavigationKeys.CREATE_EVENT_SUCCESS] = false
         }

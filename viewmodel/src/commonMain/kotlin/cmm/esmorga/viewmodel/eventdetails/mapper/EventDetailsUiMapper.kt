@@ -11,7 +11,7 @@ object EventDetailsUiMapper {
         image = this.imageUrl,
         title = this.name,
         subtitle = DateUtils.formatDayOfWeekMediumDateShortTime(date),
-        description = this.description,
+        description = this.description?.ifEmpty { null },
         locationName = this.location.name,
         locationLat = this.location.lat,
         locationLng = this.location.long,
