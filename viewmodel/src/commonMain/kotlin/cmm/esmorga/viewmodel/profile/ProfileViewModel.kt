@@ -1,6 +1,7 @@
 package cmm.esmorga.viewmodel.profile
 
 import androidx.lifecycle.viewModelScope
+import cmm.esmorga.domain.push.PushNotificationManager
 import cmm.esmorga.domain.user.GetSavedUserUseCase
 import cmm.esmorga.domain.user.LogOutUseCase
 import cmm.esmorga.viewmodel.BaseViewModel
@@ -17,7 +18,8 @@ import kotlinx.coroutines.launch
 
 class ProfileViewModel(
     private val getSavedUserUseCase: GetSavedUserUseCase,
-    private val logOutUseCase: LogOutUseCase
+    private val logOutUseCase: LogOutUseCase,
+    private val pushNotificationManager: PushNotificationManager? = null
 ) : BaseViewModel() {
 
     private val _uiState = MutableStateFlow(ProfileUiState())
@@ -53,6 +55,7 @@ class ProfileViewModel(
         viewModelScope.launch {
             val result = logOutUseCase()
             result.onSuccess {
+                pushNotificationManager?.logout()
                 _uiState.value = ProfileUiState(isLoggedIn = false)
             }
         }

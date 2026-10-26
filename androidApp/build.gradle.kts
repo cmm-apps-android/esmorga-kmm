@@ -68,6 +68,7 @@ dependencies {
     implementation(libs.coil3.compose)
     implementation(libs.coil3.network.ktor)
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.onesignal)
 
     testImplementation(libs.kotlin.datetime)
     testImplementation(libs.junit)
