@@ -10,6 +10,6 @@ interface PushNotificationManager {
     fun login(userId: String)
     fun logout()
     fun addTags(tags: Map<String, String>)
-    fun onNotificationClicked(payload: NotificationPayload)
+    fun onNotificationClicked(type: String?)
     fun resetNotificationPayload() {}
 }

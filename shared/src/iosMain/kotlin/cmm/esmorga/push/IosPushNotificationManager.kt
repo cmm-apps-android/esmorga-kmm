@@ -51,8 +51,8 @@ class IosPushNotificationManager(
         delegate?.addTags(tags)
     }
 
-    override fun onNotificationClicked(payload: NotificationPayload) {
-        _notificationPayloadFlow.tryEmit(payload)
+    override fun onNotificationClicked(type: String?) {
+        _notificationPayloadFlow.tryEmit(NotificationPayload(type = type))
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)

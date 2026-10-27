@@ -32,8 +32,7 @@ class AndroidPushNotificationManager(
             override fun onClick(event: INotificationClickEvent) {
                 val additionalData = event.notification.additionalData
                 val type = additionalData?.optString("type")?.takeIf { it.isNotEmpty() }
-                val payload = NotificationPayload(type = type)
-                onNotificationClicked(payload)
+                onNotificationClicked(type)
             }
         })
     }
@@ -57,8 +56,8 @@ class AndroidPushNotificationManager(
         OneSignal.User.addTags(tags)
     }
 
-    override fun onNotificationClicked(payload: NotificationPayload) {
-        _notificationPayloadFlow.tryEmit(payload)
+    override fun onNotificationClicked(type: String?) {
+        _notificationPayloadFlow.tryEmit(NotificationPayload(type = type))
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)

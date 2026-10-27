@@ -4,7 +4,7 @@ import OneSignalFramework
 
 class AppDelegate: NSObject, UIApplicationDelegate, IosPushNotificationDelegate, OSNotificationClickListener {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-        OneSignal.initialize("0115e97b-297b-4eec-bd1a-130fe1e6a960", launchOptions: launchOptions)
+        OneSignal.initialize("0115e97b-297b-4eec-bd1a-130fe1e6a960", withLaunchOptions: launchOptions)
 
         let versionName = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
         #if DEBUG
@@ -23,6 +23,11 @@ class AppDelegate: NSObject, UIApplicationDelegate, IosPushNotificationDelegate,
 
         OneSignal.Notifications.requestPermission({ accepted in
             print("User accepted notifications: \(accepted)")
+            if accepted {
+                DispatchQueue.main.async {
+                    application.registerForRemoteNotifications()
+                }
+            }
         }, fallbackToSettings: true)
 
         PushDIModuleKt.iosPushNotificationManager.setDelegate(delegate: self)
@@ -33,17 +38,21 @@ class AppDelegate: NSObject, UIApplicationDelegate, IosPushNotificationDelegate,
     func onClick(event: OSNotificationClickEvent) {
         let additionalData = event.notification.additionalData
         let type = additionalData?["type"] as? String
-        let payload = NotificationPayload(type: type)
-        PushDIModuleKt.iosPushNotificationManager.onNotificationClicked(payload: payload)
+        PushDIModuleKt.iosPushNotificationManager.onNotificationClicked(type: type)
     }
 
     func initialize(appId: String) {
-        OneSignal.initialize(appId, launchOptions: nil)
+        OneSignal.initialize(appId)
     }
 
     func requestPermission(onResult: @escaping (KotlinBoolean) -> Void) {
         OneSignal.Notifications.requestPermission({ accepted in
             onResult(KotlinBoolean(bool: accepted))
+            if accepted {
+                DispatchQueue.main.async {
+                    UIApplication.shared.registerForRemoteNotifications()
+                }
+            }
         }, fallbackToSettings: true)
     }
 
