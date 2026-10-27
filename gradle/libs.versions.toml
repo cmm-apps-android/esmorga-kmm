@@ -26,6 +26,7 @@ espressoCoreVersion = "3.7.0"
 sqlite = "2.6.2"
 coreKtx = "1.7.0"
 compottie = "2.3.0"
+onesignal = "5.1.27"
 
 [libraries]
 #Kotlin Core
@@ -78,6 +79,9 @@ kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntime" }
 androidx-lifecycle-viewmodel = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycleRuntime" }
 androidx-lifecycle-runtime-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycleRuntime" }
+
+#Push Notifications
+onesignal = { module = "com.onesignal:OneSignal", version.ref = "onesignal" }
 
 #Testing
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }

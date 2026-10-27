@@ -28,7 +28,8 @@ val sharedKoinModules = listOf(
     DataDIModule.module,
     DomainDIModule.module,
     RemoteDIModule.module,
-    LocalDIModule.module
+    LocalDIModule.module,
+    pushPlatformModule
 )
 
 

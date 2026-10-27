@@ -1,6 +1,7 @@
 package cmm.esmorga.viewmodel.login
 
 import androidx.lifecycle.viewModelScope
+import cmm.esmorga.domain.push.PushNotificationManager
 import cmm.esmorga.domain.result.ErrorCodes
 import cmm.esmorga.domain.result.EsmorgaException
 import cmm.esmorga.domain.user.PerformLoginUseCase
@@ -17,7 +18,10 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class LoginViewModel(private val performLoginUseCase: PerformLoginUseCase) : BaseViewModel() {
+class LoginViewModel(
+    private val performLoginUseCase: PerformLoginUseCase,
+    private val pushNotificationManager: PushNotificationManager? = null
+) : BaseViewModel() {
     private val _uiState = MutableStateFlow(LoginUiState())
     val uiState: StateFlow<LoginUiState> = _uiState.asStateFlow()
 
@@ -31,7 +35,8 @@ class LoginViewModel(private val performLoginUseCase: PerformLoginUseCase) : Bas
             viewModelScope.launch {
                 _uiState.update { it.copy(loading = true) }
                 val result = performLoginUseCase(email.trim(), password.trim())
-                result.onSuccess {
+                result.onSuccess { userSuccess ->
+                    pushNotificationManager?.login(userSuccess.data.email)
                     _effect.tryEmit(LoginEffect.NavigateToEventList)
                 }.onFailure { error ->
                     _uiState.update { it.copy(loading = false) }

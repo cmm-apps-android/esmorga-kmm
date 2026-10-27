@@ -2,6 +2,7 @@ package cmm.esmorga.viewmodel.explore
 
 import androidx.lifecycle.viewModelScope
 import cmm.esmorga.domain.event.GetEventListUseCase
+import cmm.esmorga.domain.push.PushNotificationManager
 import cmm.esmorga.domain.result.ErrorCodes
 import cmm.esmorga.viewmodel.BaseViewModel
 import cmm.esmorga.viewmodel.explore.mapper.EventListUiMapper.toEventUiList
@@ -16,7 +17,10 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class ExploreViewModel(private val getEventListUseCase: GetEventListUseCase) : BaseViewModel() {
+class ExploreViewModel(
+    private val getEventListUseCase: GetEventListUseCase,
+    private val pushNotificationManager: PushNotificationManager? = null
+) : BaseViewModel() {
 
     private val _uiState = MutableStateFlow(ExploreUiState())
     val uiState: StateFlow<ExploreUiState> = _uiState.asStateFlow()
@@ -26,6 +30,20 @@ class ExploreViewModel(private val getEventListUseCase: GetEventListUseCase) : B
 
     init {
         loadEvents()
+        observePushNotifications()
+    }
+
+    private fun observePushNotifications() {
+        pushNotificationManager?.let { manager ->
+            viewModelScope.launch {
+                manager.notificationPayloadFlow.collect { payload ->
+                    if (payload.type == EVENT_CREATED_TYPE) {
+                        loadEvents(refresh = true)
+                        manager.resetNotificationPayload()
+                    }
+                }
+            }
+        }
     }
 
     fun loadEvents(refresh: Boolean = false) {
@@ -49,6 +67,10 @@ class ExploreViewModel(private val getEventListUseCase: GetEventListUseCase) : B
 
     fun onEventClick(eventId: String) {
         _effect.tryEmit(EventListEffect.NavigateToEventDetail(eventId))
+    }
+
+    companion object {
+        private const val EVENT_CREATED_TYPE = "event-created"
     }
 
 }
