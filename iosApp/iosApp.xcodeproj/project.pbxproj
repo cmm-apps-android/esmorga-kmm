@@ -12,10 +12,9 @@
 		2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iOSApp.swift */; };
 		7555FF83242A565900829871 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* ContentView.swift */; };
 		94038DC2308FB77C0088934F /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94038DC1308FB77C0088934F /* UserNotifications.framework */; };
-		94038DC4308FB77C0088934F /* UserNotificationsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94038DC3308FB77C0088934F /* UserNotificationsUI.framework */; };
+		94038DC4308FB77C0088934F /* PBXBuildFile */ = {isa = PBXBuildFile; fileRef = 94038DC3308FB77C0088934F /* UserNotificationsUI.framework */; };
 		94038DCE308FB77C0088934F /* OneSignalNotificationServiceExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 94038DC0308FB77C0088934F /* OneSignalNotificationServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		9B0101032C12300000000001 /* OneSignalFramework in Frameworks */ = {isa = PBXBuildFile; productRef = 9B0101022C12300000000001 /* OneSignalFramework */; };
-		94038DD6308FB77C0088934F /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94038DD5308FB77C0088934F /* NotificationService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,7 +61,7 @@
 		94038DC0308FB77C0088934F /* OneSignalNotificationServiceExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = OneSignalNotificationServiceExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		94038DC1308FB77C0088934F /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		94038DC3308FB77C0088934F /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
-		94038DD5308FB77C0088934F /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneSignalNotificationServiceExtension/NotificationService.swift; sourceTree = "<group>"; };
+		94038DD5308FB77C0088934F /* OneSignalNotificationServiceExtension/NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneSignalNotificationServiceExtension/NotificationService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -76,7 +75,18 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		94038DC5308FB77C0088934F /* OneSignalNotificationServiceExtension */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (94038DCF308FB77C0088934F /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = OneSignalNotificationServiceExtension; sourceTree = "<group>"; };
+		94038DC5308FB77C0088934F /* OneSignalNotificationServiceExtension */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				94038DCF308FB77C0088934F /* PBXFileSystemSynchronizedBuildFileExceptionSet */,
+			);
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
+			path = OneSignalNotificationServiceExtension;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -258,6 +268,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		7555FFB5242A651A00829871 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -289,7 +300,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				94038DD6308FB77C0088934F /* NotificationService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

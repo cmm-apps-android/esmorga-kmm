@@ -34,6 +34,26 @@
                ReferencedContainer = "container:iosApp.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForRunning = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "94038DBF308FB77C0088934F"
+               BuildableName = "OneSignalNotificationServiceExtension.appex"
+               BlueprintName = "OneSignalNotificationServiceExtension"
+               ReferencedContainer = "container:iosApp.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForRunning = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "7555FF7A242A565900829871"
+               BuildableName = "iosApp.app"
+               BlueprintName = "iosApp"
+               ReferencedContainer = "container:iosApp.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -65,6 +85,10 @@
             ReferencedContainer = "container:iosApp.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <LocationScenarioReference
+         identifier = "com.apple.dt.IDEFoundation.CurrentLocationScenarioIdentifier"
+         referenceType = "1">
+      </LocationScenarioReference>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
